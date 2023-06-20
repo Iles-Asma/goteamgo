@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  # goteamgo-web:
+  #   build:
+  #     context: ..
+  #     dockerfile: infrastructure/images/web/Dockerfile
+  #   container_name: goteamgo-web
+  #   ports:
+  #     - "3000:3000"
+  #   env_file:
+  #     - images/web/.env
+  goteamgo-server:
+    build:
+      context: ..
+      dockerfile: infrastructure/images/server/Dockerfile
+    container_name: goteamgo-server
+    ports:
+      - "5000:5000"
+    # env_file:
+    #   - images/server/.env
+  # goteamgo-db:
+  #   build:
+  #     context: ..
+  #     dockerfile: infrastructure/images/db/Dockerfile
+  #   container_name: goteamgo-db
+  #   ports:
+  #     - "5432:5432"
+  #   env_file:
+  #     - images/db/.env

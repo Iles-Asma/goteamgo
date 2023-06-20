@@ -9,11 +9,11 @@ ENV FLASK_RUN_HOST=0.0.0.0
 WORKDIR /app
 
 # Install the dependencies
-COPY requirements.txt .
+COPY /src/containers/goteamgo-server/requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy the current directory contents into the container
-COPY . .
+COPY /src/containers/goteamgo-server .
 
 # Expose the port the app runs on
 EXPOSE 5000
