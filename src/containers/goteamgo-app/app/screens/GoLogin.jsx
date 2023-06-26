@@ -7,11 +7,7 @@ import {
 	Platform,
 	TextInput
 } from "react-native";
-import React, { useState } from "react";
-import GoButton from '../components/GoButton';
-import GoTextInput from "../components/GoTextInput";
-import GoButtonOutlined from "../components/GoButtonOutlined";
-import Logo from "../../assets/svg/Logo";
+import React from "react";
 
 export default function GoLogin({ navigation }) {
 
@@ -71,12 +67,8 @@ export default function GoLogin({ navigation }) {
 				secureTextEntry
 			/>
 
-			<View style={styles.btnEspace}>
-				<GoButton onPress={handleLogin} btnTxt="Connexion" />
-
-				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
-			</View>
-		</SafeAreaView >
+			<GoButton onPress={fetchData} btnTxt="Connexion" />
+		</SafeAreaView>
 	);
 
 
