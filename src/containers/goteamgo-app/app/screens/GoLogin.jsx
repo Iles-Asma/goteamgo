@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, StatusBar } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	SafeAreaView,
+	StatusBar,
+	Platform,
+} from "react-native";
 import React from "react";
 
 export default function GoLogin() {

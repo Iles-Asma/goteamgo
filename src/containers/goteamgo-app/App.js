@@ -8,8 +8,7 @@ import GoButtonOutlined from './app/components/GoButtonOutlined';
 export default function App() {
   return (
     <View style={styles.container}>
-      <GoButton styles={[styles.btnSpace, styles.touchable]} textButton="Se connecter" />
-      <GoButtonOutlined textButton="S'inscrire" />
+      <GoAccess />
     </View>
   );
 
