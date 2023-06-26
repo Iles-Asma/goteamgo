@@ -50,77 +50,62 @@ export default function GoLogin({ navigation }) {
 		}
 	};
 
-	export default function GoLogin() {
+	return (
+		<SafeAreaView style={styles.container}>
+			<StatusBar style="auto" />
 
-		const fetchData = async () => {
-			return fetch('http://localhost:5000/json')
-				.then(response => response.json())
-				.then(data => {
-					console.log(data, "data")
-				})
-				.catch(error => {
-					console.error(error);
-				});
-		}
+			<Logo />
 
-		const [email, setEmail] = useState('');
-		const [password, setPassword] = useState('');
+			<Text>Welcome Back !</Text>
 
-		const handleLogin = () => {
-			// Fonction de gestion de la connexion ici
-			console.log('Email:', email);
-			console.log('Mot de passe:', password);
-		};
+			<GoTextInput
+				value={email}
+				placeholder="Email"
+				onChangeText={setEmail}
+			/>
 
-		return (
-			<SafeAreaView style={styles.container}>
-				<StatusBar style="auto" />
-				<Text>Welcome Back !</Text>
+			<GoTextInput
+				placeholder="Mot de passe"
+				onChangeText={setPassword}
+				value={password}
+				secureTextEntry
+			/>
 
-				<TextInput
-					style={styles.input}
-					placeholder="Email"
-					onChangeText={(text) => setEmail(text)}
-					value={email}
-				/>
-				<TextInput
-					style={styles.input}
-					placeholder="Mot de passe"
-					onChangeText={(text) => setPassword(text)}
-					value={password}
-					secureTextEntry
-				/>
+			<View style={styles.btnEspace}>
+				<GoButton onPress={handleLogin} btnTxt="Connexion" />
 
-				<GoButton onPress={fetchData} btnTxt="Connexion" />
-			</SafeAreaView>
-		);
+				{/* <GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} /> */}
+				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
+			</View>
+		</SafeAreaView >
+	);
 
 
-	}
+}
 
-	const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
-			flexDirection: "column",
-			alignItems: "center",
-			backgroundColor: "#ffffff",
-			gap: 10
-		},
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
+		flexDirection: "column",
+		alignItems: "center",
+		backgroundColor: "#ffffff",
+		gap: 10
+	},
 
-		input: {
-			height: 40,
-			borderColor: 'gray',
-			borderWidth: 1,
-			marginBottom: 16,
-			paddingHorizontal: 10,
-		},
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 16,
+		paddingHorizontal: 10,
+	},
 
-		input: {
-			height: 40,
-			borderColor: 'gray',
-			borderWidth: 1,
-			marginBottom: 16,
-			paddingHorizontal: 10,
-		},
-	});
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 16,
+		paddingHorizontal: 10,
+	},
+});
