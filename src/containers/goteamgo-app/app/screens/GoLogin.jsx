@@ -32,7 +32,7 @@ export default function GoLogin({ navigation }) {
 	const handleLogin = async () => {
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
-	
+
 		try {
 			const response = await fetch('http://localhost:5000/login', {
 				method: 'POST',
@@ -41,10 +41,10 @@ export default function GoLogin({ navigation }) {
 				},
 				body: JSON.stringify({ email, password })
 			});
-	
+
 			const data = await response.json();
 			console.log(data);
-	
+
 		} catch (error) {
 			console.error('Error:', error);
 		}
@@ -90,6 +90,14 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: "#ffffff",
 		gap: 10
+	},
+
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 16,
+		paddingHorizontal: 10,
 	},
 
 	input: {
