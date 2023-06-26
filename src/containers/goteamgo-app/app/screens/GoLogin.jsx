@@ -85,4 +85,12 @@ const styles = StyleSheet.create({
 		marginBottom: 16,
 		paddingHorizontal: 10,
 	},
+
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 16,
+		paddingHorizontal: 10,
+	},
 });
