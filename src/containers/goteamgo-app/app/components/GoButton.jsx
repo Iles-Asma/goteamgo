@@ -3,9 +3,9 @@ import React from "react";
 
 export default function GoButton(props) {
 	return (
-		<TouchableOpacity style={props.styles}>
+		<TouchableOpacity style={styles.touchable} onPress={props.onPress}>
 			<View style={styles.btnContainer}>
-				<Text style={styles.txtBtn}>{props.textButton}</Text>
+				<Text style={styles.btnTxt}>{props.btnTxt}</Text>
 			</View>
 		</TouchableOpacity>
 	);
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 		height: 61,
 		backgroundColor: "#79BFFF",
 	},
-	txtBtn: {
+	btnTxt: {
 		textAlignVertical: "center",
 		textAlign: "center",
 		color: "#FFFFFF",

@@ -5,7 +5,7 @@ export default function GoButtonOutlined(props) {
     return (
         <TouchableOpacity style={styles.touchable}>
             <View style={styles.btnContainer}>
-                <Text style={styles.txtBtn}>{props.textButton}</Text>
+                <Text style={styles.txtBtn}>{props.btnTxt}</Text>
             </View>
         </TouchableOpacity>
     );

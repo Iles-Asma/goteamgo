@@ -7,9 +7,6 @@ import GoButtonOutlined from './app/components/GoButtonOutlined';
 
 export default function App() {
 
-  fetch
-
-
   return (
     <View style={styles.container}>
       <GoAccess />

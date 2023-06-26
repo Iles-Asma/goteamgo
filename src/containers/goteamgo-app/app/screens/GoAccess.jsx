@@ -1,24 +1,31 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
 
-import GoButton from '../components/GoButton'
-import GoButtonOutlined from '../components/GoButtonOutlined'
+import GoButton from '../components/GoButton';
+import GoButtonOutlined from '../components/GoButtonOutlined';
 
 export default function GoAccess() {
 
+    const fetchData = async () => {
+        return fetch('http://localhost:5000/json')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data, "data")
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
 
+
+
+    }
 
     return (
-
         <SafeAreaView>
-            <View>
-                <GoButton styles={styles.touchable} />
-                <GoButtonOutlined />
-            </View>
-
+            <GoButton onPress={fetchData} btnTxt="Se connecter" />
+            <GoButtonOutlined />
         </SafeAreaView>
-
     )
 }
 
@@ -29,6 +36,8 @@ const styles = StyleSheet.create({
         height: 61,
         backgroundColor: "#79BFFF",
         marginBottom: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     container: {
         flex: 1,
@@ -37,7 +46,5 @@ const styles = StyleSheet.create({
     },
     btnSpace: {
         paddingBottom: 10,
-
     }
-
-})
+});
