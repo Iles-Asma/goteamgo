@@ -5,8 +5,10 @@ import {
 	SafeAreaView,
 	StatusBar,
 	Platform,
+	TextInput
 } from "react-native";
-import React from "react";
+import React, {useState} from "react";
+import GoButton from '../components/GoButton';
 
 export default function GoLogin() {
 
@@ -49,7 +51,7 @@ export default function GoLogin() {
 				secureTextEntry
 			/>
 
-			<GoButton onPress={fetchData} btnTxt="Connexion" />
+			<GoButton onPress={handleLogin} btnTxt="Connexion" />
 		</SafeAreaView>	
 	);
 }
