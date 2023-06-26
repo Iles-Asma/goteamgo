@@ -38,6 +38,7 @@ export default function GoLogin() {
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
+<<<<<<< HEAD
 
 			<Logo />
 
@@ -52,16 +53,35 @@ export default function GoLogin() {
 			<GoTextInput
 				placeholder="Mot de passe"
 				onChangeText={setPassword}
+=======
+			<Text>Welcome Back !</Text>
+
+			<TextInput
+				style={styles.input}
+				placeholder="Email"
+				onChangeText={(text) => setEmail(text)}
+				value={email}
+			/>
+			<TextInput
+				style={styles.input}
+				placeholder="Mot de passe"
+				onChangeText={(text) => setPassword(text)}
+>>>>>>> cd72b18 (Ajout d'un formulaire de conexion v1)
 				value={password}
 				secureTextEntry
 			/>
 
+<<<<<<< HEAD
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Connexion" />
 
 				<GoButtonOutlined btnTxt="S'inscrire" />
 			</View>
-		</SafeAreaView>
+		</SafeAreaView >
+=======
+			<GoButton onPress={fetchData} btnTxt="Connexion" />
+		</SafeAreaView>	
+>>>>>>> cd72b18 (Ajout d'un formulaire de conexion v1)
 	);
 }
 
@@ -73,5 +93,13 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: "#ffffff",
 		gap: 10
+	},
+
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 16,
+		paddingHorizontal: 10,
 	},
 });
