@@ -1,7 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, json
 from models import db, User
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:19006"}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@goteamgo-db:5432/mydb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -15,6 +18,14 @@ with app.app_context():
 @app.route('/')
 def home():
     return 'Bienvenue sur GoTeamGo !'
+
+@app.route('/json')
+def renvoie_json():
+    data = {"nom": "Dupont", "prenom": "Jean", "age": 30}
+    
+    json_data = json.dumps(data)
+
+    return Response(response=json_data, status=200, mimetype='application/json')
 
 @app.route('/inscription', methods=['POST'])
 def inscription():
