@@ -74,10 +74,9 @@ export default function GoLogin({ navigation }) {
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Connexion" />
 
-				{/* <GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} /> */}
-				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
+				<GoButtonOutlined btnTxt="S'inscrire" />
 			</View>
-		</SafeAreaView >
+		</SafeAreaView>
 	);
 
 
@@ -92,9 +91,4 @@ const styles = StyleSheet.create({
 		backgroundColor: "#ffffff",
 		gap: 10
 	},
-
-	btnEspace: {
-		gap: 10,
-	}
-
 });
