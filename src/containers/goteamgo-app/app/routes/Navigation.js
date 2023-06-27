@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 export default function AcessStack() {
 
     return (
-        <Stack.Navigator screenOptions={{ headerShown: true }}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Access" component={GoAccess} />
             <Stack.Screen name="GoLogin" component={GoLogin} />
             <Stack.Screen name="GoSignup" component={GoSignup} />
