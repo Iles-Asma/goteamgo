@@ -3,7 +3,7 @@ import React from "react";
 
 export default function GoButtonOutlined(props) {
     return (
-        <TouchableOpacity style={styles.touchable}>
+        <TouchableOpacity style={styles.touchable} onPress={props.onPress}>
             <View style={styles.btnContainer}>
                 <Text style={styles.txtBtn}>{props.btnTxt}</Text>
             </View>

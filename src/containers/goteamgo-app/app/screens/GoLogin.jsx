@@ -13,7 +13,7 @@ import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
 import Logo from "../../assets/svg/Logo";
 
-export default function GoLogin() {
+export default function GoLogin({ navigation }) {
 
 	const fetchData = async () => {
 		return fetch('http://localhost:5000/json')
@@ -59,10 +59,13 @@ export default function GoLogin() {
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Connexion" />
 
-				<GoButtonOutlined btnTxt="S'inscrire" />
+				{/* <GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} /> */}
+				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
 			</View>
-		</SafeAreaView>
+		</SafeAreaView >
 	);
+
+
 }
 
 const styles = StyleSheet.create({
@@ -73,5 +76,13 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: "#ffffff",
 		gap: 10
+	},
+
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 16,
+		paddingHorizontal: 10,
 	},
 });
