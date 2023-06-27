@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
+import GoButtonOutlined from "../components/GoButtonOutlined";
 
 export default function GoLogin({ navigation }) {
 
@@ -61,6 +62,7 @@ export default function GoLogin({ navigation }) {
 				placeholder="Email"
 				onChangeText={setEmail}
 			/>
+
 			<GoTextInput
 				placeholder="Mot de passe"
 				onChangeText={setPassword}
@@ -89,5 +91,9 @@ const styles = StyleSheet.create({
 		backgroundColor: "#ffffff",
 		gap: 10
 	},
+
+	btnEspace: {
+		gap: 10,
+	}
 
 });
