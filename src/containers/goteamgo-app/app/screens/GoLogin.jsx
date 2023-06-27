@@ -7,7 +7,14 @@ import {
 	Platform,
 	TextInput
 } from "react-native";
+<<<<<<< HEAD
 import React from "react";
+=======
+import React, {useState} from "react";
+import GoButton from '../components/GoButton';
+import GoTextInput from "../components/GoTextInput";
+import GoButtonOutlined from "../components/GoButtonOutlined";
+>>>>>>> 3ae7989 (Ajout du bouton S'inscrire à la vue Login)
 
 export default function GoLogin({ navigation }) {
 
@@ -59,6 +66,7 @@ export default function GoLogin({ navigation }) {
 				placeholder="Email"
 				onChangeText={setEmail}
 			/>
+
 			<GoTextInput
 				placeholder="Mot de passe"
 				onChangeText={setPassword}
@@ -67,7 +75,7 @@ export default function GoLogin({ navigation }) {
 			/>
 
 			<GoButton onPress={fetchData} btnTxt="Connexion" />
-		</SafeAreaView>
+		</SafeAreaView >
 	);
 
 
@@ -82,5 +90,9 @@ const styles = StyleSheet.create({
 		backgroundColor: "#ffffff",
 		gap: 10
 	},
+
+	btnEspace: {
+		gap: 10,
+	}
 
 });
