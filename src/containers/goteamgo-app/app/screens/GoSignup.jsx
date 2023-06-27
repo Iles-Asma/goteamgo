@@ -13,7 +13,7 @@ import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
 import Logo from "../../assets/svg/Logo";
 
-export default function GoSignup() {
+export default function GoSignup({ navigation }) {
 
 	const fetchData = async () => {
 		return fetch('http://localhost:5000/json')
@@ -75,7 +75,8 @@ export default function GoSignup() {
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Inscription" />
 
-				<GoButtonOutlined btnTxt="Connexion" />
+				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => props.navigation.goBack()} /> */}
+				<GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate('GoLogin')} />
 			</View>
 		</SafeAreaView>
 	);
