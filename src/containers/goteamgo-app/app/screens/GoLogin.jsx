@@ -7,14 +7,7 @@ import {
 	Platform,
 	TextInput
 } from "react-native";
-<<<<<<< HEAD
 import React from "react";
-=======
-import React, {useState} from "react";
-import GoButton from '../components/GoButton';
-import GoTextInput from "../components/GoTextInput";
-import GoButtonOutlined from "../components/GoButtonOutlined";
->>>>>>> 3ae7989 (Ajout du bouton S'inscrire à la vue Login)
 
 export default function GoLogin({ navigation }) {
 
