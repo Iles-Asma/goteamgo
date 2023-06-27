@@ -59,7 +59,6 @@ export default function GoLogin({ navigation }) {
 				placeholder="Email"
 				onChangeText={setEmail}
 			/>
-
 			<GoTextInput
 				placeholder="Mot de passe"
 				onChangeText={setPassword}
@@ -84,19 +83,4 @@ const styles = StyleSheet.create({
 		gap: 10
 	},
 
-	input: {
-		height: 40,
-		borderColor: 'gray',
-		borderWidth: 1,
-		marginBottom: 16,
-		paddingHorizontal: 10,
-	},
-
-	input: {
-		height: 40,
-		borderColor: 'gray',
-		borderWidth: 1,
-		marginBottom: 16,
-		paddingHorizontal: 10,
-	},
 });
