@@ -32,9 +32,9 @@ export default function GoAccess(props) {
                 <GoButton onPress={() => props.navigation.navigate('GoLogin')} btnTxt="Se connecter" />
                 <GoButtonOutlined btnTxt="S'inscrire" onPress={() => props.navigation.navigate('GoSignup')} />
 
-            </View>
+            </View >
 
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
