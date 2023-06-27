@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import GoAccess from './app/screens/GoAccess';
 import GoLogin from './app/screens/GoLogin';
+import GoSignup from './app/screens/GoSignup';
 import GoButton from './app/components/GoButton';
 import GoButtonOutlined from './app/components/GoButtonOutlined';
 
@@ -9,7 +10,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <GoLogin />
+      <GoSignup />
     </View>
   );
 
