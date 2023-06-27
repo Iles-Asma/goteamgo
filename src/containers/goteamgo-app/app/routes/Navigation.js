@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
     return (
-        <Stack.Navigator initialRouteName="GoLogin" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="GoLogin" screenOptions={{ headerShown: true }}>
             <Stack.Screen name="GoLogin" component={GoLogin} />
             <Stack.Screen name="GoSignup" component={GoSignup} />
         </Stack.Navigator>
