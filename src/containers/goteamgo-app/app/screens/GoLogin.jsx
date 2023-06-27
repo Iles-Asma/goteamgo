@@ -11,6 +11,7 @@ import React, {useState} from "react";
 import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
+import Logo from "../../assets/svg/Logo";
 
 export default function GoLogin() {
 
@@ -37,6 +38,9 @@ export default function GoLogin() {
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
+
+			<Logo/>
+
 			<Text>Welcome Back !</Text>
 
 			<GoTextInput
@@ -68,6 +72,7 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		alignItems: "center",
 		backgroundColor: "#ffffff",
+		gap:10
 	},
 
 	btnEspace: {
