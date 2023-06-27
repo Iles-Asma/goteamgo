@@ -49,26 +49,39 @@ def inscription():
     # Retourner une réponse réussie
     return jsonify({'message': 'Inscription réussie'}), 201
 
-@app.route('/connexion', methods=['POST'])
-def connexion():
-    data = request.get_json()
+# @app.route('/connexion', methods=['POST'])
+# def connexion():
+#     data = request.get_json()
 
-    # Vérifiez si l'email est fourni
-    if not data or not data.get('email') or not data.get('password'):
-        return make_response('Email ou mot de passe manquant', 401)
+#     # Vérifiez si l'email est fourni
+#     if not data or not data.get('email') or not data.get('password'):
+#         return make_response('Email ou mot de passe manquant', 401)
 
-    # Rechercher l'utilisateur dans la base de données
-    user = User.query.filter_by(email=data['email']).first()
+#     # Rechercher l'utilisateur dans la base de données
+#     user = User.query.filter_by(email=data['email']).first()
 
-    # Vérifier si l'utilisateur existe et que le mot de passe est correct
-    if not user or not check_password_hash(user.password_hash, data['password']):
-        return make_response('Email ou mot de passe invalide', 401)
+#     # Vérifier si l'utilisateur existe et que le mot de passe est correct
+#     if not user or not check_password_hash(user.password_hash, data['password']):
+#         return make_response('Email ou mot de passe invalide', 401)
 
-    # Générer un token JWT
-    token = jwt.encode({'user_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, app.config['SECRET_KEY'], algorithm='HS256')
+#     # Générer un token JWT
+#     token = jwt.encode({'user_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, app.config['SECRET_KEY'], algorithm='HS256')
 
-    # Retourner le token comme réponse
-    return jsonify({'token': token})
+#     # Retourner le token comme réponse
+#     return jsonify({'token': token})
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    
+    print(f"Email: {email}, Password: {password}")
+
+    # Here, you can add the logic to verify the email and password,
+    # and send a response back indicating success or failure.
+
+    return jsonify({"message": "Data received"}), 200
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
