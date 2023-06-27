@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
+import Logo from "../../assets/svg/Logo";
 
 export default function GoLogin({ navigation }) {
 
