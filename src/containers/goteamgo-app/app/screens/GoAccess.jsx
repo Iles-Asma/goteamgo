@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, Platform } from 'react-native';
+
 import { StatusBar } from 'expo-status-bar';
 import Logo from '../../assets/svg/Logo';
 
 import GoButton from '../components/GoButton';
 import GoButtonOutlined from '../components/GoButtonOutlined';
 
-export default function GoAccess() {
+export default function GoAccess({ navigation }) {
 
     const fetchData = async () => {
         return fetch('http://localhost:5000/json')
@@ -25,10 +26,10 @@ export default function GoAccess() {
             {/* affiche la bar de status ( battery et heure) */}
             <StatusBar style='auto' />
 
-            <Logo style={styles.logo} />
+            <Logo />
 
             <View style={styles.spacing}>
-                <GoButton onPress={fetchData} btnTxt="Se connecter" />
+                <GoButton onPress={() => navigation.navigate('GoLogin')} btnTxt="Se connecter" />
                 <GoButtonOutlined btnTxt="S'inscrire" />
 
             </View>
