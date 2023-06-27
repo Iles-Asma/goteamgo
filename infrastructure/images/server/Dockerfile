@@ -18,6 +18,7 @@ WORKDIR /app
 # Install the dependencies
 COPY /src/containers/goteamgo-server/requirements.txt .
 RUN pip install -r requirements.txt
+RUN pip install jwt
 RUN pip install -U flask-cors
 
 # Copy the current directory contents into the container
