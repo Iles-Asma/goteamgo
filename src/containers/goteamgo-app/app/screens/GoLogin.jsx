@@ -10,6 +10,7 @@ import {
 import React, {useState} from "react";
 import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
+import GoButtonOutlined from "../components/GoButtonOutlined";
 
 export default function GoLogin() {
 
@@ -43,6 +44,7 @@ export default function GoLogin() {
 				placeholder="Email"
 				onChangeText={setEmail}
 			/>
+
 			<GoTextInput
 				placeholder="Mot de passe"
 				onChangeText={setPassword}
@@ -50,7 +52,11 @@ export default function GoLogin() {
 				secureTextEntry
 			/>
 
-			<GoButton onPress={handleLogin} btnTxt="Connexion" />
+			<View style={styles.btnEspace}>
+				<GoButton onPress={handleLogin} btnTxt="Connexion" />
+
+				<GoButtonOutlined btnTxt="S'inscrire"/>
+			</View>
 		</SafeAreaView>	
 	);
 }
@@ -63,5 +69,9 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: "#ffffff",
 	},
+
+	btnEspace: {
+		gap:10,
+	}
 
 });
