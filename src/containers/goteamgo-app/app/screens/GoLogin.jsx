@@ -52,7 +52,6 @@ export default function GoLogin({ navigation }) {
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
-<<<<<<< HEAD
 
 			<Logo />
 
@@ -67,35 +66,17 @@ export default function GoLogin({ navigation }) {
 			<GoTextInput
 				placeholder="Mot de passe"
 				onChangeText={setPassword}
-=======
-			<Text>Welcome Back !</Text>
-
-			<TextInput
-				style={styles.input}
-				placeholder="Email"
-				onChangeText={(text) => setEmail(text)}
-				value={email}
-			/>
-			<TextInput
-				style={styles.input}
-				placeholder="Mot de passe"
-				onChangeText={(text) => setPassword(text)}
->>>>>>> cd72b18 (Ajout d'un formulaire de conexion v1)
 				value={password}
 				secureTextEntry
 			/>
 
-<<<<<<< HEAD
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Connexion" />
 
-				<GoButtonOutlined btnTxt="S'inscrire" />
+				{/* <GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} /> */}
+				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
 			</View>
 		</SafeAreaView >
-=======
-			<GoButton onPress={fetchData} btnTxt="Connexion" />
-		</SafeAreaView>	
->>>>>>> cd72b18 (Ajout d'un formulaire de conexion v1)
 	);
 
 
