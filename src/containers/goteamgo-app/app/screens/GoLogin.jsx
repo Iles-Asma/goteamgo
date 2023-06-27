@@ -10,8 +10,6 @@ import {
 import React, { useState } from "react";
 import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
-import GoButtonOutlined from "../components/GoButtonOutlined";
-import Logo from "../../assets/svg/Logo";
 
 export default function GoLogin({ navigation }) {
 
@@ -63,7 +61,6 @@ export default function GoLogin({ navigation }) {
 				placeholder="Email"
 				onChangeText={setEmail}
 			/>
-
 			<GoTextInput
 				placeholder="Mot de passe"
 				onChangeText={setPassword}
@@ -93,19 +90,4 @@ const styles = StyleSheet.create({
 		gap: 10
 	},
 
-	input: {
-		height: 40,
-		borderColor: 'gray',
-		borderWidth: 1,
-		marginBottom: 16,
-		paddingHorizontal: 10,
-	},
-
-	input: {
-		height: 40,
-		borderColor: 'gray',
-		borderWidth: 1,
-		marginBottom: 16,
-		paddingHorizontal: 10,
-	},
 });
