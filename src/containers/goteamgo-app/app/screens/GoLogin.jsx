@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, {useState} from "react";
 import GoButton from '../components/GoButton';
+import GoTextInput from "../components/GoTextInput";
 
 export default function GoLogin() {
 
@@ -37,16 +38,14 @@ export default function GoLogin() {
 			<StatusBar style="auto" />
 			<Text>Welcome Back !</Text>
 
-			<TextInput
-				style={styles.input}
-				placeholder="Email"
-				onChangeText={(text) => setEmail(text)}
+			<GoTextInput
 				value={email}
+				placeholder="Email"
+				onChangeText={setEmail}
 			/>
-			<TextInput
-				style={styles.input}
+			<GoTextInput
 				placeholder="Mot de passe"
-				onChangeText={(text) => setPassword(text)}
+				onChangeText={setPassword}
 				value={password}
 				secureTextEntry
 			/>
@@ -65,11 +64,4 @@ const styles = StyleSheet.create({
 		backgroundColor: "#ffffff",
 	},
 
-	input: {
-		height: 40,
-		borderColor: 'gray',
-		borderWidth: 1,
-		marginBottom: 16,
-		paddingHorizontal: 10,
-	  },
 });
