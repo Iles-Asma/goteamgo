@@ -92,8 +92,8 @@ export default function GoSignup({ navigation }) {
 
 				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => props.navigation.goBack()} /> */}
 				<GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate('GoLogin')} />
-			</View >
-		</SafeAreaView >
+			</View>
+		</SafeAreaView>
 	);
 }
 
