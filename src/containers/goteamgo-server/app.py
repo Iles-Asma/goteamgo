@@ -1,6 +1,9 @@
-from flask import Flask, request, jsonify, Response, json
+from flask import Flask, request, jsonify, Response, json, make_response
 from models import db, User
 from flask_cors import CORS
+from werkzeug.security import check_password_hash # Pour vérifier le mot de passe
+import jwt # Pour générer un token JWT
+import datetime # Pour définir l'expiration du token
 
 app = Flask(__name__)
 
@@ -45,6 +48,27 @@ def inscription():
     
     # Retourner une réponse réussie
     return jsonify({'message': 'Inscription réussie'}), 201
+
+@app.route('/connexion', methods=['POST'])
+def connexion():
+    data = request.get_json()
+
+    # Vérifiez si l'email est fourni
+    if not data or not data.get('email') or not data.get('password'):
+        return make_response('Email ou mot de passe manquant', 401)
+
+    # Rechercher l'utilisateur dans la base de données
+    user = User.query.filter_by(email=data['email']).first()
+
+    # Vérifier si l'utilisateur existe et que le mot de passe est correct
+    if not user or not check_password_hash(user.password_hash, data['password']):
+        return make_response('Email ou mot de passe invalide', 401)
+
+    # Générer un token JWT
+    token = jwt.encode({'user_id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, app.config['SECRET_KEY'], algorithm='HS256')
+
+    # Retourner le token comme réponse
+    return jsonify({'token': token})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
