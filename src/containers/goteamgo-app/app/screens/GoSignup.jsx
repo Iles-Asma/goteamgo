@@ -31,12 +31,12 @@ export default function GoSignup({ navigation }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-    const handleLogin = async () => {
+	const handleLogin = async () => {
 		console.log('Nom:', nom);
 		console.log('Prenom:', prenom);
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
-	
+
 		try {
 			const response = await fetch('http://localhost:5000/signup', {
 				method: 'POST',
@@ -45,10 +45,10 @@ export default function GoSignup({ navigation }) {
 				},
 				body: JSON.stringify({ nom, prenom, email, password })
 			});
-	
+
 			const data = await response.json();
 			console.log(data);
-	
+
 		} catch (error) {
 			console.error('Error:', error);
 		}
@@ -92,8 +92,8 @@ export default function GoSignup({ navigation }) {
 
 				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => props.navigation.goBack()} /> */}
 				<GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate('GoLogin')} />
-			</View>
-		</SafeAreaView>
+			</View >
+		</SafeAreaView >
 	);
 }
 
