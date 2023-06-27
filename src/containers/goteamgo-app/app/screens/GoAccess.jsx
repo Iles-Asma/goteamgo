@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, Platform } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import Logo from '../../assets/svg/Logo';
 
 import GoButton from '../components/GoButton';
 import GoButtonOutlined from '../components/GoButtonOutlined';
@@ -16,35 +18,41 @@ export default function GoAccess() {
                 console.error(error);
             });
 
-
-
-
     }
 
     return (
-        <SafeAreaView>
-            <GoButton onPress={fetchData} btnTxt="Se connecter" />
-            <GoButtonOutlined />
+        <SafeAreaView style={styles.container} >
+            {/* affiche la bar de status ( battery et heure) */}
+            <StatusBar style='auto' />
+
+            <Logo style={styles.logo} />
+
+            <View style={styles.spacing}>
+                <GoButton onPress={fetchData} btnTxt="Se connecter" />
+                <GoButtonOutlined btnTxt="S'inscrire" />
+
+            </View>
+
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    touchable: {
-        borderRadius: 15,
-        width: 295,
-        height: 61,
-        backgroundColor: "#79BFFF",
-        marginBottom: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     container: {
         flex: 1,
-        alignItems: 'center',
         justifyContent: 'center',
+        // test pour detecter la platform
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    btnSpace: {
-        paddingBottom: 10,
+    spacing: {
+        gap: 25,
+    },
+    logo: {
+        position: 'absolute',
+        top: 200,
     }
+
 });
