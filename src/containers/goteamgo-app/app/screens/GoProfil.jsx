@@ -1,8 +1,6 @@
-import { StyleSheet, Text, View, StatusBar, SafeAreaView, Platform } from 'react-native'
-import React, { useState } from 'react'
-import GoTextInput from '../components/GoTextInput'
-import GoButton from '../components/GoButton';
-import { FlatList } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function GoProfil() {
 
@@ -29,42 +27,16 @@ export default function GoProfil() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.containers}>
       <StatusBar style="auto" />
 
       <Text>Votre Profil</Text>
 
       <Text>Nom</Text>
-      <GoTextInput
-        value={nom}
-        onChangeText={setNom} />
-
       <Text>Prénom</Text>
-      <GoTextInput
-        value={prenom}
-        onChangeText={setPrenom} />
-
       <Text>Email</Text>
-      <GoTextInput
-        value={email}
-        onChangeText={setEmail} />
-
       <Text>Mot de passe</Text>
-      <GoTextInput
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry />
-
-      <View style={styles.btnEspace}>
-        <GoButton onPress={handleLogin} btnTxt="Modifier votre profil" />
-      </View>
-
       <Text>Rejoindre une organisation</Text>
-      <GoTextInput
-        value={organisation}
-        onChangeText={setPassword} />
-      <GoButton onPress={""} btnTxt="OK" />
-
       <Text>Mes organisations</Text>
 
       <FlatList
@@ -73,7 +45,7 @@ export default function GoProfil() {
         keyExtractor={(item) => item.id.toString()}
       />
 
-    </SafeAreaView>
+    </SafeAreaView >
   )
 }
 
@@ -86,8 +58,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     gap: 10
   },
-
-  btnEspace: {
-    gap: 10,
-  }
 })
