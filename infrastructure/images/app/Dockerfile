@@ -4,12 +4,12 @@ FROM node:14
 # Create app directory
 WORKDIR /usr/src/app
 
+# Copy app's package.json and package-lock.json to the container
+COPY /src/containers/goteamgo-app/package*.json ./
+
 # Install global dependencies
 RUN npm install -g expo-cli
 RUN npm install -g @npmcli/move-file
-
-# Copy app's package.json and package-lock.json to the container
-COPY /src/containers/goteamgo-app/package*.json ./
 
 # Install app dependencies
 RUN npm install

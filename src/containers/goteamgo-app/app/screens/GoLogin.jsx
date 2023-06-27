@@ -7,24 +7,24 @@ import {
 	Platform,
 	TextInput
 } from "react-native";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
 import Logo from "../../assets/svg/Logo";
 
-export default function GoLogin() {
+export default function GoLogin({ navigation }) {
 
 	const fetchData = async () => {
-        return fetch('http://localhost:5000/json')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data, "data")
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
+		return fetch('http://localhost:5000/json')
+			.then(response => response.json())
+			.then(data => {
+				console.log(data, "data")
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -39,7 +39,7 @@ export default function GoLogin() {
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
 
-			<Logo/>
+			<Logo />
 
 			<Text>Welcome Back !</Text>
 
@@ -59,10 +59,13 @@ export default function GoLogin() {
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Connexion" />
 
-				<GoButtonOutlined btnTxt="S'inscrire"/>
+				{/* <GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} /> */}
+				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
 			</View>
-		</SafeAreaView>	
+		</SafeAreaView >
 	);
+
+
 }
 
 const styles = StyleSheet.create({
@@ -72,11 +75,14 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		alignItems: "center",
 		backgroundColor: "#ffffff",
-		gap:10
+		gap: 10
 	},
 
-	btnEspace: {
-		gap:10,
-	}
-
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 16,
+		paddingHorizontal: 10,
+	},
 });
