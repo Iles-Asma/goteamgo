@@ -32,7 +32,6 @@ export default function GoLogin({ navigation }) {
 	const handleLogin = async () => {
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
-
 		try {
 			const response = await fetch('http://localhost:5000/login', {
 				method: 'POST',
@@ -74,7 +73,6 @@ export default function GoLogin({ navigation }) {
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Connexion" />
 
-				{/* <GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} /> */}
 				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
 			</View>
 		</SafeAreaView >
