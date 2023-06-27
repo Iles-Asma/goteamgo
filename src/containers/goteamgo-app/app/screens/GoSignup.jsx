@@ -7,33 +7,33 @@ import {
 	Platform,
 	TextInput
 } from "react-native";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
 import Logo from "../../assets/svg/Logo";
 
-export default function GoSignup() {
+export default function GoSignup({ navigation }) {
 
 	const fetchData = async () => {
-        return fetch('http://localhost:5000/json')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data, "data")
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
+		return fetch('http://localhost:5000/json')
+			.then(response => response.json())
+			.then(data => {
+				console.log(data, "data")
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	}
 
-    const [nom, setNom] = useState('');
+	const [nom, setNom] = useState('');
 	const [prenom, setPrenom] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const handleLogin = () => {
 		// Fonction de gestion de la connexion ici
-        console.log('Nom:', nom);
+		console.log('Nom:', nom);
 		console.log('Prenom:', prenom);
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
@@ -43,7 +43,7 @@ export default function GoSignup() {
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
 
-			<Logo/>
+			<Logo />
 
 			<Text>Welcome !</Text>
 
@@ -53,13 +53,13 @@ export default function GoSignup() {
 				onChangeText={setNom}
 			/>
 
-            <GoTextInput
+			<GoTextInput
 				value={prenom}
 				placeholder="Prenom"
 				onChangeText={setPrenom}
 			/>
 
-            <GoTextInput
+			<GoTextInput
 				value={email}
 				placeholder="Email"
 				onChangeText={setEmail}
@@ -75,9 +75,10 @@ export default function GoSignup() {
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Inscription" />
 
-				<GoButtonOutlined btnTxt="Connexion"/>
+				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => props.navigation.goBack()} /> */}
+				<GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate('GoLogin')} />
 			</View>
-		</SafeAreaView>	
+		</SafeAreaView>
 	);
 }
 
@@ -88,11 +89,11 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		alignItems: "center",
 		backgroundColor: "#ffffff",
-		gap:10
+		gap: 10
 	},
 
 	btnEspace: {
-		gap:10,
+		gap: 10,
 	}
 
 });
