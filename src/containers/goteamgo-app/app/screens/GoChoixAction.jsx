@@ -3,9 +3,7 @@ import React from 'react'
 import GoButton from '../components/GoButton'
 import GoButtonOutlined from '../components/GoButtonOutlined'
 
-export default function GoChoixAction() {
-
-
+export default function GoChoixAction({ navigation }) {
 
     return (
     <SafeAreaView style={styles.container}>
@@ -13,8 +11,8 @@ export default function GoChoixAction() {
         <Text style={styles.titre}>Que souhaitez vous ?</Text>
 
         <View style={styles.btnEspace}>
-            <GoButton onPress={""} btnTxt="Partager ma voiture" />
-            <GoButtonOutlined btnTxt="Trouver une voiture"/>
+            <GoButton onPress={() => navigation.navigate('GoCreerAnnonce')} btnTxt="Partager ma voiture" />
+            <GoButtonOutlined onPress={() => navigation.navigate('GoDispoVoitures')} btnTxt="Trouver une voiture"/>
         </View>
 
     </SafeAreaView>
