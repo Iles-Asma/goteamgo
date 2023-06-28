@@ -62,3 +62,4 @@ volumes:
   sonarqube_extensions:
   sonarqube_logs:
   node_modules:
+  
