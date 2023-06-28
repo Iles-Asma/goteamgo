@@ -13,9 +13,9 @@ services:
       - "19004:19004"
       - "19005:19005"
       - "19006:19006"
-    volumes:
-      - ../src/containers/goteamgo-app:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
+    # volumes:
+    #   - ../src/containers/goteamgo-app:/usr/src/app
+    #   - node_modules:/usr/src/app/node_modules
 
 
   #   env_file:
@@ -57,9 +57,9 @@ services:
   #     - sonarqube_extensions:/opt/sonarqube/extensions
   #     - sonarqube_logs:/opt/sonarqube/logs
 
-volumes:
-  sonarqube_data:
-  sonarqube_extensions:
-  sonarqube_logs:
-  node_modules:
+# volumes:
+#   sonarqube_data:
+#   sonarqube_extensions:
+#   sonarqube_logs:
+#   node_modules:
   
