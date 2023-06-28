@@ -28,6 +28,7 @@ export default function GoCreateEvent() {
 		} catch (error) {
 			console.error('Error:', error);
         };
+      };
 		
 
     return (

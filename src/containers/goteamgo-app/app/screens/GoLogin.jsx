@@ -56,7 +56,7 @@ export default function GoLogin({ navigation }) {
 
 			<Logo />
 
-			<Text>Welcome Back !</Text>
+			<Text style={styles.titre}>Welcome Back !</Text>
 
 			<GoTextInput
 				value={email}
@@ -83,6 +83,17 @@ export default function GoLogin({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+
+	titre: {
+        color: "#121212",
+        fontWeight: 'bold',
+        height: 40,
+        width: 330,
+        fontSize: 30,
+        marginTop: 60,
+		marginBottom: 20
+    },
+
 	container: {
 		flex: 1,
 		paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
