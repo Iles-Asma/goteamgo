@@ -92,6 +92,10 @@ const styles = StyleSheet.create({
 		gap: 10
 	},
 
+	btnEspace: {
+		gap: 10,
+	},
+
 	input: {
 		height: 40,
 		borderColor: 'gray',

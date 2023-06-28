@@ -54,6 +54,25 @@ def signup():
     # Retourner une réponse réussie
     return jsonify({'message': 'Inscription réussie'}), 201
 
+@app.route('/create_event', methods=['POST'])
+def create_event():
+    data = request.get_json()
+    
+    # Créer un nouvel utilisateur avec le mot de passe haché
+    new_user = User(
+        nom=data['nom'],
+        prenom=data['prenom'],
+        email=data['email'],
+        password_hash=password_hash
+    )
+    
+    # Insérer le nouvel utilisateur dans la base de données
+    db.session.add(new_user)
+    db.session.commit()
+    
+    # Retourner une réponse réussie
+    return jsonify({'message': 'Inscription réussie'}), 201
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
