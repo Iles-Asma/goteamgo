@@ -36,7 +36,6 @@ export default function GoSignup({ navigation }) {
 		console.log('Prenom:', prenom);
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
-
 		try {
 			const response = await fetch('http://localhost:5000/signup', {
 				method: 'POST',
