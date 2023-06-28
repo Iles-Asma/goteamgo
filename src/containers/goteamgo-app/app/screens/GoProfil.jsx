@@ -63,7 +63,7 @@ export default function GoProfil() {
       <GoTextInput
         value={organisation}
         onChangeText={setPassword} />
-      <GoButton onPress={handleLogin} btnTxt="OK" />
+      <GoButton onPress={""} btnTxt="OK" />
 
       <Text>Mes organisations</Text>
 
