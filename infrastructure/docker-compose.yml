@@ -13,9 +13,9 @@ services:
       - "19004:19004"
       - "19005:19005"
       - "19006:19006"
-    volumes:
-      - ../src/containers/goteamgo-app:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
+    # volumes:
+    #   - ../src/containers/goteamgo-app:/usr/src/app
+    #   - node_modules:/usr/src/app/node_modules
 
 
   #   env_file:
@@ -29,6 +29,9 @@ services:
       - "5000:5000"
     # env_file:
     #   - images/server/.env
+    depends_on:
+      - goteamgo-db
+      
   goteamgo-db:
     build:
       context: ..
@@ -41,22 +44,22 @@ services:
     # env_file:
     #   - images/db/.env
 
-  sonarqube:
-    image: sonarqube
-    ports:
-      - "9000:9000"
-    environment:
-      - sonar.jdbc.url=jdbc:postgresql://goteamgo-db:5432/sonar
-      - sonar.jdbc.username=sonar
-      - sonar.jdbc.password=sonar
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_logs:/opt/sonarqube/logs
+  # sonarqube:
+  #   image: sonarqube
+  #   ports:
+  #     - "9000:9000"
+  #   environment:
+  #     - sonar.jdbc.url=jdbc:postgresql://goteamgo-db:5432/sonar
+  #     - sonar.jdbc.username=sonar
+  #     - sonar.jdbc.password=sonar
+  #   volumes:
+  #     - sonarqube_data:/opt/sonarqube/data
+  #     - sonarqube_extensions:/opt/sonarqube/extensions
+  #     - sonarqube_logs:/opt/sonarqube/logs
 
-volumes:
-  sonarqube_data:
-  sonarqube_extensions:
-  sonarqube_logs:
-  node_modules:
+# volumes:
+#   # sonarqube_data:
+#   # sonarqube_extensions:
+#   # sonarqube_logs:
+#   node_modules:
   
