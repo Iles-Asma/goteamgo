@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
 import GoLogin from '../screens/GoLogin'
 import GoSignup from '../screens/GoSignup'
 
@@ -8,9 +9,12 @@ const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
     return (
-        <Stack.Navigator initialRouteName="GoLogin" screenOptions={{ headerShown: true }}>
+        <Stack.Navigator initialRouteName="GoLogin" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="GoLogin" component={GoLogin} />
             <Stack.Screen name="GoSignup" component={GoSignup} />
         </Stack.Navigator>
     );
 }
+
+
+
