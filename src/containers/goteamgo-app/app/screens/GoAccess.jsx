@@ -7,11 +7,7 @@ import Logo from '../../assets/svg/Logo';
 import GoButton from '../components/GoButton';
 import GoButtonOutlined from '../components/GoButtonOutlined';
 
-<<<<<<< HEAD
 export default function GoAccess({ navigation }) {
-=======
-export default function GoAccess(props) {
->>>>>>> g-iles
 
     const fetchData = async () => {
         return fetch('http://localhost:5000/json')
@@ -33,13 +29,8 @@ export default function GoAccess(props) {
             <Logo />
 
             <View style={styles.spacing}>
-<<<<<<< HEAD
                 <GoButton onPress={() => navigation.navigate('GoLogin')} btnTxt="Se connecter" />
                 <GoButtonOutlined btnTxt="S'inscrire" />
-=======
-                <GoButton onPress={() => props.navigation.navigate('GoLogin')} btnTxt="Se connecter" />
-                <GoButtonOutlined btnTxt="S'inscrire" onPress={() => props.navigation.navigate('GoSignup')} />
->>>>>>> g-iles
 
             </View>
 
