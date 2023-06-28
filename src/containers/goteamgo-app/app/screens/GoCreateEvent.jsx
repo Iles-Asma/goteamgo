@@ -1,7 +1,6 @@
 import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar } from 'react-native'
 import React, { useState } from "react";
 import GoButton from '../components/GoButton'
-import GoButtonOutlined from '../components/GoButtonOutlined'
 import GoTextInput from "../components/GoTextInput";
 
 export default function GoCreateEvent() {
@@ -35,9 +34,6 @@ export default function GoCreateEvent() {
     <SafeAreaView style={styles.container}>
 
         <Text style={styles.titre}>Création d'un événement</Text>
-
-        <br></br>
-        <br></br>
 
         <GoTextInput
 				value={nom}
@@ -84,6 +80,7 @@ const styles = StyleSheet.create({
     btnEspace: {
       gap: 10,
     },
+    
 
     titre: {
         color: "#121212",
