@@ -33,13 +33,8 @@ export default function GoAccess(props) {
             <Logo />
 
             <View style={styles.spacing}>
-<<<<<<< HEAD
-                <GoButton onPress={() => navigation.navigate('GoLogin')} btnTxt="Se connecter" />
-                <GoButtonOutlined btnTxt="S'inscrire" />
-=======
                 <GoButton onPress={() => props.navigation.navigate('GoLogin')} btnTxt="Se connecter" />
                 <GoButtonOutlined btnTxt="S'inscrire" onPress={() => props.navigation.navigate('GoSignup')} />
->>>>>>> g-iles
 
             </View>
 
