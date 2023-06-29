@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View, StatusBar, SafeAreaView, Platform, FlatList } from 'react-native'
 import React, { useState } from 'react'
+import GoTextInput from '../components/GoTextInput'
+import GoButton from '../components/GoButton';
 
 export default function GoProfil() {
 
@@ -32,11 +34,42 @@ export default function GoProfil() {
       <Text>Votre Profil</Text>
 
       <Text>Nom</Text>
-      <Text>Prénom</Text>
-      <Text>Email</Text>
-      <Text>Mot de passe</Text>
-      <Text>Rejoindre une organisation</Text>
-      <Text>Mes organisations</Text>
+        <GoTextInput 
+        value={nom}
+				onChangeText={setNom}/>
+              <Text>Prénom</Text>
+        <GoTextInput 
+        value={prenom}
+				onChangeText={setPrenom}/>
+
+        <Text>Email</Text>
+        <GoTextInput 
+        value={email}
+				onChangeText={setEmail}/>
+
+        <Text>Mot de passe</Text>
+        <GoTextInput 
+        value={password}
+				onChangeText={setPassword}
+        secureTextEntry/>
+
+        <View style={styles.btnEspace}>
+          <GoButton onPress={handleLogin} btnTxt="Modifier votre profil" />
+        </View>
+
+        <Text>Rejoindre une organisation</Text>
+        <GoTextInput 
+        value={organisation}
+				onChangeText={setPassword}/>
+        <GoButton onPress={""} btnTxt="OK" />
+
+        <Text>Mes organisations</Text>
+
+        <FlatList
+          data={organisation}
+          renderItem={renderOrganisation}
+          keyExtractor={(item)=>item.id.toString()}
+        />
 
       <FlatList
         data={organisation}

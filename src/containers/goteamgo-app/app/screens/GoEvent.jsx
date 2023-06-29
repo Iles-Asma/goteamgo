@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, Platform } from 'react-native'
 import React, { useState } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -163,17 +163,19 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        color: "#000",
+        color: "#121212",
         fontWeight: 'bold',
         height: 40,
         width: 330,
-        fontSize: 20,
-        marginTop: 30,
-        marginLeft: 18
+        fontSize: 30,
+        marginTop: 60,
+		marginBottom: 20
     },
     dropdownContainer: {
         paddingRight: 10,
-        alignSelf: "flex-end"
+        paddingBottom: 30,
+        alignSelf: "flex-end",
+        zIndex: 10
     }
 
 
