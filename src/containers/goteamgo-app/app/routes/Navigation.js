@@ -7,29 +7,28 @@ import GoLogin from '../screens/GoLogin'
 import GoSignup from '../screens/GoSignup'
 import GoProfil from '../screens/GoProfil';
 
-const Stack = createNativeStackNavigator();
-
+const GoTeamStack = createNativeStackNavigator();
 export default function Navigation() {
     return (
-        <Stack.Navigator initialRouteName="GoLogin" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="GoLogin" component={GoLogin} />
-            <Stack.Screen name="GoSignup" component={GoSignup} />
-        </Stack.Navigator>
+        <GoTeamStack.Navigator initialRouteName="GoLogin" screenOptions={{ headerShown: false }}>
+            <GoTeamStack.Screen name="GoLogin" component={GoLogin} />
+            <GoTeamStack.Screen name="GoSignup" component={GoSignup} />
+        </GoTeamStack.Navigator>
     );
 }
 
-const Tab = createBottomTabNavigator();
-export function Navigator() {
+const GoBottomTab = createBottomTabNavigator();
+export function GoBottomTabStack() {
 
 
     return (
-        <Tab.Navigator>
+        <GoBottomTab.Navigator>
             {/*  Affiche l'ecran d'accueil */}
-            <Tab.Screen name="GoSignup" component={GoSignup} />
+            <GoBottomTab.Screen name="GoSignup" component={GoSignup} />
 
             {/* affiche l'ecrande profil */}
-            <Tab.Screen name="GoProfil" component={GoProfil} />
-        </Tab.Navigator>
+            <GoBottomTab.Screen name="GoProfil" component={GoProfil} />
+        </GoBottomTab.Navigator>
     );
 }
 
