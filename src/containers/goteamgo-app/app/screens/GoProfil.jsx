@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, StatusBar, SafeAreaView, Platform } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, StatusBar, SafeAreaView, Platform, FlatList } from 'react-native'
+import React, { useState } from 'react'
 
 export default function GoProfil() {
 
@@ -44,7 +44,7 @@ export default function GoProfil() {
         keyExtractor={(item) => item.id.toString()}
       />
 
-    </SafeAreaView >
+    </SafeAreaView>
   )
 }
 

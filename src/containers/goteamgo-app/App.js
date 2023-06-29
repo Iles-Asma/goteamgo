@@ -7,13 +7,9 @@ import GoCreateEvent from './app/screens/GoCreateEvent';
 export default function App() {
 
   return (
-    <View>
-      <GoCreateEvent></GoCreateEvent>
-    </View>
-
-    // <NavigationContainer>
-    //   <Navigation />
-    // </NavigationContainer>
+    <NavigationContainer>
+      <Navigation />
+    </NavigationContainer>
   );
 
 }
