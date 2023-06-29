@@ -31,7 +31,7 @@ export default function GoSignup({ navigation }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-    const handleLogin = async () => {
+    const handleSignup = async () => {
 		console.log('Nom:', nom);
 		console.log('Prenom:', prenom);
 		console.log('Email:', email);
@@ -58,7 +58,7 @@ export default function GoSignup({ navigation }) {
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
 
-			<Logo />
+			<Logo style={{marginTop: 85}}/>
 
 			<Text style={styles.titre}>Welcome !</Text>
 
@@ -88,10 +88,10 @@ export default function GoSignup({ navigation }) {
 			/>
 
 			<View style={styles.btnEspace}>
-				<GoButton onPress={handleLogin} btnTxt="Inscription" />
+				<GoButton onPress={handleSignup} btnTxt="Inscription" />
 
-				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => props.navigation.goBack()} /> */}
 				<GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate('GoLogin')} />
+				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate("GoLogin")} /> */}
 			</View>
 		</SafeAreaView>
 	);

@@ -60,8 +60,8 @@ services:
   #     - sonarqube_logs:/opt/sonarqube/logs
 
 # volumes:
-#   # sonarqube_data:
-#   # sonarqube_extensions:
-#   # sonarqube_logs:
+#   sonarqube_data:
+#   sonarqube_extensions:
+#   sonarqube_logs:
 #   node_modules:
   
