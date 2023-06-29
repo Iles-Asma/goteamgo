@@ -31,27 +31,12 @@ export default function GoSignup({ navigation }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-    const handleLogin = async () => {
+	const handleLogin = () => {
+		// Fonction de gestion de la connexion ici
 		console.log('Nom:', nom);
 		console.log('Prenom:', prenom);
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
-	
-		try {
-			const response = await fetch('http://localhost:5000/signup', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ nom, prenom, email, password })
-			});
-	
-			const data = await response.json();
-			console.log(data);
-	
-		} catch (error) {
-			console.error('Error:', error);
-		}
 	};
 
 	return (
@@ -60,7 +45,7 @@ export default function GoSignup({ navigation }) {
 
 			<Logo />
 
-			<Text>Welcome !</Text>
+			<Text style={styles.titre}>Welcome !</Text>
 
 			<GoTextInput
 				value={nom}
@@ -90,14 +75,25 @@ export default function GoSignup({ navigation }) {
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Inscription" />
 
-				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => props.navigation.goBack()} /> */}
 				<GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate('GoLogin')} />
+				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate("GoLogin")} /> */}
 			</View>
 		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
+
+	titre: {
+        color: "#121212",
+        fontWeight: 'bold',
+        height: 40,
+        width: 330,
+        fontSize: 30,
+        marginTop: 60,
+		marginBottom: 20
+    },
+
 	container: {
 		flex: 1,
 		paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,

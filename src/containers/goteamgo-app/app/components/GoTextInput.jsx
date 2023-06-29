@@ -18,8 +18,10 @@ export default function GoTextInput(props) {
 const styles = StyleSheet.create({
     input: {
 		height: 40,
+        width: 325,
+        borderRadius: 5,
 		borderColor: 'gray',
-		borderWidth: 1,
+		borderWidth: 0.5,
 		marginBottom: 16,
 		paddingHorizontal: 10,
 	  },

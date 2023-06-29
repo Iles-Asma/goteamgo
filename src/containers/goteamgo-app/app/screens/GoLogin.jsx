@@ -32,7 +32,6 @@ export default function GoLogin({ navigation }) {
 	const handleLogin = async () => {
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
-	
 		try {
 			const response = await fetch('http://localhost:5000/login', {
 				method: 'POST',
@@ -41,10 +40,10 @@ export default function GoLogin({ navigation }) {
 				},
 				body: JSON.stringify({ email, password })
 			});
-	
+
 			const data = await response.json();
 			console.log(data);
-	
+
 		} catch (error) {
 			console.error('Error:', error);
 		}
@@ -56,7 +55,7 @@ export default function GoLogin({ navigation }) {
 
 			<Logo />
 
-			<Text>Welcome Back !</Text>
+			<Text style={styles.titre}>Welcome Back !</Text>
 
 			<GoTextInput
 				value={email}
@@ -74,6 +73,7 @@ export default function GoLogin({ navigation }) {
 			<View style={styles.btnEspace}>
 				<GoButton onPress={handleLogin} btnTxt="Connexion" />
 
+				{/* <GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} /> */}
 				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
 			</View>
 		</SafeAreaView >
@@ -83,6 +83,17 @@ export default function GoLogin({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+
+	titre: {
+        color: "#121212",
+        fontWeight: 'bold',
+        height: 40,
+        width: 330,
+        fontSize: 30,
+        marginTop: 60,
+		marginBottom: 20
+    },
+
 	container: {
 		flex: 1,
 		paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
@@ -90,6 +101,18 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: "#ffffff",
 		gap: 10
+	},
+
+	btnEspace: {
+		gap: 10,
+	},
+
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 16,
+		paddingHorizontal: 10,
 	},
 
 	input: {

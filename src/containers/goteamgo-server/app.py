@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Response, json, make_response
-from models import db, User
+from models import db, User, Event
 from flask_cors import CORS
 from werkzeug.security import check_password_hash, generate_password_hash # Pour vérifier le mot de passe
 import jwt # Pour générer un token JWT
@@ -53,6 +53,25 @@ def signup():
     
     # Retourner une réponse réussie
     return jsonify({'message': 'Inscription réussie'}), 201
+
+@app.route('/create_event', methods=['POST'])
+def create_event():
+    data = request.get_json()
+    
+    # Créer un nouvel utilisateur avec le mot de passe haché
+    new_event = Event(
+        nom=data['nom'],
+        categorie=data['categorie'],
+        lieu=data['lieu'],
+        date=data['date'],
+    )
+    
+    # Insérer le nouvel utilisateur dans la base de données
+    db.session.add(new_event)
+    db.session.commit()
+    
+    # Retourner une réponse réussie
+    return jsonify({'message': 'Evenement créer avec succes'}), 201
 
 @app.route('/login', methods=['POST'])
 def login():
