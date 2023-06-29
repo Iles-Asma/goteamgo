@@ -14,7 +14,7 @@ export default function GoButtonOutlined(props) {
 const styles = StyleSheet.create({
     touchable: {
         borderRadius: 15,
-        width: 295,
+        width: 325,
         height: 61,
         borderWidth: 3,
         borderColor: "#79BFFF",
