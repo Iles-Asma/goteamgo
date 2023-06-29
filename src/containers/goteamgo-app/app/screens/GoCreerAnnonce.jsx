@@ -3,6 +3,7 @@ import React from 'react';
 import GoMenuTroisTabs from '../components/GoMenuTroisTabs'
 import EntypoIcon from "react-native-vector-icons/Entypo"
 import GoStepper from '../components/GoStepper'
+import GoButton from '../components/GoButton';
 
 export default function GoCreerAnnonce() {
 
@@ -14,13 +15,18 @@ export default function GoCreerAnnonce() {
       <Text style={styles.titre}>Créer une annonce</Text>
 
       <Text style={styles.titreSection}>Trajet</Text>
-      <View>
-        <GoMenuTroisTabs style={styles.GoMenuTroisTabs}></GoMenuTroisTabs >
-      </View> 
+
+      <GoMenuTroisTabs style={styles.GoMenuTroisTabs}></GoMenuTroisTabs >
 
       <Text style={styles.titreSection}>ALLER <EntypoIcon name="chevron-thin-right" style={styles.icon}></EntypoIcon> Nombre de place</Text>
       <GoStepper></GoStepper>
 
+      <Text style={styles.titreSection}>RETOUR <EntypoIcon name="chevron-thin-right" style={styles.icon}></EntypoIcon> Nombre de place</Text>
+      <GoStepper></GoStepper>
+
+      <View style={styles.btnStyle} >
+        <GoButton btnTxt="Ajouter l'annonce"/>
+      </View>
     </SafeAreaView>
   )
 }
@@ -35,8 +41,12 @@ const styles = StyleSheet.create({
       gap:10
     },
 
-    viewEspace: {
-      gap: 10,
+    btnStyle: {
+      flex: 2,
+      flexDirection: "column",
+
+      marginTop: 10,
+      alignItems: "center",
     },
 
     titre: {

@@ -3,7 +3,7 @@ import {Platform, StyleSheet} from "react-native";
 /**
  * Palette constants
  */
-export const defaultColor = "#3E525F";
+export const defaultColor = "#79BFFF";
 export const defaultTransparent = "#FFFFFF00";
 export const defaultFont = Platform.select({
 	ios: "System",
@@ -22,6 +22,7 @@ export const Style = StyleSheet.create({
 		width: 150,
 		alignItems: "center",
 		justifyContent: "center",
+		marginTop:10,
 	},
 	containerShadow: {
 		shadowColor: "#000",
@@ -66,7 +67,7 @@ export const Style = StyleSheet.create({
 		textAlignVertical: "center",
 	},
 	numberText: {
-		flexGrow: 1,
+		flexGrow: 0,
 		textAlign: "center",
 		justifyContent: "center",
 		alignItems: "center",
@@ -74,7 +75,7 @@ export const Style = StyleSheet.create({
 		borderWidth: 0,
 		...Platform.select({
 			web: {
-				width: "100%",
+				width: "20%",
 				outlineWidth: 0,
 			},
 		}),
