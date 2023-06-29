@@ -12,19 +12,9 @@ import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
 import Logo from "../../assets/svg/Logo";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function GoLogin({ navigation }) {
-
-	const fetchData = async () => {
-		return fetch('http://localhost:5000/json')
-			.then(response => response.json())
-			.then(data => {
-				console.log(data, "data")
-			})
-			.catch(error => {
-				console.error(error);
-			});
-	}
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -42,18 +32,26 @@ export default function GoLogin({ navigation }) {
 			});
 
 			const data = await response.json();
-			console.log(data);
 
-		} catch (error) {
-			console.error('Error:', error);
-		}
+			if (data.token) {
+                // Stocker le jeton dans un stockage sécurisé
+                await AsyncStorage.setItem('userToken', data.token);
+
+                // Rediriger vers la page d'accueil
+                navigation.navigate('Home'); // Changez 'Home' par le nom de votre écran d'accueil
+            } else {
+                // Gérer l'échec de la connexion
+            }
+        } catch (error) {
+            // Gérer les erreurs de requête
+        }
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
 
-			<Logo />
+			<Logo style={{marginTop: 85}}/>
 
 			<Text style={styles.titre}>Welcome Back !</Text>
 

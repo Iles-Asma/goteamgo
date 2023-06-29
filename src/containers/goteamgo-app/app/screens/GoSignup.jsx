@@ -31,19 +31,34 @@ export default function GoSignup({ navigation }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleLogin = () => {
-		// Fonction de gestion de la connexion ici
+    const handleSignup = async () => {
 		console.log('Nom:', nom);
 		console.log('Prenom:', prenom);
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
+	
+		try {
+			const response = await fetch('http://localhost:5000/signup', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ nom, prenom, email, password })
+			});
+	
+			const data = await response.json();
+			console.log(data);
+	
+		} catch (error) {
+			console.error('Error:', error);
+		}
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
 
-			<Logo />
+			<Logo style={{marginTop: 85}}/>
 
 			<Text style={styles.titre}>Welcome !</Text>
 
@@ -73,7 +88,7 @@ export default function GoSignup({ navigation }) {
 			/>
 
 			<View style={styles.btnEspace}>
-				<GoButton onPress={handleLogin} btnTxt="Inscription" />
+				<GoButton onPress={handleSignup} btnTxt="Inscription" />
 
 				<GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate('GoLogin')} />
 				{/* <GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate("GoLogin")} /> */}
