@@ -51,7 +51,7 @@ export default function GoLogin({ navigation }) {
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
 
-			<Logo />
+			<Logo style={{marginTop: 85}}/>
 
 			<Text style={styles.titre}>Welcome Back !</Text>
 
