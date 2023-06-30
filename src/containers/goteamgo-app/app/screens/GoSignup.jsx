@@ -45,12 +45,18 @@ export default function GoSignup({ navigation }) {
 				},
 				body: JSON.stringify({ nom, prenom, email, password })
 			});
-	
-			const data = await response.json();
-			console.log(data);
-	
+			
+			// Vérifier le code de statut de la réponse
+			if (response.status === 201) {
+				// L'inscription a réussi, rediriger vers la page d'accueil
+				navigation.replace('Home');
+			} else {
+				// L'inscription a échoué, vous pouvez traiter l'erreur ici
+				console.log('Inscription échouée');
+			}
 		} catch (error) {
-			console.error('Error:', error);
+			// Erreur lors de l'exécution de la requête HTTP
+			console.log('Erreur lors de l\'inscription:', error);
 		}
 	};
 
