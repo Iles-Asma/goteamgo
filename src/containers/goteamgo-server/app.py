@@ -22,6 +22,7 @@ migrate = Migrate(app, db)
 with app.app_context():
     db.create_all()
 
+
 @app.route('/user_info', methods=['GET'])
 def user_info():
     # Obtenez le token à partir de l'en-tête d'autorisation
@@ -73,6 +74,28 @@ def user_info():
     }
 
     return jsonify(response), 200
+
+@app.route('/get_events', methods=['GET'])
+def get_events():
+    # Récupérer tous les événements de la base de données
+    events = Event.query.all()
+
+    # Créer une liste pour stocker les données des événements
+    events_data = []
+
+    # Itérer sur chaque événement et ajouter ses données à la liste
+    for event in events:
+        event_data = {
+            'id': event.id,
+            'nom': event.nom,
+            'categorie': event.categorie,
+            'lieu': event.lieu,
+            'date': event.date
+        }
+        events_data.append(event_data)
+
+    # Retourner les données des événements sous forme de réponse JSON
+    return jsonify(events_data), 200
 
 @app.route('/join_organization', methods=['POST'])
 def join_organization():

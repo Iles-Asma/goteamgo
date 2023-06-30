@@ -1,19 +1,45 @@
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, Platform } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'; // Importer useNavigation
 
 const GoEvent = (props) => {
-    const [selectedValue, setSelectedValue] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [open, setOpen] = useState(false);
+    const [events, setEvents] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+    const navigation = useNavigation(); // Utiliser le hook useNavigation
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/get_events');
+                const data = await response.json();
+                setEvents(data);
+
+                const uniqueCategories = [...new Set(data.map(event => event.categorie))];
+                setCategories(uniqueCategories);
+
+            } catch (error) {
+                console.error('Erreur lors de la récupération des événements:', error);
+            }
+        };
+
+        fetchEvents();
+    }, []);
 
     const handleChangeValue = (item) => {
-        setSelectedValue(item.value);
+        setSelectedCategory(item.value);
         setOpen(false);
     };
 
-    return (
+    const filteredEvents = selectedCategory
+        ? events.filter(event => event.categorie === selectedCategory)
+        : events;
 
+    return (
         <SafeAreaView style={styles.container}>
             <View>
                 <Text style={styles.title}>
@@ -23,106 +49,42 @@ const GoEvent = (props) => {
             <View style={styles.dropdownContainer}>
                 <DropDownPicker
                     open={open}
-                    value={selectedValue}
+                    value={selectedCategory}
                     items={[
-                        { label: 'M', value: 'ASSO_DES_ZUBY' },
-                        { label: 'B', value: 'option2' },
-                        { label: 'M', value: 'option3' },
+                        { label: 'Filtrer', value: null },
+                        ...categories.map(category => ({ label: category, value: category }))
                     ]}
-                    placeholder='M1'
+                    placeholder='Filtrer'
                     setOpen={setOpen}
-                    setValue={setSelectedValue}
+                    setValue={setSelectedCategory}
                     containerStyle={{ height: "auto", width: 100 }}
-
                     onChangeItem={handleChangeValue}
                     dropDownContainerStyle={{ width: 100 }}
                 />
             </View>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-
-                <TouchableOpacity onPress={() => Navigation.navigate}>
-                    <View style={styles.boxContainer}>
-
-                        <View style={styles.headerContainer}>
-                            <Text style={props.headerSpacing}>Catégorie : {props.categoryName}</Text>
+                {filteredEvents.map((event) => (
+                    <TouchableOpacity
+                        key={event.id}
+                        onPress={() => navigation.navigate('GoChoixAction', { eventId: event.id })} // Naviguer et passer l'ID de l'événement
+                    >
+                        <View style={styles.boxContainer}>
+                            <View style={styles.headerContainer}>
+                                <Text style={props.headerSpacing}>Catégorie : {event.categorie}</Text>
+                            </View>
+                            <View style={styles.subContainer}>
+                                <Text>{event.nom}</Text>
+                                <Text>{event.lieu}</Text>
+                                <Text>{event.date}</Text>
+                            </View>
                         </View>
-                        <View style={styles.subContainer}>
-                            <Text>{props.eventCity}QUIMPER
-                            </Text>
-                            <Text>{props.eventName}EASIER TOUR</Text>
-                            <Text>{props.eventAdress}9 Place de la mairie</Text>
-                            <Text>{props.eventDate}23/06/2023</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => Navigation.navigate}>
-                    <View style={styles.boxContainer}>
-
-                        <View style={styles.headerContainer}>
-                            <Text style={props.headerSpacing}>Catégorie : {props.categoryName}</Text>
-                        </View>
-                        <View style={styles.subContainer}>
-                            <Text>{props.eventCity}QUIMPER
-                            </Text>
-                            <Text>{props.eventName}EASIER TOUR</Text>
-                            <Text>{props.eventAdress}9 Place de la mairie</Text>
-                            <Text>{props.eventDate}23/06/2023</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => Navigation.navigate}>
-                    <View style={styles.boxContainer}>
-
-                        <View style={styles.headerContainer}>
-                            <Text style={props.headerSpacing}>Catégorie : {props.categoryName}</Text>
-                        </View>
-                        <View style={styles.subContainer}>
-                            <Text>{props.eventCity}QUIMPER
-                            </Text>
-                            <Text>{props.eventName}EASIER TOUR</Text>
-                            <Text>{props.eventAdress}9 Place de la mairie</Text>
-                            <Text>{props.eventDate}23/06/2023</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => Navigation.navigate}>
-                    <View style={styles.boxContainer}>
-
-                        <View style={styles.headerContainer}>
-                            <Text style={props.headerSpacing}>Catégorie : {props.categoryName}</Text>
-                        </View>
-                        <View style={styles.subContainer}>
-                            <Text>{props.eventCity}QUIMPER
-                            </Text>
-                            <Text>{props.eventName}EASIER TOUR</Text>
-                            <Text>{props.eventAdress}9 Place de la mairie</Text>
-                            <Text>{props.eventDate}23/06/2023</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => Navigation.navigate}>
-                    <View style={styles.boxContainer}>
-
-                        <View style={styles.headerContainer}>
-                            <Text style={props.headerSpacing}>Catégorie : {props.categoryName}</Text>
-                        </View>
-                        <View style={styles.subContainer}>
-                            <Text>{props.eventCity}QUIMPER
-                            </Text>
-                            <Text>{props.eventName}EASIER TOUR</Text>
-                            <Text>{props.eventAdress}9 Place de la mairie</Text>
-                            <Text>{props.eventDate}23/06/2023</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
+                    </TouchableOpacity>
+                ))}
             </ScrollView>
-
-        </SafeAreaView >
-
-
+        </SafeAreaView>
     )
 }
+
 
 export default GoEvent
 

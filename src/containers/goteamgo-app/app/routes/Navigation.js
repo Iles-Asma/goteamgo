@@ -8,6 +8,9 @@ import GoLogin from '../screens/GoLogin';
 import GoSignup from '../screens/GoSignup';
 import GoProfil from '../screens/GoProfil';
 import GoEvent from '../screens/GoEvent';
+import GoCreerAnnonce from '../screens/GoCreerAnnonce';
+import GoChoixAction from '../screens/GoChoixAction';
+import GoDispoVoitures from '../screens/GoDispoVoitures';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,6 +51,9 @@ export default function Navigation() {
             <Stack.Screen name="GoLogin" component={GoLogin} />
             <Stack.Screen name="GoSignup" component={GoSignup} />
             <Stack.Screen name="Home" component={BottomTabs} />
+            <Stack.Screen name="GoChoixAction" component={GoChoixAction} />
+            <Stack.Screen name="GoCreerAnnonce" component={GoCreerAnnonce} />
+            <Stack.Screen name="GoDispoVoitures" component={GoDispoVoitures} />
         </Stack.Navigator>
     );
 }
