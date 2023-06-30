@@ -22,13 +22,43 @@ export default function GoCreerAnnonce() {
 
       <GoMenuTroisTabs style={styles.GoMenuTroisTabs} 
       selectedSection={selectedSection}
-      onSectionChange={handleSectionChange}></GoMenuTroisTabs >
+      onSectionChange={handleSectionChange}/>
 
-      <Text style={styles.titreSection}>ALLER <EntypoIcon name="chevron-thin-right" style={styles.icon}></EntypoIcon> Nombre de place</Text>
-      <View style={styles.stepperInput}><GoStepper></GoStepper></View>
+      {selectedSection === 'Aller' && (
+        <>
+          <Text style={styles.titreSection}>
+            ALLER <EntypoIcon name="chevron-thin-right" style={styles.icon}/>
+            Nombre de place</Text>
+          <View style={styles.stepperInput}><GoStepper/></View>
+        </>
+      )}
 
-      <Text style={styles.titreSection}>RETOUR <EntypoIcon name="chevron-thin-right" style={styles.icon}></EntypoIcon> Nombre de place</Text>
-      <View style={styles.stepperInput}><GoStepper></GoStepper></View>
+      {selectedSection === 'Retour' && (
+        <>
+          <Text style={styles.titreSection}>
+            RETOUR <EntypoIcon name="chevron-thin-right" style={styles.icon}/> 
+            Nombre de place</Text>
+          <View style={styles.stepperInput}><GoStepper/></View>
+        </>
+      )}
+
+      {selectedSection === 'Aller-retour' && (
+        <>
+          <Text style={styles.titreSection}>
+            ALLER <EntypoIcon name="chevron-thin-right" style={styles.icon} /> Nombre de place
+          </Text>
+          <View style={styles.stepperInput}>
+            <GoStepper />
+          </View>
+
+          <Text style={styles.titreSection}>
+            RETOUR <EntypoIcon name="chevron-thin-right" style={styles.icon} /> Nombre de place
+          </Text>
+          <View style={styles.stepperInput}>
+            <GoStepper />
+          </View>
+        </>
+      )}
 
       <View style={styles.btnStyle} >
         <GoButton btnTxt="Ajouter l'annonce"/>
