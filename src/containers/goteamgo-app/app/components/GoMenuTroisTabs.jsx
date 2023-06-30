@@ -1,19 +1,37 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 
 function GoMenuTroisTabs (props) {
+
+  const [selectedSection, setSelectedSection] = useState("");
+
+  const handleSectionPress = (sectionName) => {
+    setSelectedSection(sectionName);
+    console.log('Trajet : ', sectionName);
+  };
+
   return (
     <View style={[styles.container, props.style]}>
       <View style={styles.textWrapper}>
-        <TouchableOpacity style={styles.segmentTextWrapper1}>
-          <Text style={styles.text1}>Aller</Text>
+
+        <TouchableOpacity style={[
+          styles.segmentTextWrapper1, selectedSection === "Aller" && styles.selectedSegment,]} 
+          onPress={() => handleSectionPress("Aller")}>
+          <Text style={[styles.text1, selectedSection === "Aller" && styles.selectedText]}>Aller</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.segmentTextWrapper2}>
-          <Text style={styles.text2}>Retour</Text>
+
+        <TouchableOpacity style={[
+          styles.segmentTextWrapper2, selectedSection === "Retour" && styles.selectedSegment,]}
+          onPress={() => handleSectionPress("Retour")}>
+          <Text style={[styles.text2, selectedSection === "Retour" && styles.selectedText]}>Retour</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.segmentTextWrapper3}>
-          <Text style={styles.text3}>Aller-retour</Text>
+
+        <TouchableOpacity style={[
+          styles.segmentTextWrapper3, selectedSection === "Aller-retour" && styles.selectedSegment,]}
+          onPress={() => handleSectionPress("Aller-retour")}>
+          <Text style={[styles.text3, selectedSection === "Aller-retour" && styles.selectedText]}>Aller-retour</Text>
         </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -35,7 +53,7 @@ const styles = StyleSheet.create({
   segmentTextWrapper1: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#79BFFF",
+    backgroundColor: "#FFFFFF",
     padding: 6,
     borderWidth: 1,
     borderColor: "#79BFFF",
@@ -44,7 +62,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 15,
-    color: "#FFFFFF"
+    color: "#79BFFF"
   },
   segmentTextWrapper2: {
     flex: 1,
@@ -73,6 +91,14 @@ const styles = StyleSheet.create({
   text3: {
     fontSize: 15,
     color: "#79BFFF"
+  },
+
+  selectedSegment: {
+    backgroundColor: "#79BFFF"
+  },
+
+  selectedText:{
+    color: "#FFFFFF"
   }
 });
 

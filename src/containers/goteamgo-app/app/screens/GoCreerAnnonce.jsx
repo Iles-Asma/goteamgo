@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar} from 'react-native'
-import React from 'react';
+import React, { useState } from 'react';
 import GoMenuTroisTabs from '../components/GoMenuTroisTabs'
 import EntypoIcon from "react-native-vector-icons/Entypo"
 import GoStepper from '../components/GoStepper'
@@ -7,6 +7,10 @@ import GoButton from '../components/GoButton';
 
 export default function GoCreerAnnonce() {
 
+  const [selectedSection, setSelectedSection] = useState("");
+  const handleSectionChange = (sectionName) => {
+    setSelectedSection(sectionName);
+  };
 
 
   return (
@@ -16,7 +20,9 @@ export default function GoCreerAnnonce() {
 
       <Text style={styles.titreSection}>Trajet</Text>
 
-      <GoMenuTroisTabs style={styles.GoMenuTroisTabs}></GoMenuTroisTabs >
+      <GoMenuTroisTabs style={styles.GoMenuTroisTabs} 
+      selectedSection={selectedSection}
+      onSectionChange={handleSectionChange}></GoMenuTroisTabs >
 
       <Text style={styles.titreSection}>ALLER <EntypoIcon name="chevron-thin-right" style={styles.icon}></EntypoIcon> Nombre de place</Text>
       <GoStepper></GoStepper>
