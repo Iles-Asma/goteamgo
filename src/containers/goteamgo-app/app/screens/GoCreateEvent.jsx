@@ -5,7 +5,7 @@ import GoTextInput from "../components/GoTextInput";
 
 export default function GoCreateEvent() {
 
-    IP = os.environ.get("HOST_IP")
+  const IP = "localhost"
 
     const [nom, setNom] = useState('');
     const [categorie, setCategorie] = useState('');
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
         width: 330,
         fontSize: 30,
         marginTop: 159,
-        marginLeft: 18
+        marginLeft: 18,
+        marginBottom: 50
     }
 })

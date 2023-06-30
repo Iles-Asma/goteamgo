@@ -22,17 +22,17 @@ export default function GoLogin({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const isEmailValid = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
+    // const isEmailValid = (email) => {
+    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //     return emailRegex.test(email);
+    // };
 
     const handleLogin = async () => {
 
-        if (!isEmailValid(email)) {
-            Alert.alert("Erreur", "Veuillez entrer une adresse email valide.");
-            return;
-        }
+        // if (!isEmailValid(email)) {
+        //     Alert.alert("Erreur", "Veuillez entrer une adresse email valide.");
+        //     return;
+        // }
 
         console.log('Email:', email);
         console.log('Mot de passe:', password);

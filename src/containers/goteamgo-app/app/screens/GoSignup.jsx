@@ -26,27 +26,27 @@ export default function GoSignup({ navigation }) {
     const handleSignup = async () => {
 
         // Check if the inputs are valid
-        if (nom.trim().length < 2) {
-            Alert.alert("Erreur", "Le nom doit contenir au moins 2 caractères.");
-            return;
-        }
+        // if (nom.trim().length < 2) {
+        //     Alert.alert("Erreur", "Le nom doit contenir au moins 2 caractères.");
+        //     return;
+        // }
 
-        if (prenom.trim().length < 2) {
-            Alert.alert("Erreur", "Le prénom doit contenir au moins 2 caractères.");
-            return;
-        }
+        // if (prenom.trim().length < 2) {
+        //     Alert.alert("Erreur", "Le prénom doit contenir au moins 2 caractères.");
+        //     return;
+        // }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            Alert.alert("Erreur", "Veuillez entrer une adresse e-mail valide.");
-            return;
-        }
+        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // if (!emailRegex.test(email)) {
+        //     Alert.alert("Erreur", "Veuillez entrer une adresse e-mail valide.");
+        //     return;
+        // }
 
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
-        if (!passwordRegex.test(password)) {
-            Alert.alert("Erreur", "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.");
-            return;
-        }
+        // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
+        // if (!passwordRegex.test(password)) {
+        //     Alert.alert("Erreur", "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.");
+        //     return;
+        // }
 
         try {
             const response = await fetch(`http://${IP}:5000/signup`, {
