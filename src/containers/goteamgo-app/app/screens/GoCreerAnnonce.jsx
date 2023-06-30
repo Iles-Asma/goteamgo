@@ -7,6 +7,12 @@ import GoButton from '../components/GoButton';
 
 export default function GoCreerAnnonce() {
 
+  const [stepperValue, setStepperValue] = useState(0);
+  const handleStepperChange = (value) => {
+    setStepperValue(value);
+    console.log('Valeur du stepper :', value);
+  };
+
   const [selectedSection, setSelectedSection] = useState("");
   const handleSectionChange = (sectionName) => {
     setSelectedSection(sectionName);
@@ -29,7 +35,7 @@ export default function GoCreerAnnonce() {
           <Text style={styles.titreSection}>
             ALLER <EntypoIcon name="chevron-thin-right" style={styles.icon}/>
             Nombre de place</Text>
-          <View style={styles.stepperInput}><GoStepper/></View>
+          <View style={styles.stepperInput}><GoStepper onChange={handleStepperChange}/></View>
         </>
       )}
 
@@ -38,7 +44,7 @@ export default function GoCreerAnnonce() {
           <Text style={styles.titreSection}>
             RETOUR <EntypoIcon name="chevron-thin-right" style={styles.icon}/> 
             Nombre de place</Text>
-          <View style={styles.stepperInput}><GoStepper/></View>
+          <View style={styles.stepperInput}><GoStepper onChange={handleStepperChange}/></View>
         </>
       )}
 
@@ -48,14 +54,14 @@ export default function GoCreerAnnonce() {
             ALLER <EntypoIcon name="chevron-thin-right" style={styles.icon} /> Nombre de place
           </Text>
           <View style={styles.stepperInput}>
-            <GoStepper />
+            <GoStepper onChange={handleStepperChange}/>
           </View>
 
           <Text style={styles.titreSection}>
             RETOUR <EntypoIcon name="chevron-thin-right" style={styles.icon} /> Nombre de place
           </Text>
           <View style={styles.stepperInput}>
-            <GoStepper />
+            <GoStepper onChange={handleStepperChange}/>
           </View>
         </>
       )}

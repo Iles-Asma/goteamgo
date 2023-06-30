@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 const QuantityInput = (props) => {
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    props.onChange(quantity);
+  }, [quantity]);
 
   const increment = () => {
     setQuantity(prevQuantity => prevQuantity + 1);
