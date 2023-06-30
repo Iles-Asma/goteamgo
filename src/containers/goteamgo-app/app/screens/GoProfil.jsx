@@ -13,10 +13,11 @@ export default function GoProfil() {
   const [codeOrganisation, setCodeOrganisation] = useState([]);
   const [nomOrganisation, setNomOrganisation] = useState([]);
 
+
   useEffect(() => {
     // Récupérer le token stocké localement
 
-    IP = os.environ.get("HOST_IP")
+    const IP = "localhost"
 
     const fetchUserInfo = async () => {
       const token = await AsyncStorage.getItem('userToken');

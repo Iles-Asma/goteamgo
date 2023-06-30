@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'; // Importer useNavigat
 
 const GoEvent = (props) => {
 
-    IP = os.environ.get("HOST_IP")
+    const IP = "localhost"
 
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [open, setOpen] = useState(false);
