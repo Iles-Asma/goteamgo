@@ -20,6 +20,8 @@ COPY /src/containers/goteamgo-server/requirements.txt .
 RUN pip install -r requirements.txt
 RUN pip install PyJWT
 RUN pip install -U flask-cors
+RUN pip install Flask-Migrate
+
 
 # Copy the current directory contents into the container
 COPY /src/containers/goteamgo-server .

@@ -1,4 +1,3 @@
-// Navigation.js
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,6 +7,10 @@ import GoLogin from '../screens/GoLogin';
 import GoSignup from '../screens/GoSignup';
 import GoProfil from '../screens/GoProfil';
 import GoEvent from '../screens/GoEvent';
+import GoCreerAnnonce from '../screens/GoCreerAnnonce';
+import GoChoixAction from '../screens/GoChoixAction';
+import GoDispoVoitures from '../screens/GoDispoVoitures';
+import GoCreateEvent from '../screens/GoCreateEvent'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,6 +51,10 @@ export default function Navigation() {
             <Stack.Screen name="GoLogin" component={GoLogin} />
             <Stack.Screen name="GoSignup" component={GoSignup} />
             <Stack.Screen name="Home" component={BottomTabs} />
+            <Stack.Screen name="GoChoixAction" component={GoChoixAction} />
+            <Stack.Screen name="GoCreerAnnonce" component={GoCreerAnnonce} />
+            <Stack.Screen name="GoDispoVoitures" component={GoDispoVoitures} />
+            <Stack.Screen name="GoCreateEvent" component={GoCreateEvent} />
         </Stack.Navigator>
     );
 }

@@ -1,10 +1,11 @@
 import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar } from 'react-native'
 import React, { useState } from "react";
 import GoButton from '../components/GoButton'
-import GoButtonOutlined from '../components/GoButtonOutlined'
 import GoTextInput from "../components/GoTextInput";
 
 export default function GoCreateEvent() {
+
+  const IP = "localhost"
 
     const [nom, setNom] = useState('');
     const [categorie, setCategorie] = useState('');
@@ -14,7 +15,7 @@ export default function GoCreateEvent() {
     const handleCreate = async () => {
 	
 		try {
-			const response = await fetch('http://localhost:5000/create_event', {
+			const response = await fetch(`http://${IP}:5000/create_event`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -35,9 +36,6 @@ export default function GoCreateEvent() {
     <SafeAreaView style={styles.container}>
 
         <Text style={styles.titre}>Création d'un événement</Text>
-
-        <br></br>
-        <br></br>
 
         <GoTextInput
 				value={nom}
@@ -84,6 +82,7 @@ const styles = StyleSheet.create({
     btnEspace: {
       gap: 10,
     },
+    
 
     titre: {
         color: "#121212",
@@ -92,6 +91,7 @@ const styles = StyleSheet.create({
         width: 330,
         fontSize: 30,
         marginTop: 159,
-        marginLeft: 18
+        marginLeft: 18,
+        marginBottom: 50
     }
 })

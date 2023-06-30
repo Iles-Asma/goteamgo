@@ -4,6 +4,7 @@ import GoMenuTroisTabs from '../components/GoMenuTroisTabs'
 import EntypoIcon from "react-native-vector-icons/Entypo"
 import GoStepper from '../components/GoStepper'
 import GoButton from '../components/GoButton';
+import QuantityInput from '../components/QuantityButton';
 
 export default function GoCreerAnnonce() {
 
