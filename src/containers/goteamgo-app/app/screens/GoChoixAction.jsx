@@ -1,9 +1,17 @@
 import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import GoButton from '../components/GoButton'
 import GoButtonOutlined from '../components/GoButtonOutlined'
 
-export default function GoChoixAction({ navigation }) {
+export default function GoChoixAction({ navigation, route }) {
+
+    const { eventId, token } = route.params;
+
+    useEffect(() => {
+      // Utilisez eventId et token ici
+      console.log(eventId);
+      console.log(token);
+    }, []);
 
     return (
     <SafeAreaView style={styles.container}>
@@ -11,8 +19,8 @@ export default function GoChoixAction({ navigation }) {
         <Text style={styles.titre}>Que souhaitez vous ?</Text>
 
         <View style={styles.btnEspace}>
-            <GoButton onPress={() => navigation.navigate('GoCreerAnnonce')} btnTxt="Partager ma voiture" />
-            <GoButtonOutlined onPress={() => navigation.navigate('GoDispoVoitures')} btnTxt="Trouver une voiture"/>
+            <GoButton onPress={() => navigation.navigate('GoCreerAnnonce', { eventId: eventId, token: token})} btnTxt="Partager ma voiture" />
+            <GoButtonOutlined onPress={() => navigation.navigate('GoDispoVoitures', { eventId: eventId, token: token})} btnTxt="Trouver une voiture"/>
         </View>
 
     </SafeAreaView>
@@ -30,7 +38,7 @@ const styles = StyleSheet.create({
     },
 
     btnEspace: {
-      gap: 10,
+      gap: 15,
     },
 
     titre: {
@@ -40,6 +48,7 @@ const styles = StyleSheet.create({
         width: 330,
         fontSize: 30,
         marginTop: 159,
-        marginLeft: 18
+        marginLeft: 18,
+        marginBottom: 30
     }
 })

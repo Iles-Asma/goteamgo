@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function GoLogin({ navigation }) {
 
-    const IP = "localhost";
+    const IP = "192.168.1.120";
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         color: "#121212",
         fontWeight: 'bold',
         height: 40,
-        width: 330,
+        width: 350,
         fontSize: 30,
         marginTop: 60,
         marginBottom: 20

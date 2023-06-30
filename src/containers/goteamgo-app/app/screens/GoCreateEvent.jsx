@@ -5,7 +5,7 @@ import GoTextInput from "../components/GoTextInput";
 
 export default function GoCreateEvent() {
 
-  const IP = "localhost"
+  const IP = "192.168.1.120"
 
     const [nom, setNom] = useState('');
     const [categorie, setCategorie] = useState('');
@@ -35,8 +35,9 @@ export default function GoCreateEvent() {
     return (
     <SafeAreaView style={styles.container}>
 
-        <Text style={styles.titre}>Création d'un événement</Text>
+      <Text style={styles.title}>Créer un événement</Text>
 
+        <View style={{marginTop: 10}}>
         <GoTextInput
 				value={nom}
 				placeholder="Nom de l'événement"
@@ -64,7 +65,7 @@ export default function GoCreateEvent() {
         <View style={styles.btnEspace}>
             <GoButton onPress={handleCreate} btnTxt="Créer l'événement" />
         </View>
-
+      </View>
     </SafeAreaView>
     )
 }
@@ -81,17 +82,15 @@ const styles = StyleSheet.create({
 
     btnEspace: {
       gap: 10,
+      marginTop: 20
     },
-    
 
-    titre: {
+    title: {
         color: "#121212",
         fontWeight: 'bold',
-        height: 40,
-        width: 330,
+        width: 350,
         fontSize: 30,
-        marginTop: 159,
-        marginLeft: 18,
-        marginBottom: 50
+        marginTop: 60,
+        marginBottom: 20,
     }
 })

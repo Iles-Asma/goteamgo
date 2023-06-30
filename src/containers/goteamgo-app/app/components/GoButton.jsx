@@ -14,7 +14,7 @@ export default function GoButton(props) {
 const styles = StyleSheet.create({
 	touchable: {
 		borderRadius: 15,
-		width: 325,
+		width: 350,
 		height: 61,
 		backgroundColor: "#79BFFF",
 	},

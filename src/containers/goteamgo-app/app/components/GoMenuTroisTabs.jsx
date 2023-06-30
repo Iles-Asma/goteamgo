@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
 function GoMenuTroisTabs({ style, selectedSection, onSectionChange }) {
-
   const handleSectionPress = (sectionName) => {
     onSectionChange(sectionName);
     console.log('Trajet : ', sectionName);
@@ -10,7 +9,10 @@ function GoMenuTroisTabs({ style, selectedSection, onSectionChange }) {
 
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.textWrapper}>
+      <View style={styles.textContainer2}>
+        <Text style={styles.additionalText}>Quel type de trajet vous intéresse ?</Text>
+      </View>
+      <View style={styles.menuContainer}>
         <TouchableOpacity
           style={[
             styles.segmentTextWrapper1,
@@ -47,22 +49,24 @@ function GoMenuTroisTabs({ style, selectedSection, onSectionChange }) {
           </Text>
         </TouchableOpacity>
       </View>
+
+      <View style={styles.textContainer}>
+        <Text style={styles.additionalText}>Quel est le nombre de sièges libres ?</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: '#FFF',
   },
-  textWrapper: {
-    height: 35,
-    flex: 1,
-    paddingLeft: 30,
-    paddingRight: 30,
+  menuContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    height: 30,
   },
   segmentTextWrapper1: {
     flex: 1,
@@ -106,13 +110,23 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#79BFFF',
   },
-
   selectedSegment: {
     backgroundColor: '#79BFFF',
   },
-
   selectedText: {
     color: '#FFFFFF',
+  },
+  textContainer: {
+    paddingHorizontal: 30,
+    marginTop: 35,
+  },
+  textContainer2: {
+    paddingHorizontal: 30,
+    marginBottom: 25
+  },
+  additionalText: {
+    color: '#121212',
+    fontSize: 20,
   },
 });
 

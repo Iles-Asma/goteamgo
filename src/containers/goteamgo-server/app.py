@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'q#!0i^ik4dl2ipx5b(7=+^+l=#2krpfd^0x!5w*r83)f9428+('
 
-IP = "localhost"
+IP = "192.168.1.120"
 
 CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS"]}})
 
@@ -23,6 +23,28 @@ migrate = Migrate(app, db)
 
 with app.app_context():
     db.create_all()
+
+
+@app.route('/create_carshare', methods=['POST'])
+def create_carshare():
+    # Récupération des données envoyées par le client
+    data = request.get_json()
+
+    # Vous pouvez ajouter des validations ici si nécessaire
+    
+    # Création d'une nouvelle annonce avec les données reçues
+    new_ad = Annonce(
+        direction=data['type_trajet'],
+        nb_personnes_aller=data['nb_personnes_aller'],
+        nb_personnes_retour=data['nb_personnes_retour']
+    )
+
+    # Ajout de l'annonce à la base de données
+    db.session.add(new_ad)
+    db.session.commit()
+
+    # Retourner une réponse au client
+    return jsonify({"message": "Annonce créée avec succès!"})
 
 
 @app.route('/user_info', methods=['GET'])

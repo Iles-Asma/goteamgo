@@ -9,7 +9,6 @@ export default function GoProfil() {
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [codeOrganisation, setCodeOrganisation] = useState([]);
   const [nomOrganisation, setNomOrganisation] = useState([]);
 
@@ -17,7 +16,7 @@ export default function GoProfil() {
   useEffect(() => {
     // Récupérer le token stocké localement
 
-    const IP = "localhost"
+    const IP = "192.168.1.120"
 
     const fetchUserInfo = async () => {
       const token = await AsyncStorage.getItem('userToken');
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
     color: "#121212",
     fontWeight: 'bold',
     height: 40,
-    width: 330,
+    width: 350,
     fontSize: 30,
     marginTop: 60,
 marginBottom: 20

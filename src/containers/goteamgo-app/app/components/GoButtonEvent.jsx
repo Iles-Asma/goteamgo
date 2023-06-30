@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		width: 325,
 		height: 52,
-		backgroundColor: "#79BFFF",
 	},
 	btnTxt: {
 		textAlignVertical: "center",
 		textAlign: "center",
-		color: "#FFFFFF",
+		color: "#79BFFF",
 	},
 
 	btnContainer: {
@@ -30,3 +29,4 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 });
+
