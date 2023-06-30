@@ -15,16 +15,7 @@ import Logo from "../../assets/svg/Logo";
 
 export default function GoSignup({ navigation }) {
 
-	const fetchData = async () => {
-		return fetch('http://localhost:5000/json')
-			.then(response => response.json())
-			.then(data => {
-				console.log(data, "data")
-			})
-			.catch(error => {
-				console.error(error);
-			});
-	}
+	IP = os.environ.get("HOST_IP")
 
 	const [nom, setNom] = useState('');
 	const [prenom, setPrenom] = useState('');
@@ -38,7 +29,7 @@ export default function GoSignup({ navigation }) {
 		console.log('Mot de passe:', password);
 	
 		try {
-			const response = await fetch('http://localhost:5000/signup', {
+			const response = await fetch(`http://${IP}:5000/signup`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

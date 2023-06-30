@@ -15,12 +15,15 @@ export default function GoProfil() {
 
   useEffect(() => {
     // Récupérer le token stocké localement
+
+    IP = os.environ.get("HOST_IP")
+
     const fetchUserInfo = async () => {
       const token = await AsyncStorage.getItem('userToken');
       console.log(token)
       
       // Effectuer la requête HTTP pour récupérer les infos de l'utilisateur
-      fetch('http://localhost:5000/user_info', {
+      fetch(`http://${IP}:5000/user_info`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

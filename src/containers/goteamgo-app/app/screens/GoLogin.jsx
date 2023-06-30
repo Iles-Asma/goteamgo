@@ -16,6 +16,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function GoLogin({ navigation }) {
 
+	IP = os.environ.get("HOST_IP")
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -23,7 +25,7 @@ export default function GoLogin({ navigation }) {
 		console.log('Email:', email);
 		console.log('Mot de passe:', password);
 		try {
-			const response = await fetch('http://localhost:5000/login', {
+			const response = await fetch(`http://${IP}:5000/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

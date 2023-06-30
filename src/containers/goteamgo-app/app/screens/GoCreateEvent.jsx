@@ -5,6 +5,8 @@ import GoTextInput from "../components/GoTextInput";
 
 export default function GoCreateEvent() {
 
+    IP = os.environ.get("HOST_IP")
+
     const [nom, setNom] = useState('');
     const [categorie, setCategorie] = useState('');
     const [lieu, setLieu] = useState('');
@@ -13,7 +15,7 @@ export default function GoCreateEvent() {
     const handleCreate = async () => {
 	
 		try {
-			const response = await fetch('http://localhost:5000/create_event', {
+			const response = await fetch(`http://${IP}:5000/create_event`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

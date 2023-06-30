@@ -10,7 +10,9 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'q#!0i^ik4dl2ipx5b(7=+^+l=#2krpfd^0x!5w*r83)f9428+('
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:19006", "methods": ["GET", "POST", "OPTIONS"]}})
+IP = "localhost"
+
+CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS"]}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@goteamgo-db:5432/mydb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

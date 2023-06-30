@@ -5,6 +5,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'; // Importer useNavigation
 
 const GoEvent = (props) => {
+
+    IP = os.environ.get("HOST_IP")
+
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [open, setOpen] = useState(false);
     const [events, setEvents] = useState([]);
@@ -15,7 +18,7 @@ const GoEvent = (props) => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('http://localhost:5000/get_events');
+                const response = await fetch(`http://${IP}:5000/get_events`);
                 const data = await response.json();
                 setEvents(data);
 
