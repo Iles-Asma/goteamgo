@@ -25,10 +25,10 @@ export default function GoCreerAnnonce() {
       onSectionChange={handleSectionChange}></GoMenuTroisTabs >
 
       <Text style={styles.titreSection}>ALLER <EntypoIcon name="chevron-thin-right" style={styles.icon}></EntypoIcon> Nombre de place</Text>
-      <GoStepper></GoStepper>
+      <View style={styles.stepperInput}><GoStepper></GoStepper></View>
 
       <Text style={styles.titreSection}>RETOUR <EntypoIcon name="chevron-thin-right" style={styles.icon}></EntypoIcon> Nombre de place</Text>
-      <GoStepper></GoStepper>
+      <View style={styles.stepperInput}><GoStepper></GoStepper></View>
 
       <View style={styles.btnStyle} >
         <GoButton btnTxt="Ajouter l'annonce"/>
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     btnStyle: {
       flex: 2,
       flexDirection: "column",
-
       marginTop: 10,
       alignItems: "center",
     },
@@ -80,5 +79,11 @@ const styles = StyleSheet.create({
 
     icon: {
         fontSize: 20
+    },
+
+    stepperInput: {
+      marginTop: 10,
+      marginLeft: 20,
     }
+    
 })
