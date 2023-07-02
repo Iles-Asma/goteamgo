@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GoViewVoiture(props) {
   return (
@@ -51,11 +52,11 @@ const styles = StyleSheet.create({
 	},
 
     icone: {
-        width: "auto"
+        width: 50,
+        height: 50
     },
 
     textes: {
         alignItems: "flex-start",
-        padding : 10,
     },
 });

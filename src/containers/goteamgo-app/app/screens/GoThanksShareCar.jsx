@@ -3,19 +3,19 @@ import React, { useEffect } from 'react'
 import GoButton from '../components/GoButton'
 import GoButtonOutlined from '../components/GoButtonOutlined'
 
-export default function GoRedirectionSignup({ navigation }) {
+export default function GoThanksShareCar({ navigation }) {
 
     return (
     <SafeAreaView style={styles.container}>
         <Image
   style={styles.image} // spécifiez les dimensions souhaitées de l'image
-  source={require('../../assets/bravo.png')}
+  source={require('../../assets/clap.png')}
   resizeMode="contain" // ou "cover" selon vos besoins
 />
         <Text style={styles.titre}>Félicitations !</Text>
-        <Text style={styles.paragraphe}>Votre inscription a été un succès. Bienvenue parmi nous !</Text>
+        <Text style={styles.paragraphe}>Merci d'avoir partagé votre voiture ! Vous avez rendu le trajet de quelqu'un plus agréable.</Text>
         <View style={styles.btnEspace}>
-            <GoButton onPress={() => navigation.navigate('GoLogin')} btnTxt="Connexion" />
+            <GoButton onPress={() => navigation.navigate('GoDispoVoitures')} btnTxt="Liste des véhicules" />
         </View>
 
     </SafeAreaView>
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginTop: 60,
         marginLeft: 18,
-        marginBottom: 5
     }, 
     paragraphe: {
         color: "#121212",

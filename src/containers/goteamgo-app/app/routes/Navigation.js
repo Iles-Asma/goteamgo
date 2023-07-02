@@ -12,51 +12,59 @@ import GoChoixAction from '../screens/GoChoixAction';
 import GoDispoVoitures from '../screens/GoDispoVoitures';
 import GoCreateEvent from '../screens/GoCreateEvent'
 import GoRedirectionSignup from '../screens/GoRedirectSignup';
+import GoThanksShareCar from '../screens/GoThanksShareCar'
 
-const Stack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function BottomTabs() {
-    return (
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
-            {/* Example Home Screen */}
-            <Tab.Screen
-                name="GoEvent"
-                component={GoEvent}
-                options={{
-                    tabBarLabel: 'Événements',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="calendar" color={color} size={size} />
-                    ),
-                }}
-            />
+function HomeStackNavigator() {
+  return (
+    <HomeStack.Navigator initialRouteName="GoEvent" screenOptions={{ headerShown: false }}>
+        <HomeStack.Screen name="GoEvent" component={GoEvent} />
+        <HomeStack.Screen name="GoChoixAction" component={GoChoixAction} />
+        <HomeStack.Screen name="GoCreerAnnonce" component={GoCreerAnnonce} />
+        <HomeStack.Screen name="GoDispoVoitures" component={GoDispoVoitures} />
+        <HomeStack.Screen name="GoCreateEvent" component={GoCreateEvent} />
+        <HomeStack.Screen name="GoThanksShareCar" component={GoThanksShareCar} />
+    </HomeStack.Navigator>
+  );
+}
 
-            {/* Profile Screen */}
-            <Tab.Screen
-                name="GoProfil"
-                component={GoProfil}
-                options={{
-                    tabBarLabel: 'Profil',
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="person" color={color} size={size} />
-                    ),
-                }}
-            />
-        </Tab.Navigator>
-    );
+function BottomTabs() {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen
+            name="HomeStack"
+            component={HomeStackNavigator}
+            options={{
+                tabBarLabel: 'Événements',
+                tabBarIcon: ({ color, size }) => (
+                    <Icon name="calendar" color={color} size={size} />
+                ),
+            }}
+        />
+        <Tab.Screen
+            name="GoProfil"
+            component={GoProfil}
+            options={{
+                tabBarLabel: 'Profil',
+                tabBarIcon: ({ color, size }) => (
+                    <Icon name="person" color={color} size={size} />
+                ),
+            }}
+        />
+    </Tab.Navigator>
+  );
 }
 
 export default function Navigation() {
-    return (
-        <Stack.Navigator initialRouteName="GoLogin" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="GoLogin" component={GoLogin} />
-            <Stack.Screen name="GoSignup" component={GoSignup} />
-            <Stack.Screen name="Home" component={BottomTabs} />
-            <Stack.Screen name="GoChoixAction" component={GoChoixAction} />
-            <Stack.Screen name="GoCreerAnnonce" component={GoCreerAnnonce} />
-            <Stack.Screen name="GoDispoVoitures" component={GoDispoVoitures} />
-            <Stack.Screen name="GoCreateEvent" component={GoCreateEvent} />
-            <Stack.Screen name="GoRedirectionSignup" component={GoRedirectionSignup}/>
-        </Stack.Navigator>
-    );
+  return (
+    <RootStack.Navigator initialRouteName="GoLogin" screenOptions={{ headerShown: false }}>
+        <RootStack.Screen name="GoLogin" component={GoLogin} />
+        <RootStack.Screen name="GoSignup" component={GoSignup} />
+        <HomeStack.Screen name="GoRedirectionSignup" component={GoRedirectionSignup} options={{gestureEnabled: false}}/>
+        <RootStack.Screen name="Home" component={BottomTabs} options={{ headerShown: false, gestureEnabled: false }}  />
+    </RootStack.Navigator>
+  );
 }

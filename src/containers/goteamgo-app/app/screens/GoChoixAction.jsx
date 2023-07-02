@@ -1,7 +1,8 @@
-import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar } from 'react-native'
+import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar, TouchableOpacity  } from 'react-native'
 import React, { useEffect } from 'react'
 import GoButton from '../components/GoButton'
 import GoButtonOutlined from '../components/GoButtonOutlined'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GoChoixAction({ navigation, route }) {
 
@@ -15,7 +16,9 @@ export default function GoChoixAction({ navigation, route }) {
 
     return (
     <SafeAreaView style={styles.container}>
-
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
+          <Icon name="chevron-back" size={40} style={{position: 'absolute', color: '#79BFFF' }}/>
+        </TouchableOpacity>
         <Text style={styles.titre}>Que souhaitez vous ?</Text>
 
         <View style={styles.btnEspace}>

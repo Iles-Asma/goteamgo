@@ -1,14 +1,15 @@
-import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import GoMenuTroisTabs from '../components/GoMenuTroisTabs';
 import EntypoIcon from "react-native-vector-icons/Entypo";
 import GoStepper from '../components/GoStepper';
 import GoButton from '../components/GoButton';
 import QuantityInput from '../components/QuantityButton';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function GoCreerAnnonce({ route }) {
+export default function GoCreerAnnonce({ navigation, route }) {
   const { eventId, token } = route.params;
-  const IP = "localhost";
+  const IP = "192.168.1.120";
 
   const [stepperValueAller, setStepperValueAller] = useState(0);
   const [stepperValueRetour, setStepperValueRetour] = useState(0);
@@ -48,6 +49,7 @@ export default function GoCreerAnnonce({ route }) {
 
       const data = await response.json();
       console.log(data);
+      navigation.navigate('GoThanksShareCar');
 
     } catch (error) {
       console.error('Erreur lors de la création de l\'annonce:', error);
@@ -56,6 +58,9 @@ export default function GoCreerAnnonce({ route }) {
 
   return (
     <SafeAreaView style={styles.container}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
+          <Icon name="chevron-back" size={40} style={{position: 'absolute', color: '#79BFFF' }}/>
+        </TouchableOpacity>
       <Text style={styles.title}>Créer une annonce</Text>
 
       <GoMenuTroisTabs
@@ -66,7 +71,7 @@ export default function GoCreerAnnonce({ route }) {
 
       {selectedSection === 'Aller' && (
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>ALLER</Text>
+          <Text style={styles.sectionTitle}></Text>
           <View style={styles.stepperInput}>
             <GoStepper onChange={handleStepperChangeAller} />
           </View>
@@ -75,7 +80,7 @@ export default function GoCreerAnnonce({ route }) {
 
       {selectedSection === 'Retour' && (
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>RETOUR</Text>
+          <Text style={styles.sectionTitle}></Text>
           <View style={styles.stepperInput}>
             <GoStepper onChange={handleStepperChangeRetour} />
           </View>
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     width: 350,
     fontSize: 30,
-    marginTop: 60,
+    marginTop: 70,
     marginBottom: 20,
   },
 
@@ -142,13 +147,11 @@ const styles = StyleSheet.create({
   sectionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 20,
     marginTop: 70
   },
 
   sectionTitle: {
     fontSize: 20,
-    marginRight: 10,
     marginTop: 10
   },
 

@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, StatusBar, SafeAreaView, Platform, FlatList } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, SafeAreaView, Platform, FlatList, Alert  } from 'react-native'
 import React, { useState, useEffect  } from 'react'
 import GoTextInput from '../components/GoTextInput'
 import GoButton from '../components/GoButton';
+import GoButtonOffline from '../components/GoButtonOffline';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function GoProfil() {
+export default function GoProfil({navigation}) {
 
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
@@ -12,11 +13,23 @@ export default function GoProfil() {
   const [codeOrganisation, setCodeOrganisation] = useState([]);
   const [nomOrganisation, setNomOrganisation] = useState([]);
 
+  const logout = async () => {
+    try {
+      // Supprimer le token de l'AsyncStorage
+      await AsyncStorage.removeItem('userToken');
+      // Rediriger vers la page de connexion
+      navigation.navigate('GoLogin');
+    } catch (error) {
+      Alert.alert('Erreur', 'Une erreur est survenue lors de la déconnexion.');
+      console.error(error);
+    }
+  };
+
 
   useEffect(() => {
     // Récupérer le token stocké localement
 
-    const IP = "localhost"
+    const IP = "192.168.1.120"
 
     const fetchUserInfo = async () => {
       const token = await AsyncStorage.getItem('userToken');
@@ -38,7 +51,6 @@ export default function GoProfil() {
         setEmail(data.email);
         setNomOrganisation(data.nom_organization)
         setCodeOrganisation(data.code_organization)
-        setPassword(''); // Vous ne devriez normalement pas recevoir le mot de passe
       })
       .catch(error => console.error('Erreur lors de la récupération des infos de l\'utilisateur:', error));
     };
@@ -75,66 +87,69 @@ export default function GoProfil() {
 };
 
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
+const renderHeader = () => (
+  <View>
+    <Text style={styles.titre}>Mon compte</Text>
+    <GoTextInput value={nom} onChangeText={setNom} />
+    <GoTextInput value={prenom} onChangeText={setPrenom} />
+    <GoTextInput value={email} onChangeText={setEmail} />
 
-      <Text style={styles.titre}>Mon compte</Text>
+    <View style={styles.btnEspace}>
+      <GoButton btnTxt="Sauvegarder" />
+    </View>
 
-        <GoTextInput 
-        value={nom}
-				onChangeText={setNom}/>
+    <Text style={{ marginTop: 30, marginBottom: 10, fontSize: 16 }}>Rejoindre une organisation</Text>
+    <GoTextInput value={codeOrganisation} onChangeText={setCodeOrganisation} />
+    <GoButton onPress={joinOrganization} btnTxt="OK" />
 
-        <GoTextInput 
-        value={prenom}
-				onChangeText={setPrenom}/>
+    <Text style={{ marginTop: 30, marginBottom: 10, fontSize: 16 }}>Mes organisations  : </Text>
+  </View>
+);
 
-        <GoTextInput 
-        value={email}
-				onChangeText={setEmail}/>
+const renderFooter = () => (
+  <View>
+    <GoButtonOffline onPress={logout} btnTxt="Deconnexion" />
+  </View>
+);
 
+const renderEmptyList = () => (
+  <View>
+    <Text style={{marginBottom: 30, fontSize: 14, color: "#7E7E7E" }}>Vous n'appartenez à aucune organisation.</Text>
+  </View>
+);
 
-        <View style={styles.btnEspace}>
-          <GoButton btnTxt="Sauvegarder les modifications" />
-        </View>
-
-        <Text style={{marginTop: 30}}>Rejoindre une organisation</Text>
-        <GoTextInput 
-        value={codeOrganisation}
-				onChangeText={setCodeOrganisation}/>
-        <GoButton onPress={joinOrganization} btnTxt="OK" />
-
-
-        <Text>Mes organisations</Text>
-
-        <Text>{nomOrganisation}</Text>
-
-        <FlatList
-          data={nomOrganisation}
-          renderItem={renderOrganisation}
-        />
-
-    </SafeAreaView>
-  )
+return (
+  <SafeAreaView style={styles.container}>
+  <StatusBar style="auto" />
+  <FlatList
+    ListHeaderComponent={renderHeader}
+    data={nomOrganisation}
+    renderItem={renderOrganisation}
+    ListFooterComponent={renderFooter}
+    ListEmptyComponent={renderEmptyList} // Ajoutez ceci
+  />
+</SafeAreaView>
+);
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
-    flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-    gap: 10
+      flex: 1,
+      paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 0,
+      backgroundColor: "#ffffff",
+      alignItems: 'center'
   },
-
+  contentContainer: {
+      alignItems: "center",
+      paddingTop: Platform.OS === "ios" ? 40 : StatusBar.currentHeight + 40,
+  },
   titre: {
-    color: "#121212",
-    fontWeight: 'bold',
-    height: 40,
-    width: 350,
-    fontSize: 30,
-    marginTop: 60,
-marginBottom: 20
-}
-})
+      color: "#121212",
+      fontWeight: 'bold',
+      height: 40,
+      width: 350,
+      fontSize: 30,
+      marginTop: 20,
+      marginBottom: 20
+  }
+});

@@ -1,11 +1,12 @@
-import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar } from 'react-native'
+import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar, TouchableOpacity } from 'react-native'
 import React, { useState } from "react";
 import GoButton from '../components/GoButton'
 import GoTextInput from "../components/GoTextInput";
+import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function GoCreateEvent() {
+export default function GoCreateEvent({navigation}) {
 
-  const IP = "localhost"
+  const IP = "192.168.1.120"
 
     const [nom, setNom] = useState('');
     const [categorie, setCategorie] = useState('');
@@ -34,6 +35,9 @@ export default function GoCreateEvent() {
 
     return (
     <SafeAreaView style={styles.container}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
+          <Icon name="chevron-back" size={40} style={{position: 'absolute', color: '#79BFFF' }}/>
+        </TouchableOpacity>
 
       <Text style={styles.title}>Créer un événement</Text>
 
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         width: 350,
         fontSize: 30,
-        marginTop: 60,
+        marginTop: 70,
         marginBottom: 20,
     }
 })

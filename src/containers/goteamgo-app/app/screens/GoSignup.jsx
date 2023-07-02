@@ -5,7 +5,7 @@ import {
     SafeAreaView,
     StatusBar,
     Platform,
-    TextInput,
+    KeyboardAvoidingView,
     Alert
 } from "react-native";
 import React, { useState } from "react";
@@ -16,7 +16,7 @@ import Logo from "../../assets/svg/Logo";
 
 export default function GoSignup({ navigation }) {
 
-    const IP = "localhost";
+    const IP = "192.168.1.120";
 
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
@@ -58,7 +58,7 @@ export default function GoSignup({ navigation }) {
             });
 
             if (response.status === 201) {
-                navigation.replace('GoRedirectionSignup');
+                navigation.navigate('GoRedirectionSignup');
             } else {
                 Alert.alert("Erreur", "L'inscription a échoué. Veuillez réessayer.");
             }
@@ -70,6 +70,11 @@ export default function GoSignup({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
+
+            <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.keyboardAvoidingView}
+    >
 
             <Logo style={{ marginTop: 85 }} />
 
@@ -104,6 +109,7 @@ export default function GoSignup({ navigation }) {
                 <GoButton onPress={handleSignup} btnTxt="Inscription" />
                 <GoButtonOutlined btnTxt="Connexion" onPress={() => navigation.navigate('GoLogin')} />
             </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }
@@ -132,5 +138,9 @@ const styles = StyleSheet.create({
     btnEspace: {
         gap: 10,
     },
+
+    keyboardAvoidingView: {
+        flex: 1,
+    }
 
 });

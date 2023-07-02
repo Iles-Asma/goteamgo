@@ -7,7 +7,7 @@ import GoButtonEvent from '../components/GoButtonEvent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GoEvent = (props) => {
-  const IP = 'localhost';
+  const IP = '192.168.1.120';
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 350,
     fontSize: 30,
-    marginTop: 60,
+    marginTop: 30,
     marginBottom: 20,
   },
   filterContainer: {
