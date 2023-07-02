@@ -11,6 +11,7 @@ import GoCreerAnnonce from '../screens/GoCreerAnnonce';
 import GoChoixAction from '../screens/GoChoixAction';
 import GoDispoVoitures from '../screens/GoDispoVoitures';
 import GoCreateEvent from '../screens/GoCreateEvent'
+import GoRedirectionSignup from '../screens/GoRedirectSignup';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,6 +56,7 @@ export default function Navigation() {
             <Stack.Screen name="GoCreerAnnonce" component={GoCreerAnnonce} />
             <Stack.Screen name="GoDispoVoitures" component={GoDispoVoitures} />
             <Stack.Screen name="GoCreateEvent" component={GoCreateEvent} />
+            <Stack.Screen name="GoRedirectionSignup" component={GoRedirectionSignup}/>
         </Stack.Navigator>
     );
 }

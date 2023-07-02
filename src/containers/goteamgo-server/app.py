@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Response, json, make_response
-from models import db, User, Event, Organization
+from models import db, User, Event, Organization, CarShare, Reservation
 from flask_cors import CORS
 from werkzeug.security import check_password_hash, generate_password_hash # Pour vérifier le mot de passe
 import jwt # Pour générer un token JWT
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'q#!0i^ik4dl2ipx5b(7=+^+l=#2krpfd^0x!5w*r83)f9428+('
 
-IP = "192.168.1.120"
+IP = "localhost"
 
 CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS"]}})
 
@@ -27,16 +27,35 @@ with app.app_context():
 
 @app.route('/create_carshare', methods=['POST'])
 def create_carshare():
+    # Obtenez le token à partir de l'en-tête d'autorisation
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or not auth_header.startswith('Bearer '):
+        return jsonify({'message': 'Token is missing or invalid'}), 401
+    token = auth_header.split(' ')[1]
+
+    # Vérifiez si le token est présent
+    if not token:
+        return jsonify({'message': 'Token is missing'}), 401
+
+    try:
+        # Décoder le token
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        user_id = data['user_id']
+    except:
+        return jsonify({'message': 'Token is invalid'}), 401
+    
     # Récupération des données envoyées par le client
     data = request.get_json()
 
     # Vous pouvez ajouter des validations ici si nécessaire
     
     # Création d'une nouvelle annonce avec les données reçues
-    new_ad = Annonce(
-        direction=data['type_trajet'],
-        nb_personnes_aller=data['nb_personnes_aller'],
-        nb_personnes_retour=data['nb_personnes_retour']
+    new_ad = CarShare(
+        user_id=user_id,
+        event_id=data['event_id'],
+        direction=data['direction'],
+        seats_available_aller=data['seats_available_aller'],
+        seats_available_retour=data['seats_available_retour']
     )
 
     # Ajout de l'annonce à la base de données
@@ -44,7 +63,8 @@ def create_carshare():
     db.session.commit()
 
     # Retourner une réponse au client
-    return jsonify({"message": "Annonce créée avec succès!"})
+    return jsonify({"message": "Annonce créée avec succès!"}), 200
+
 
 
 @app.route('/user_info', methods=['GET'])

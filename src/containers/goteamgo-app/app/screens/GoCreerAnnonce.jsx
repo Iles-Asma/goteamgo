@@ -1,49 +1,57 @@
-import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar } from 'react-native'
+import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import GoMenuTroisTabs from '../components/GoMenuTroisTabs'
-import EntypoIcon from "react-native-vector-icons/Entypo"
-import GoStepper from '../components/GoStepper'
+import GoMenuTroisTabs from '../components/GoMenuTroisTabs';
+import EntypoIcon from "react-native-vector-icons/Entypo";
+import GoStepper from '../components/GoStepper';
 import GoButton from '../components/GoButton';
 import QuantityInput from '../components/QuantityButton';
 
 export default function GoCreerAnnonce({ route }) {
-
   const { eventId, token } = route.params;
+  const IP = "localhost";
+
+  const [stepperValueAller, setStepperValueAller] = useState(0);
+  const [stepperValueRetour, setStepperValueRetour] = useState(0);
+  const [selectedSection, setSelectedSection] = useState("Aller");
+
+  const handleStepperChangeAller = (value) => {
+    setStepperValueAller(value);
+    console.log('Valeur du stepper aller:', value);
+  };
+
+  const handleStepperChangeRetour = (value) => {
+    setStepperValueRetour(value);
+    console.log('Valeur du stepper retour:', value);
+  };
+
+  const handleSectionChange = (sectionName) => {
+    setSelectedSection(sectionName);
+  };
 
   const handleCreateAd = async () => {
     try {
-  
-      const response = await fetch(`http://${IP}:5000/create_ad`, {
+      const body = {
+        event_id: eventId,
+        direction: selectedSection,
+        seats_available_aller: (selectedSection === 'Aller' || selectedSection === 'Aller-retour') ? stepperValueAller : null,
+        seats_available_retour: (selectedSection === 'Retour' || selectedSection === 'Aller-retour') ? stepperValueRetour : null,
+      };
+
+      const response = await fetch(`http://${IP}:5000/create_carshare`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          event_id: eventId,
-          direction: selectedSection, // 'Aller', 'Retour' ou 'Aller-retour'
-          seats_available_aller: (selectedSection === 'Aller' || selectedSection === 'Aller-retour') ? stepperValue : null,
-          seats_available_retour: (selectedSection === 'Retour' || selectedSection === 'Aller-retour') ? stepperValue : null,
-        })
+        body: JSON.stringify(body),
       });
-  
+
       const data = await response.json();
       console.log(data);
-  
+
     } catch (error) {
       console.error('Erreur lors de la création de l\'annonce:', error);
     }
-  };
-
-  const [stepperValue, setStepperValue] = useState(0);
-  const handleStepperChange = (value) => {
-    setStepperValue(value);
-    console.log('Valeur du stepper :', value);
-  };
-
-  const [selectedSection, setSelectedSection] = useState("Aller"); // Trajet "Aller" activé par défaut
-  const handleSectionChange = (sectionName) => {
-    setSelectedSection(sectionName);
   };
 
   return (
@@ -58,22 +66,18 @@ export default function GoCreerAnnonce({ route }) {
 
       {selectedSection === 'Aller' && (
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>
-            ALLER
-          </Text>
+          <Text style={styles.sectionTitle}>ALLER</Text>
           <View style={styles.stepperInput}>
-            <GoStepper onChange={handleStepperChange} />
+            <GoStepper onChange={handleStepperChangeAller} />
           </View>
         </View>
       )}
 
       {selectedSection === 'Retour' && (
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>
-            RETOUR
-          </Text>
+          <Text style={styles.sectionTitle}>RETOUR</Text>
           <View style={styles.stepperInput}>
-            <GoStepper onChange={handleStepperChange} />
+            <GoStepper onChange={handleStepperChangeRetour} />
           </View>
         </View>
       )}
@@ -81,30 +85,27 @@ export default function GoCreerAnnonce({ route }) {
       {selectedSection === 'Aller-retour' && (
         <View style={styles.sectionContainer}>
           <View style={styles.subSection}>
-            <Text style={styles.subSectionTitle}>
-              ALLER
-            </Text>
+            <Text style={styles.subSectionTitle}>ALLER</Text>
             <View style={styles.stepperInput}>
-              <GoStepper onChange={handleStepperChange} />
+              <GoStepper onChange={handleStepperChangeAller} />
             </View>
           </View>
           <View style={styles.subSection}>
-            <Text style={styles.subSectionTitle}>
-              RETOUR
-            </Text>
+            <Text style={styles.subSectionTitle}>RETOUR</Text>
             <View style={styles.stepperInput}>
-              <GoStepper onChange={handleStepperChange} />
+              <GoStepper onChange={handleStepperChangeRetour} />
             </View>
           </View>
         </View>
       )}
 
       <View style={styles.btnStyle}>
-        <GoButton btnTxt="Ajouter l'annonce" onPress={handleCreateAd}/>
+        <GoButton btnTxt="Ajouter l'annonce" onPress={handleCreateAd} />
       </View>
     </SafeAreaView>
-  )
+  );
 }
+
 
 const styles = StyleSheet.create({
   container: {

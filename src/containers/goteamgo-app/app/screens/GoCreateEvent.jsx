@@ -5,7 +5,7 @@ import GoTextInput from "../components/GoTextInput";
 
 export default function GoCreateEvent() {
 
-  const IP = "192.168.1.120"
+  const IP = "localhost"
 
     const [nom, setNom] = useState('');
     const [categorie, setCategorie] = useState('');

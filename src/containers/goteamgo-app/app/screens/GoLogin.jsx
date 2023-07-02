@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function GoLogin({ navigation }) {
 
-    const IP = "192.168.1.120";
+    const IP = "localhost";
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
