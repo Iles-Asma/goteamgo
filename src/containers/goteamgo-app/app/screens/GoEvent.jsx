@@ -1,5 +1,5 @@
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, Platform } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useFocusEffect  } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -17,24 +17,28 @@ const GoEvent = (props) => {
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch(`http://${IP}:5000/get_events`);
-        const get_token = await AsyncStorage.getItem('userToken');
-        setToken(get_token);
-        const data = await response.json();
-        setEvents(data);
+  const fetchEvents = useCallback(async () => {
+    try {
+      const response = await fetch(`http://${IP}:5000/get_events`);
+      const get_token = await AsyncStorage.getItem('userToken');
+      setToken(get_token);
+      const data = await response.json();
+      setEvents(data);
 
-        const uniqueCategories = [...new Set(data.map((event) => event.categorie))];
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des événements:', error);
-      }
-    };
-
-    fetchEvents();
+      const uniqueCategories = [...new Set(data.map((event) => event.categorie))];
+      setCategories(uniqueCategories);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des événements:', error);
+    }
   }, []);
+
+  // Ceci remplace le useEffect précédent
+  useFocusEffect(
+    useCallback(() => {
+      fetchEvents();
+    }, [fetchEvents])
+  );
+
 
   const handleChangeValue = (item) => {
     setSelectedCategory(item.value);
