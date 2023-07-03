@@ -7,7 +7,7 @@ import GoButtonEvent from '../components/GoButtonEvent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GoEvent = (props) => {
-  const IP = '192.168.1.120';
+  const IP = 'localhost';
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
@@ -48,7 +48,7 @@ const GoEvent = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Evenements</Text>
+        <Text style={styles.title}>Événements</Text>
       </View>
       <View style={styles.filterContainer}>
         <View style={styles.dropdownContainer}>
