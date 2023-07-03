@@ -29,7 +29,7 @@ export default function GoProfil({navigation}) {
   useEffect(() => {
     // Récupérer le token stocké localement
 
-    const IP = "10.49.34.144"
+    const IP = "localhost"
 
     const fetchUserInfo = async () => {
       const token = await AsyncStorage.getItem('userToken');
@@ -56,7 +56,7 @@ export default function GoProfil({navigation}) {
     };
 
     fetchUserInfo();
-  }, []); // Le tableau vide signifie que cela s'exécutera une fois lorsque le composant est monté
+  }, []);
 
   const renderOrganisation = ({ item }) => (
     <View>

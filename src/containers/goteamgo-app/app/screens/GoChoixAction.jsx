@@ -9,7 +9,6 @@ export default function GoChoixAction({ navigation, route }) {
     const { eventId, token } = route.params;
 
     useEffect(() => {
-      // Utilisez eventId et token ici
       console.log(eventId);
       console.log(token);
     }, []);

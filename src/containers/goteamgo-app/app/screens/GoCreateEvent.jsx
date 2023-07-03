@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GoCreateEvent({navigation}) {
 
-  const IP = "10.49.34.144"
+  const IP = "localhost"
 
     const [nom, setNom] = useState('');
     const [categorie, setCategorie] = useState('');

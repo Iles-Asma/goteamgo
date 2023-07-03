@@ -13,6 +13,7 @@ import GoDispoVoitures from '../screens/GoDispoVoitures';
 import GoCreateEvent from '../screens/GoCreateEvent'
 import GoRedirectionSignup from '../screens/GoRedirectSignup';
 import GoThanksShareCar from '../screens/GoThanksShareCar'
+import GoDetailVoiture from '../screens/GoDetailVoiture';
 
 const RootStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ function HomeStackNavigator() {
         <HomeStack.Screen name="GoDispoVoitures" component={GoDispoVoitures} />
         <HomeStack.Screen name="GoCreateEvent" component={GoCreateEvent} />
         <HomeStack.Screen name="GoThanksShareCar" component={GoThanksShareCar} />
+        <HomeStack.Screen name="GoDetailVoiture" component={GoDetailVoiture} />
     </HomeStack.Navigator>
   );
 }

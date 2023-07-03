@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function GoLogin({ navigation }) {
 
-    const IP = "10.49.34.144";
+    const IP = "localhost";
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -46,7 +46,6 @@ export default function GoLogin({ navigation }) {
                 body: JSON.stringify({ email, password })
             });
 
-<<<<<<< HEAD
             const data = await response.json();
 
             if (data.token) {
@@ -90,58 +89,10 @@ export default function GoLogin({ navigation }) {
             </View>
         </SafeAreaView>
     );
-=======
-			if (data.token) {
-				// Stocker le jeton dans un stockage sécurisé
-				await AsyncStorage.setItem('userToken', data.token);
-
-				// Rediriger vers la page d'accueil
-				navigation.navigate('Home'); // Changez 'Home' par le nom de votre écran d'accueil
-			} else {
-				// Gérer l'échec de la connexion
-			}
-		} catch (error) {
-			// Gérer les erreurs de requête
-		}
-	};
-
-	return (
-		<SafeAreaView style={styles.container}>
-			<StatusBar style="auto" />
-
-			<Logo style={{ marginTop: 85 }} />
-
-			<Text style={styles.titre}>Welcome Back !</Text>
-
-			<GoTextInput
-				value={email}
-				placeholder="Email"
-				onChangeText={setEmail}
-			/>
-
-			<GoTextInput
-				placeholder="Mot de passe"
-				onChangeText={setPassword}
-				value={password}
-				secureTextEntry
-			/>
-
-			<View style={styles.btnEspace}>
-				<GoButton onPress={handleLogin} btnTxt="Connexion" />
-
-				{/* <GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} /> */}
-				<GoButtonOutlined btnTxt="S'inscrire" onPress={() => navigation.navigate('GoSignup')} />
-			</View>
-		</SafeAreaView >
-	);
-
-
->>>>>>> g-iles-v2
 }
 
 const styles = StyleSheet.create({
 
-<<<<<<< HEAD
     titre: {
         color: "#121212",
         fontWeight: 'bold',
@@ -164,17 +115,6 @@ const styles = StyleSheet.create({
     btnEspace: {
         gap: 10,
     },
-=======
-	titre: {
-		color: "#121212",
-		fontWeight: 'bold',
-		height: 40,
-		width: 330,
-		fontSize: 30,
-		marginTop: 60,
-		marginBottom: 20
-	},
->>>>>>> g-iles-v2
 
     errorText: {
         color: 'red',

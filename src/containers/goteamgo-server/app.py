@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'q#!0i^ik4dl2ipx5b(7=+^+l=#2krpfd^0x!5w*r83)f9428+('
 
-IP = "10.49.34.144"
+IP = "localhost"
 
 CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS"]}})
 
@@ -85,6 +85,46 @@ def list_car_share():
 
     return jsonify(result)
 
+@app.route('/seats_available/<int:carshare_id>', methods=['GET'])
+def get_carshare_seats_available(carshare_id):
+    carshare = CarShare.query.get(carshare_id)
+    
+    if carshare:
+        # Vérifier si c'est un trajet aller-retour, aller simple ou retour simple et renvoyer les sièges disponibles
+        if carshare.direction == 'Aller-retour':
+            # Peut renvoyer soit seats_available_aller ou seats_available_retour car ils sont identiques pour Aller-retour
+            return jsonify({'seats_available': carshare.seats_available_aller}), 200
+        elif carshare.direction == 'Aller':
+            return jsonify({'seats_available': carshare.seats_available_aller}), 200
+        elif carshare.direction == 'Retour':
+            return jsonify({'seats_available': carshare.seats_available_retour}), 200
+        else:
+            return jsonify({'message': 'Direction invalide'}), 400
+    else:
+        return jsonify({'message': 'CarShare not found'}), 404
+
+@app.route('/create_reservation', methods=['POST'])
+def create_reservation():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    car_share_id = data.get('car_share_id')
+    seats_reserved_aller = data.get('seats_reserved_aller')
+    seats_reserved_retour = data.get('seats_reserved_retour')
+    
+    # Créer une nouvelle réservation
+    new_reservation = Reservation(
+        user_id=user_id,
+        car_share_id=car_share_id,
+        seats_reserved_aller=seats_reserved_aller,
+        seats_reserved_retour=seats_reserved_retour,
+    )
+    
+    # Ajouter la réservation à la base de données
+    db.session.add(new_reservation)
+    db.session.commit()
+    
+    # Renvoyer une réponse de succès
+    return jsonify({'message': 'Reservation created successfully'}), 201
 
 
 @app.route('/user_info', methods=['GET'])
@@ -125,6 +165,7 @@ def user_info():
     if organization:
         response = {
             'nom_organization': organization.nom,
+            'user_id': user.id,
             'nom': user.nom,
             'prenom': user.prenom,
             'email': user.email,
@@ -133,6 +174,7 @@ def user_info():
     else:
         response = {
         'nom': user.nom,
+        'user_id': user.id,
         'prenom': user.prenom,
         'email': user.email,
     }

@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GoCreerAnnonce({ navigation, route }) {
   const { eventId, token } = route.params;
-  const IP = "10.49.34.144";
+  const IP = "localhost";
 
   const [stepperValueAller, setStepperValueAller] = useState(0);
   const [stepperValueRetour, setStepperValueRetour] = useState(0);
@@ -25,6 +25,12 @@ export default function GoCreerAnnonce({ navigation, route }) {
     console.log('Valeur du stepper retour:', value);
   };
 
+  const handleStepperChangeAllerRetour = (value) => {
+    setStepperValueAller(value);
+    setStepperValueRetour(value);
+    console.log('Valeur du stepper aller-retour:', value);
+  };
+
   const handleSectionChange = (sectionName) => {
     setSelectedSection(sectionName);
   };
@@ -37,6 +43,7 @@ export default function GoCreerAnnonce({ navigation, route }) {
         seats_available_aller: (selectedSection === 'Aller' || selectedSection === 'Aller-retour') ? stepperValueAller : null,
         seats_available_retour: (selectedSection === 'Retour' || selectedSection === 'Aller-retour') ? stepperValueRetour : null,
       };
+  
 
       const response = await fetch(`http://${IP}:5000/create_carshare`, {
         method: 'POST',
@@ -88,21 +95,15 @@ export default function GoCreerAnnonce({ navigation, route }) {
       )}
 
       {selectedSection === 'Aller-retour' && (
-        <View style={styles.sectionContainer}>
-          <View style={styles.subSection}>
-            <Text style={styles.subSectionTitle}>ALLER</Text>
-            <View style={styles.stepperInput}>
-              <GoStepper onChange={handleStepperChangeAller} />
-            </View>
-          </View>
-          <View style={styles.subSection}>
-            <Text style={styles.subSectionTitle}>RETOUR</Text>
-            <View style={styles.stepperInput}>
-              <GoStepper onChange={handleStepperChangeRetour} />
-            </View>
-          </View>
-        </View>
-      )}
+  <View style={styles.sectionContainer}>
+    <View style={styles.subSection}>
+      <Text style={styles.subSectionTitle}></Text>
+      <View style={styles.stepperInput}>
+        <GoStepper onChange={handleStepperChangeAllerRetour} />
+      </View>
+    </View>
+  </View>
+)}
 
       <View style={styles.btnStyle}>
         <GoButton btnTxt="Ajouter l'annonce" onPress={handleCreateAd} />

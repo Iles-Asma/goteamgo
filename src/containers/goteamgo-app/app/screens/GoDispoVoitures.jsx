@@ -7,18 +7,27 @@ import { FlatList } from 'react-native-gesture-handler';
 import GoViewVoiture from '../components/GoViewVoiture';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function GoDispoVoitures({navigation}) {
+export default function GoDispoVoitures({navigation, route}) {
+
+  const { eventId, token } = route.params;
+
+    useEffect(() => {
+      console.log(eventId);
+      console.log(token);
+    }, []);
   
   const [carShares, setCarShares] = useState([]);
   const [selectedDirection, setSelectedDirection] = useState('Aller');
 
-  const IP = "10.49.34.144";
+  const IP = "localhost";
 
   useEffect(() => {
-      fetch(`http://${IP}:5000/list_car_share`)
-          .then(response => response.json())
-          .then(data => setCarShares(data))
-          .catch(error => console.error('Erreur lors de la récupération des car shares:', error));
+    fetch(`http://${IP}:5000/list_car_share`)
+      .then(response => response.json())
+      .then(data => {
+        setCarShares(data);
+      })
+      .catch(error => console.error('Erreur lors de la récupération des car shares:', error));
   }, []);
 
   const handleDirectionChange = (newDirection) => {
@@ -46,6 +55,7 @@ export default function GoDispoVoitures({navigation}) {
     data={filteredCarShares}
     renderItem={({ item }) => (
         <GoViewVoiture
+            onPress={() => navigation.navigate('GoDetailVoiture', { eventId: eventId, token: token, carId: item.id})}
             nomTxt={item.user_name}
             placeTxt={`${selectedDirection === 'Retour' ? item.seats_available_retour : item.seats_available_aller} places`}
         />
