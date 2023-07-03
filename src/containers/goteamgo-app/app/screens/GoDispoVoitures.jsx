@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar,TouchableOpacity } from 'react-native'
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import GoMenuTroisTabs from '../components/GoMenuTroisTabs'
 import EntypoIcon from "react-native-vector-icons/Entypo"
 import GoButton from '../components/GoButton';
@@ -8,27 +8,55 @@ import GoViewVoiture from '../components/GoViewVoiture';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GoDispoVoitures({navigation}) {
+  
+  const [carShares, setCarShares] = useState([]);
+  const [selectedDirection, setSelectedDirection] = useState('Aller');
 
+  const IP = "localhost";
+
+  useEffect(() => {
+      fetch(`http://${IP}:5000/list_car_share`)
+          .then(response => response.json())
+          .then(data => setCarShares(data))
+          .catch(error => console.error('Erreur lors de la récupération des car shares:', error));
+  }, []);
+
+  const handleDirectionChange = (newDirection) => {
+    setSelectedDirection(newDirection);
+  };
+
+  const filteredCarShares = carShares.filter(carShare => {
+    return carShare.direction === selectedDirection;
+  });
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
-          <Icon name="chevron-back" size={40} style={{position: 'absolute', color: '#79BFFF' }}/>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
+            <Icon name="chevron-back" size={40} style={{ position: 'absolute', color: '#79BFFF' }} />
         </TouchableOpacity>
-      <Text style={styles.titre}>Voitures disponibles</Text>
+        <Text style={styles.titre}>Voitures disponibles</Text>
 
-      <GoMenuTroisTabs style={styles.GoMenuTroisTabs}></GoMenuTroisTabs>
+        <GoMenuTroisTabs
+          style={styles.GoMenuTroisTabs}
+          selectedSection={selectedDirection}
+          onSectionChange={handleDirectionChange}
+        />
 
-
-      <View style={styles.btnStyle}>
-
-        <GoViewVoiture nomTxt="Nathalie DUPONT" placeTxt="3 places"></GoViewVoiture>
-
-      </View>
+<FlatList
+    data={filteredCarShares}
+    renderItem={({ item }) => (
+        <GoViewVoiture
+            nomTxt={item.user_name}
+            placeTxt={`${selectedDirection === 'Retour' ? item.seats_available_retour : item.seats_available_aller} places`}
+        />
+    )}
+    keyExtractor={item => item.id.toString()}
+/>
 
     </SafeAreaView>
   )
 }
+
 
 const styles = StyleSheet.create({
     container: {

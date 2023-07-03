@@ -65,6 +65,26 @@ def create_carshare():
     # Retourner une réponse au client
     return jsonify({"message": "Annonce créée avec succès!"}), 200
 
+@app.route("/list_car_share", methods=['GET'])
+def list_car_share():
+    car_shares = db.session.query(CarShare, User).join(User, CarShare.user_id == User.id).all()
+    result = []
+
+    for car_share, user in car_shares:
+        car_share_data = {
+            "id": car_share.id,
+            "user_id": car_share.user_id,
+            "user_name": f"{user.nom} {user.prenom}",
+            "event_id": car_share.event_id,
+            "direction": car_share.direction,
+            "seats_available_aller": car_share.seats_available_aller,
+            "seats_available_retour": car_share.seats_available_retour,
+            "created_at": car_share.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        }
+        result.append(car_share_data)
+
+    return jsonify(result)
+
 
 
 @app.route('/user_info', methods=['GET'])

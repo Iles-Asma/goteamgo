@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
 		width: 325,
 		height: 61,
 		backgroundColor: "#F2F2F2",
+        marginTop: 10
 	},
 	nomTxt: {
         fontWeight: 'bold',
