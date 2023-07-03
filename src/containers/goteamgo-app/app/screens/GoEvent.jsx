@@ -1,5 +1,6 @@
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, Platform } from 'react-native';
-import React, { useState, useEffect, useFocusEffect  } from 'react';
+import React, { useState, useCallback  } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -18,6 +19,7 @@ const GoEvent = (props) => {
   const navigation = useNavigation();
 
   const fetchEvents = useCallback(async () => {
+    console.log("Fetching events..."); // Pour vérifier si la fonction est appelée
     try {
       const response = await fetch(`http://${IP}:5000/get_events`);
       const get_token = await AsyncStorage.getItem('userToken');
