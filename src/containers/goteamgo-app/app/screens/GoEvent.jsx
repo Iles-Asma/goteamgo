@@ -92,14 +92,14 @@ const GoEvent = (props) => {
 export default GoEvent
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
-        flexDirection: "column",
-        backgroundColor: "#ffffff",
-        alignItems: "center",
-        color: "#ffffff",
-
+    title: {
+        color: "#121212",
+        fontWeight: 'bold',
+        height: 40,
+        width: 330,
+        fontSize: 30,
+        marginTop: 60,
+        marginBottom: 20
     },
 
     boxContainer: {
@@ -126,15 +126,6 @@ const styles = StyleSheet.create({
         padding: 20,
         gap: 2,
 
-    },
-    title: {
-        color: "#121212",
-        fontWeight: 'bold',
-        height: 40,
-        width: 330,
-        fontSize: 30,
-        marginTop: 60,
-		marginBottom: 20
     },
     dropdownContainer: {
         paddingRight: 10,

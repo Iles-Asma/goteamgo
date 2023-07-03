@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function GoLogin({ navigation }) {
 
-	IP = os.environ.get("HOST_IP")
+	// IP = os.environ.get("HOST_IP")
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -36,24 +36,24 @@ export default function GoLogin({ navigation }) {
 			const data = await response.json();
 
 			if (data.token) {
-                // Stocker le jeton dans un stockage sécurisé
-                await AsyncStorage.setItem('userToken', data.token);
+				// Stocker le jeton dans un stockage sécurisé
+				await AsyncStorage.setItem('userToken', data.token);
 
-                // Rediriger vers la page d'accueil
-                navigation.navigate('Home'); // Changez 'Home' par le nom de votre écran d'accueil
-            } else {
-                // Gérer l'échec de la connexion
-            }
-        } catch (error) {
-            // Gérer les erreurs de requête
-        }
+				// Rediriger vers la page d'accueil
+				navigation.navigate('Home'); // Changez 'Home' par le nom de votre écran d'accueil
+			} else {
+				// Gérer l'échec de la connexion
+			}
+		} catch (error) {
+			// Gérer les erreurs de requête
+		}
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar style="auto" />
 
-			<Logo style={{marginTop: 85}}/>
+			<Logo style={{ marginTop: 85 }} />
 
 			<Text style={styles.titre}>Welcome Back !</Text>
 
@@ -85,14 +85,14 @@ export default function GoLogin({ navigation }) {
 const styles = StyleSheet.create({
 
 	titre: {
-        color: "#121212",
-        fontWeight: 'bold',
-        height: 40,
-        width: 330,
-        fontSize: 30,
-        marginTop: 60,
+		color: "#121212",
+		fontWeight: 'bold',
+		height: 40,
+		width: 330,
+		fontSize: 30,
+		marginTop: 60,
 		marginBottom: 20
-    },
+	},
 
 	container: {
 		flex: 1,
