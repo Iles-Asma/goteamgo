@@ -12,7 +12,7 @@ export default function GoDispoVoitures({navigation}) {
   const [carShares, setCarShares] = useState([]);
   const [selectedDirection, setSelectedDirection] = useState('Aller');
 
-  const IP = "localhost";
+  const IP = "10.49.34.144";
 
   useEffect(() => {
       fetch(`http://${IP}:5000/list_car_share`)
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
       flex: 1,
       paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
       flexDirection: "column",
-      alignItems: "left",
+      alignItems: "center",
       backgroundColor: "#ffffff",
       gap:10
     },

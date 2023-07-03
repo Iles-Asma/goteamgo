@@ -7,7 +7,7 @@ import GoButtonEvent from '../components/GoButtonEvent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GoEvent = (props) => {
-  const IP = 'localhost';
+  const IP = '10.49.34.144';
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
