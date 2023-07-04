@@ -140,13 +140,22 @@ def delete_reservation(reservation_id):
         print("Réservation trouvée: ", reservation)  # Log pour vérifier si la réservation est trouvée
 
         try:
-            # Recherche de la voiture associée à la réservation
-            car = Car.query.get(reservation.car_id)
-            
-            # Réincrémenter le nombre de places disponibles de la voiture
-            if car:
-                car.seats_available += 1
-                db.session.add(car)
+            # Récupérer l'objet CarShare correspondant et réincrémenter les places disponibles
+            car_share = CarShare.query.get(reservation.car_share_id)
+            if car_share:
+                if car_share.direction == "Aller":
+                    car_share.seats_available_aller += reservation.seats_reserved_aller
+                elif car_share.direction == "Retour":
+                    car_share.seats_available_retour += reservation.seats_reserved_retour
+                elif car_share.direction == "Aller-retour":
+                    car_share.seats_available_aller += reservation.seats_reserved_aller
+                    car_share.seats_available_retour += reservation.seats_reserved_retour
+                else:
+                    db.session.rollback()
+                    return jsonify({'message': 'Invalid direction'}), 400
+            else:
+                db.session.rollback()
+                return jsonify({'message': 'CarShare not found'}), 404
 
             # Suppression de la réservation
             db.session.delete(reservation)
@@ -158,6 +167,7 @@ def delete_reservation(reservation_id):
             return jsonify({'message': 'Une erreur est survenue lors de la suppression de la réservation', 'error': str(e)}), 500
     else:
         return jsonify({'message': 'Réservation non trouvée'}), 404
+
 
 
     
