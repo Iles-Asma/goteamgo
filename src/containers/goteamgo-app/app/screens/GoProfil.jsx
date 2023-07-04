@@ -3,15 +3,20 @@ import React, { useState, useEffect  } from 'react'
 import GoTextInput from '../components/GoTextInput'
 import GoButton from '../components/GoButton';
 import GoButtonOffline from '../components/GoButtonOffline';
+import GoButtonEdit from '../components/GoButtonEdit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function GoProfil({navigation}) {
 
+  const IP = "192.168.1.120";
+
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [email, setEmail] = useState('');
-  const [codeOrganisation, setCodeOrganisation] = useState([]);
-  const [nomOrganisation, setNomOrganisation] = useState([]);
+  const [organisations, setOrganisations] = useState([]);
+  const [codeOrganisation, setCodeOrganisation] = useState(''); // gardez-le pour rejoindre la fonctionnalité de l'organisation
+  
+
 
   const logout = async () => {
     try {
@@ -26,65 +31,96 @@ export default function GoProfil({navigation}) {
   };
 
 
-  useEffect(() => {
-    // Récupérer le token stocké localement
+  const fetchUserInfo = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    console.log(token)
 
-    const IP = "192.168.1.120"
-
-    const fetchUserInfo = async () => {
-      const token = await AsyncStorage.getItem('userToken');
-      console.log(token)
-      
-      // Effectuer la requête HTTP pour récupérer les infos de l'utilisateur
-      fetch(`http://${IP}:5000/user_info`, {
+    // Effectuer la requête HTTP pour récupérer les infos de l'utilisateur
+    fetch(`http://${IP}:5000/user_info`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
         },
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Mettre à jour les states avec les données reçues
-        setNom(data.nom);
-        setPrenom(data.prenom);
-        setEmail(data.email);
-        setNomOrganisation(data.nom_organization)
-        setCodeOrganisation(data.code_organization)
-      })
-      .catch(error => console.error('Erreur lors de la récupération des infos de l\'utilisateur:', error));
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Mettre à jour les states avec les données reçues
+            setNom(data.nom);
+            setPrenom(data.prenom);
+            setEmail(data.email);
+            setOrganisations(data.organisations);
+        })
+        .catch(error => console.error('Erreur lors de la récupération des infos de l\'utilisateur:', error));
+};
+
+useEffect(() => {
+    fetchUserInfo();
+}, []);
+
+const joinOrganization = async () => {
+  try {
+      const token = await AsyncStorage.getItem('userToken');
+      // Ici, remplacez l'URL et les paramètres en fonction de votre API pour rejoindre une organisation.
+      const response = await fetch(`http://${IP}:5000/join_organization`, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              code: codeOrganisation // Assurez-vous d'envoyer le code de l'organisation de la manière attendue par votre API.
+          })
+      });
+      
+      if (response.status === 200) {
+          fetchUserInfo();
+      } else {
+          console.error("Erreur lors de la tentative de rejoindre l'organisation");
+      }
+
+  } catch (error) {
+      console.error("Error joining organization:", error);
+  }
+};
+
+  
+
+const updateProfile = async () => {
+  try {
+    const token = await AsyncStorage.getItem('userToken');
+    const data = {
+      nom: nom,
+      prenom: prenom,
+      email: email
     };
 
-    fetchUserInfo();
-  }, []);
-
-  const renderOrganisation = ({ item }) => (
-    <View>
-      <Text>{item.name}</Text>
-    </View>
-  );
-
-
-  const joinOrganization = async () => {
-    try {
-      const token = await AsyncStorage.getItem('userToken'); // Vous devez obtenir ceci après la connexion de l'utilisateur
-        const response = await fetch('http://localhost:5000/join_organization', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ codeOrganisation }),
-        });
-
-        const data = await response.json();
-        console.log('Réponse du serveur:', data);
-        console.log('organization_code:', data.organization_code);
-        
-    } catch (error) {
-        console.error("Error joining organization:", error);
-    }
+    fetch(`http://${IP}:5000/update_profile`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.message === 'Profile updated successfully') {
+          Alert.alert('Succès', 'Profil mis à jour avec succès');
+        } else {
+          Alert.alert('Erreur', 'Une erreur est survenue lors de la mise à jour du profil');
+        }
+      })
+      .catch(error => {
+        console.error('Erreur lors de la mise à jour du profil:', error);
+        Alert.alert('Erreur', 'Une erreur est survenue lors de la mise à jour du profil');
+      });
+  } catch (error) {
+    console.error('Erreur lors de la récupération du token:', error);
+    Alert.alert('Erreur', 'Une erreur est survenue lors de la récupération du token');
+  }
 };
+
 
 
 const renderHeader = () => (
@@ -95,7 +131,11 @@ const renderHeader = () => (
     <GoTextInput value={email} onChangeText={setEmail} />
 
     <View style={styles.btnEspace}>
-      <GoButton btnTxt="Sauvegarder" />
+      <GoButtonEdit btnTxt="Modifier votre mot de passe" onPress={() => navigation.navigate('GoEditPassword')}/>
+    </View>
+
+    <View style={styles.btnEspace}>
+      <GoButton btnTxt="Sauvegarder" onPress={updateProfile}/>
     </View>
 
     <Text style={{ marginTop: 30, marginBottom: 10, fontSize: 16 }}>Rejoindre une organisation</Text>
@@ -105,6 +145,17 @@ const renderHeader = () => (
     <Text style={{ marginTop: 30, marginBottom: 10, fontSize: 16 }}>Mes organisations  : </Text>
   </View>
 );
+
+const renderOrganisation = ({ item }) => {
+  return (
+    <View>
+      {/* Render the organization item */}
+      <Text>{item.name}</Text>
+      {/* Add any other organization details you want to display */}
+    </View>
+  );
+};
+
 
 const renderFooter = () => (
   <View>
@@ -122,12 +173,14 @@ return (
   <SafeAreaView style={styles.container}>
   <StatusBar style="auto" />
   <FlatList
-    ListHeaderComponent={renderHeader}
-    data={nomOrganisation}
-    renderItem={renderOrganisation}
-    ListFooterComponent={renderFooter}
-    ListEmptyComponent={renderEmptyList} // Ajoutez ceci
-  />
+  showsVerticalScrollIndicator={false}
+  ListHeaderComponent={renderHeader}
+  data={organisations} // Passer le tableau d'organisations ici
+  renderItem={renderOrganisation}
+  ListFooterComponent={renderFooter}
+  ListEmptyComponent={renderEmptyList}
+/>
+
 </SafeAreaView>
 );
 }
@@ -151,5 +204,8 @@ const styles = StyleSheet.create({
       fontSize: 30,
       marginTop: 20,
       marginBottom: 20
+  },
+  btnEspace: {
+    marginBottom: 10,
   }
 });
