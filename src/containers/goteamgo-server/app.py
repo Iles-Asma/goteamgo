@@ -140,6 +140,15 @@ def delete_reservation(reservation_id):
         print("Réservation trouvée: ", reservation)  # Log pour vérifier si la réservation est trouvée
 
         try:
+            # Recherche de la voiture associée à la réservation
+            car = Car.query.get(reservation.car_id)
+            
+            # Réincrémenter le nombre de places disponibles de la voiture
+            if car:
+                car.seats_available += 1
+                db.session.add(car)
+
+            # Suppression de la réservation
             db.session.delete(reservation)
             db.session.commit()
             return jsonify({'message': 'La réservation a été supprimée avec succès'}), 200
@@ -149,6 +158,7 @@ def delete_reservation(reservation_id):
             return jsonify({'message': 'Une erreur est survenue lors de la suppression de la réservation', 'error': str(e)}), 500
     else:
         return jsonify({'message': 'Réservation non trouvée'}), 404
+
 
     
 @app.route('/create_reservation', methods=['POST'])
