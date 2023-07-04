@@ -65,11 +65,13 @@ def create_carshare():
     # Retourner une réponse au client
     return jsonify({"message": "Annonce créée avec succès!"}), 200
 
-@app.route("/list_car_share", methods=['GET'])
-def list_car_share():
-    car_shares = db.session.query(CarShare, User).join(User, CarShare.user_id == User.id).all()
+@app.route("/list_car_share/<int:event_id>", methods=['GET'])
+def list_car_share(event_id):
+    # Filter car_shares by event_id
+    car_shares = db.session.query(CarShare, User).join(User, CarShare.user_id == User.id).filter(CarShare.event_id == event_id).all()
+    
     result = []
-
+    
     for car_share, user in car_shares:
         car_share_data = {
             "id": car_share.id,
@@ -82,7 +84,7 @@ def list_car_share():
             "created_at": car_share.created_at.strftime("%Y-%m-%d %H:%M:%S")
         }
         result.append(car_share_data)
-
+    
     return jsonify(result)
 
 @app.route('/seats_available/<int:carshare_id>', methods=['GET'])
@@ -102,6 +104,32 @@ def get_carshare_seats_available(carshare_id):
             return jsonify({'message': 'Direction invalide'}), 400
     else:
         return jsonify({'message': 'CarShare not found'}), 404
+    
+
+@app.route('/get_reservations/<int:car_share_id>', methods=['GET'])
+def get_reservations(car_share_id):
+    # Récupérer toutes les réservations pour le car_share_id donné
+    reservations = Reservation.query.filter_by(car_share_id=car_share_id).all()
+
+    # Convertir les réservations en un format JSON sérialisable
+    reservations_list = []
+    for res in reservations:
+        user = User.query.get(res.user_id)
+        reservation_info = {
+            "user_id": res.user_id,
+            "car_share_id": res.car_share_id,
+            "seats_reserved_aller": res.seats_reserved_aller,
+            "seats_reserved_retour": res.seats_reserved_retour,
+            "nom": user.nom if user else "",
+            "prenom": user.prenom if user else ""
+        }
+        reservations_list.append(reservation_info)
+
+    # Renvoyer la liste des réservations sous forme JSON avec la clé 'reservations'
+    return jsonify({"reservations": reservations_list}), 200
+
+
+    
 
 @app.route('/create_reservation', methods=['POST'])
 def create_reservation():
@@ -121,10 +149,57 @@ def create_reservation():
     
     # Ajouter la réservation à la base de données
     db.session.add(new_reservation)
+
+    # Récupérer l'objet CarShare correspondant et décrémenter les places disponibles
+    car_share = CarShare.query.get(car_share_id)
+    if car_share:
+        if car_share.direction == "Aller":
+            if car_share.seats_available_aller is not None:
+                if car_share.seats_available_aller - seats_reserved_aller >= 0:
+                    car_share.seats_available_aller -= seats_reserved_aller
+                else:
+                    db.session.rollback()
+                    return jsonify({'message': 'Not enough seats available for Aller'}), 400
+            else:
+                db.session.rollback()
+                return jsonify({'message': 'Seats available for Aller not initialized'}), 500
+        elif car_share.direction == "Retour":
+            if car_share.seats_available_retour is not None:
+                if car_share.seats_available_retour - seats_reserved_retour >= 0:
+                    car_share.seats_available_retour -= seats_reserved_retour
+                else:
+                    db.session.rollback()
+                    return jsonify({'message': 'Not enough seats available for Retour'}), 400
+            else:
+                db.session.rollback()
+                return jsonify({'message': 'Seats available for Retour not initialized'}), 500
+        elif car_share.direction == "Aller-retour":
+            if car_share.seats_available_aller is not None and car_share.seats_available_retour is not None:
+                if car_share.seats_available_aller - seats_reserved_aller >= 0 and car_share.seats_available_retour - seats_reserved_retour >= 0:
+                    car_share.seats_available_aller -= seats_reserved_aller
+                    car_share.seats_available_retour -= seats_reserved_retour
+                else:
+                    db.session.rollback()
+                    return jsonify({'message': 'Not enough seats available for Aller-Retour'}), 400
+            else:
+                db.session.rollback()
+                return jsonify({'message': 'Seats available for Aller-Retour not initialized'}), 500
+        else:
+            db.session.rollback()
+            return jsonify({'message': 'Invalid direction'}), 400
+    else:
+        db.session.rollback()
+        return jsonify({'message': 'CarShare not found'}), 404
+
+    # Commit des changements dans la base de données
     db.session.commit()
-    
+
     # Renvoyer une réponse de succès
     return jsonify({'message': 'Reservation created successfully'}), 201
+
+
+
+
 
 
 @app.route('/user_info', methods=['GET'])

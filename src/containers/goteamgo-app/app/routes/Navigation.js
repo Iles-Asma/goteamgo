@@ -27,7 +27,7 @@ function HomeStackNavigator() {
         <HomeStack.Screen name="GoCreerAnnonce" component={GoCreerAnnonce} />
         <HomeStack.Screen name="GoDispoVoitures" component={GoDispoVoitures} />
         <HomeStack.Screen name="GoCreateEvent" component={GoCreateEvent} />
-        <HomeStack.Screen name="GoThanksShareCar" component={GoThanksShareCar} />
+        <HomeStack.Screen name="GoThanksShareCar" component={GoThanksShareCar} options={{gestureEnabled: false}}/>
         <HomeStack.Screen name="GoDetailVoiture" component={GoDetailVoiture} />
     </HomeStack.Navigator>
   );

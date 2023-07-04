@@ -1,136 +1,173 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, StatusBar, Platform } from 'react-native'
-import React, {useEffect, useState} from 'react'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, StatusBar, Platform, Alert } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const GoDetailVoiture = ({ navigation, ...props }) => {
-    const route = useRoute();
-    const { eventId, token, carId  } = route.params;
+const GoDetailVoiture = ({ navigation, route }) => {
+    const { eventId, token, carId, userName } = route.params;
+
     const [carDetails, setCarDetails] = useState(null);
-    const [ nom, setNom ] = useState(null);
-    const [ prenom, setPrenom ] = useState(null);
-    const [ id, setId ] = useState(null);
+    const [ID, setID] = useState(null);
+    const [reservations, setReservations] = useState([]);
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
+    const [hasReserved, setHasReserved] = useState(false);
 
-    const IP = "localhost"
+    const IP = "localhost";
 
-    useEffect(() => {
-    const fetchData = async () => {
+    const fetchCarDetails = async () => {
         try {
-            // Fetch car details from the server
-            const carDetailsResponse = await fetch(`http://${IP}:5000/seats_available/${carId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            const response = await fetch(`http://${IP}:5000/seats_available/${carId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-
-            const carDetailsData = await carDetailsResponse.json();
-
-            if (carDetailsResponse.ok) {
-                setCarDetails(carDetailsData);
-                console.log("Number of seats available:", carDetailsData.seats_available);
-            } else {
-                console.error('Failed to fetch car details:', carDetailsData);
+            const data = await response.json();
+            if (response.ok) {
+                setCarDetails(data);
             }
+        } catch (error) {
+            console.error('Error fetching car details:', error);
+        }
+    };
 
-            // Fetch user info from the server
-            const userInfoResponse = await fetch(`http://${IP}:5000/user_info`, {
+    const fetchUserInfo = async () => {
+        try {
+            const response = await fetch(`http://${IP}:5000/user_info`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
             });
-
-            const userInfoData = await userInfoResponse.json();
-
-            if (userInfoResponse.ok) {
-                console.log(userInfoData)
-                setNom(userInfoData.nom);
-                setPrenom(userInfoData.prenom);
-                setId(userInfoData.id);
-            } else {
-                console.error('Failed to fetch user info:', userInfoData);
-            }
-
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
-    fetchData();
-}, []);
-
-    const handleReservation = async () => {
-        // Obtenez l'ID de l'utilisateur connecté d'une manière ou d'une autre.
-        const userId = 1
-    
-        try {
-            const response = await fetch(`http://${IP}:5000/create_reservation`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: id,
-                    car_share_id: carId,
-                    seats_reserved_aller: 1,
-                    seats_reserved_retour: 1
-                })
-            });
-    
             const data = await response.json();
-    
             if (response.ok) {
-                console.log('Reservation created successfully:', data);
-            } else {
-                console.error('Failed to create reservation:', data);
+                setID(data.user_id);
+                setNom(data.nom);
+                setPrenom(data.prenom);
             }
         } catch (error) {
-            console.error('Error creating reservation:', error);
+            console.error('Error fetching user info:', error);
         }
     };
+
+    const fetchExistingReservations = async () => {
+        try {
+            const response = await fetch(`http://${IP}:5000/get_reservations/${carId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                if (Array.isArray(data.reservations)) {
+                    setReservations(data.reservations);
+                } else {
+                    console.error('Unexpected response format:', data);
+                }
+            } else {
+                console.error('Failed to fetch existing reservations:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching existing reservations:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCarDetails();
+        fetchUserInfo();
+        fetchExistingReservations();
+    }, []);
+
+
+const handleReservation = async () => {
+    try {
+        // Ajout de la vérification pour s'assurer que l'utilisateur ne réserve pas de place dans sa propre voiture
+        if (carDetails && carDetails.owner_id === ID) {
+            Alert.alert("Vous ne pouvez pas réserver une place dans votre propre voiture.");
+            return;
+        }
+
+        // Vérifier si l'utilisateur a déjà réservé une place
+        const existingReservation = reservations.find(reservation => reservation.user_id === ID);
+        if (existingReservation) {
+            Alert.alert("Vous avez déjà réservé une place.");
+            return;
+        }
+    
+        const response = await fetch(`http://${IP}:5000/create_reservation`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: ID,
+                car_share_id: carId,
+                seats_reserved_aller: 1,
+                seats_reserved_retour: 1
+            })
+        });
+    
+        const data = await response.json();
+    
+        if (response.ok) {
+            // Rafraîchir les réservations existantes et les détails de la voiture
+            fetchExistingReservations();
+            fetchCarDetails();
+            setHasReserved(true);
+        } else {
+            console.error('Failed to create reservation:', data);
+            Alert.alert('Erreur lors de la création de la réservation:', data.message);
+        }
+    } catch (error) {
+        console.error('Error creating reservation:', error);
+    }
+};
+
     
     
 
     return (
         <SafeAreaView style={styles.container}>
-                      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
-          <Icon name="chevron-back" size={40} style={{position: 'absolute', color: '#79BFFF' }}/>
-        </TouchableOpacity>
-            <View>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
+                <Icon name="chevron-back" size={40} style={{ position: 'absolute', color: '#79BFFF' }} />
+            </TouchableOpacity>
+            <View style={styles.content}>
                 <Text style={styles.title}>Détail</Text>
-            </View>
-
-            <View style={styles.carUserContainer}>
-                <View style={styles.carUserItem} >
-                    <MaterialCommunityIcons name="account" color="#79BFFF" size={50} />
-                    <Text style={styles.carUser}>{props.name}Elon musk</Text>
+    
+                <View style={styles.driverContainer}>
+                    <MaterialCommunityIcons name="car" color="#ffffff" size={30} />
+                    <Text style={styles.driverName}>{userName}</Text>
                 </View>
-                <TouchableOpacity style={styles.btnBg} onPress={handleReservation}>
-                    <MaterialCommunityIcons name="plus-thick" color="#79BFFF" size={50} />
-                </TouchableOpacity>
-
+    
+                <View style={styles.reservationsContainer}>
+                    {Array.isArray(reservations) && reservations.map((reservation, index) => (
+                        <View key={index} style={styles.reservationItem}>
+                            <MaterialCommunityIcons name="account" color="#79BFFF" size={30} />
+                            <Text style={styles.reservationUserName}>
+                                {reservation.nom} {reservation.prenom}
+                            </Text>
+                        </View>
+                    ))}
+                </View>
             </View>
+            <TouchableOpacity style={styles.addButton} onPress={handleReservation}>
+                <MaterialCommunityIcons name="plus-thick" color="#79BFFF" size={50} />
+            </TouchableOpacity>
         </SafeAreaView>
-    )
-}
-
-export default GoDetailVoiture
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
-        flexDirection: "column",
-        alignItems: "center",
         backgroundColor: "#ffffff",
-        gap: 10
-
     },
-
-
+    content: {
+        flex: 1,
+        alignItems: "center",
+    },
     title: {
         color: "#121212",
         fontWeight: 'bold',
@@ -140,37 +177,47 @@ const styles = StyleSheet.create({
         marginTop: 60,
         marginBottom: 20
     },
-    carUserContainer: {
-        height: "auto",
-
-        alignItems: "left",
-        width: "90%"
-
-
-
-    },
-    carUserItem: {
-        padding: 10,
+    driverContainer: {
         flexDirection: "row",
         alignItems: "center",
-
         borderRadius: 10,
-        backgroundColor: "#F2F2F2",
-        width: "100%",
+        backgroundColor: "#79BFFF",
+        padding: 10,
+        width: "90%",
         marginBottom: 20
-
     },
-    carUser: {
+    driverName: {
         paddingLeft: 20,
-        fontSize: 17
+        fontSize: 17,
+        color: "#ffffff"
     },
-    btnBg: {
+    reservationsContainer: {
+        width: '90%',
+        marginTop: 20,
+        flex: 1
+    },
+    reservationItem: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+        backgroundColor: "#F2F2F2",
+        borderRadius: 10,
+        marginBottom: 10
+    },
+    reservationUserName: {
+        paddingLeft: 20,
+        fontSize: 15
+    },
+    addButton: {
         padding: 10,
         width: "100%",
         borderWidth: 3,
         borderColor: "#79BFFF",
         borderRadius: 20,
-        alignItems: "center"
-
+        alignItems: "center",
+        backgroundColor: "#F2F2F2"
     }
-})
+});
+
+
+export default GoDetailVoiture;

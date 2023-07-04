@@ -56,7 +56,7 @@ export default function GoCreerAnnonce({ navigation, route }) {
 
       const data = await response.json();
       console.log(data);
-      navigation.navigate('GoThanksShareCar');
+      navigation.navigate('GoThanksShareCar', { eventId: eventId, token: token});
 
     } catch (error) {
       console.error('Erreur lors de la création de l\'annonce:', error);

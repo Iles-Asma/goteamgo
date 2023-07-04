@@ -12,7 +12,6 @@ export default function GoDispoVoitures({navigation, route}) {
   const { eventId, token } = route.params;
 
     useEffect(() => {
-      console.log(eventId);
       console.log(token);
     }, []);
   
@@ -22,13 +21,13 @@ export default function GoDispoVoitures({navigation, route}) {
   const IP = "localhost";
 
   useEffect(() => {
-    fetch(`http://${IP}:5000/list_car_share`)
+    fetch(`http://${IP}:5000/list_car_share/${eventId}`)
       .then(response => response.json())
       .then(data => {
         setCarShares(data);
       })
       .catch(error => console.error('Erreur lors de la récupération des car shares:', error));
-  }, []);
+}, []);
 
   const handleDirectionChange = (newDirection) => {
     setSelectedDirection(newDirection);
@@ -55,7 +54,7 @@ export default function GoDispoVoitures({navigation, route}) {
     data={filteredCarShares}
     renderItem={({ item }) => (
         <GoViewVoiture
-            onPress={() => navigation.navigate('GoDetailVoiture', { eventId: eventId, token: token, carId: item.id})}
+            onPress={() => navigation.navigate('GoDetailVoiture', { token: token, carId: item.id, userName: item.user_name})}
             nomTxt={item.user_name}
             placeTxt={`${selectedDirection === 'Retour' ? item.seats_available_retour : item.seats_available_aller} places`}
         />
