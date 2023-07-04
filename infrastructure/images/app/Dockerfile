@@ -25,4 +25,4 @@ EXPOSE 19000
 
 # Start Expo
 #CMD [ "npx", "expo", "start", "--web"]
-CMD [ "npm", "run", "web"]
+CMD [ "npm", "run", "start"]

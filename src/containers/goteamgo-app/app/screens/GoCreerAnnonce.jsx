@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GoCreerAnnonce({ navigation, route }) {
   const { eventId, token } = route.params;
-  const IP = "localhost";
+  const IP = "192.168.1.120";
 
   const [stepperValueAller, setStepperValueAller] = useState(0);
   const [stepperValueRetour, setStepperValueRetour] = useState(0);

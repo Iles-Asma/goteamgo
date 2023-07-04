@@ -16,7 +16,7 @@ import Logo from "../../assets/svg/Logo";
 
 export default function GoSignup({ navigation }) {
 
-    const IP = "localhost";
+    const IP = "192.168.1.120";
 
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
