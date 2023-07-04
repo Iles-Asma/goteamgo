@@ -103,12 +103,14 @@ const handleDeleteReservation = async (reservationId) => {
 
 const handleReservation = async () => {
     try {
+        // Fetch car details
+        await fetchCarDetails();
+
         // Ajout de la vérification pour s'assurer que l'utilisateur ne réserve pas de place dans sa propre voiture
         if (carDetails && carDetails.owner_id === ID) {
             Alert.alert("Vous ne pouvez pas réserver une place dans votre propre voiture.");
             return;
         }
-
         // Vérifier si l'utilisateur a déjà réservé une place
         const existingReservation = reservations.find(reservation => reservation.user_id === ID);
         if (existingReservation) {

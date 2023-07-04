@@ -92,14 +92,17 @@ def get_carshare_seats_available(carshare_id):
     carshare = CarShare.query.get(carshare_id)
     
     if carshare:
+        # Récupérer le propriétaire de la voiture partagée
+        owner_id = carshare.user_id
+
         # Vérifier si c'est un trajet aller-retour, aller simple ou retour simple et renvoyer les sièges disponibles
         if carshare.direction == 'Aller-retour':
             # Peut renvoyer soit seats_available_aller ou seats_available_retour car ils sont identiques pour Aller-retour
-            return jsonify({'seats_available': carshare.seats_available_aller}), 200
+            return jsonify({'seats_available': carshare.seats_available_aller, 'owner_id': owner_id}), 200
         elif carshare.direction == 'Aller':
-            return jsonify({'seats_available': carshare.seats_available_aller}), 200
+            return jsonify({'seats_available': carshare.seats_available_aller, 'owner_id': owner_id}), 200
         elif carshare.direction == 'Retour':
-            return jsonify({'seats_available': carshare.seats_available_retour}), 200
+            return jsonify({'seats_available': carshare.seats_available_retour, 'owner_id': owner_id}), 200
         else:
             return jsonify({'message': 'Direction invalide'}), 400
     else:
