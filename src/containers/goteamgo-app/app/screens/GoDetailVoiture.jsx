@@ -79,6 +79,28 @@ const GoDetailVoiture = ({ navigation, route }) => {
     }, []);
 
 
+const handleDeleteReservation = async (reservationId) => {
+    try {
+        const response = await fetch(`http://${IP}:5000/delete_reservation/${reservationId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (response.ok) {
+            // Rafraîchir les réservations existantes après la suppression
+            fetchExistingReservations();
+        } else {
+            console.error('Failed to delete reservation.');
+            Alert.alert('Erreur lors de la suppression de la réservation.');
+        }
+    } catch (error) {
+        console.error('Error deleting reservation:', error);
+    }
+};
+
+
 const handleReservation = async () => {
     try {
         // Ajout de la vérification pour s'assurer que l'utilisateur ne réserve pas de place dans sa propre voiture
@@ -111,7 +133,6 @@ const handleReservation = async () => {
         const data = await response.json();
     
         if (response.ok) {
-            // Rafraîchir les réservations existantes et les détails de la voiture
             fetchExistingReservations();
             fetchCarDetails();
             setHasReserved(true);
@@ -125,8 +146,6 @@ const handleReservation = async () => {
 };
 
     
-    
-
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
@@ -141,15 +160,21 @@ const handleReservation = async () => {
                 </View>
     
                 <View style={styles.reservationsContainer}>
-                    {Array.isArray(reservations) && reservations.map((reservation, index) => (
-                        <View key={index} style={styles.reservationItem}>
-                            <MaterialCommunityIcons name="account" color="#79BFFF" size={30} />
-                            <Text style={styles.reservationUserName}>
-                                {reservation.nom} {reservation.prenom}
-                            </Text>
-                        </View>
-                    ))}
-                </View>
+                {Array.isArray(reservations) && reservations.map((reservation, index) => (
+                    <View key={index} style={styles.reservationItem}>
+                        <MaterialCommunityIcons name="account" color="#79BFFF" size={30} />
+                        <Text style={styles.reservationUserName}>
+                            {reservation.nom} {reservation.prenom}
+                        </Text>
+                        {/* Ne montrer l'icône de poubelle que si l'utilisateur n'est pas l'hôte de la voiture */}
+                        {carDetails && reservation.user_id === ID && (
+                <TouchableOpacity onPress={() => handleDeleteReservation(reservation.id)} style={styles.deleteButton}>
+                    <MaterialCommunityIcons name="trash-can" color="red" size={25} />
+                </TouchableOpacity>
+            )}
+        </View>
+    ))}
+</View>
             </View>
             <TouchableOpacity style={styles.addButton} onPress={handleReservation}>
                 <MaterialCommunityIcons name="plus-thick" color="#79BFFF" size={50} />
@@ -163,6 +188,9 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 40,
         backgroundColor: "#ffffff",
+    },
+        deleteButton: {
+        marginLeft: 'auto',
     },
     content: {
         flex: 1,

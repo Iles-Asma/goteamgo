@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = 'q#!0i^ik4dl2ipx5b(7=+^+l=#2krpfd^0x!5w*r83)f9428+('
 
 IP = "localhost"
 
-CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS"]}})
+CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS", "DELETE"]}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@goteamgo-db:5432/mydb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -116,6 +116,7 @@ def get_reservations(car_share_id):
     for res in reservations:
         user = User.query.get(res.user_id)
         reservation_info = {
+            "id": res.id,
             "user_id": res.user_id,
             "car_share_id": res.car_share_id,
             "seats_reserved_aller": res.seats_reserved_aller,
@@ -128,9 +129,25 @@ def get_reservations(car_share_id):
     # Renvoyer la liste des réservations sous forme JSON avec la clé 'reservations'
     return jsonify({"reservations": reservations_list}), 200
 
+@app.route('/delete_reservation/<int:reservation_id>', methods=['DELETE'])
+def delete_reservation(reservation_id):
+    reservation = Reservation.query.get(reservation_id)
+    
+    if reservation:
+        print("Réservation trouvée: ", reservation)  # Log pour vérifier si la réservation est trouvée
+
+        try:
+            db.session.delete(reservation)
+            db.session.commit()
+            return jsonify({'message': 'La réservation a été supprimée avec succès'}), 200
+        except Exception as e:
+            print("Erreur lors de la suppression: ", str(e))  # Log en cas d'erreur
+            db.session.rollback()
+            return jsonify({'message': 'Une erreur est survenue lors de la suppression de la réservation', 'error': str(e)}), 500
+    else:
+        return jsonify({'message': 'Réservation non trouvée'}), 404
 
     
-
 @app.route('/create_reservation', methods=['POST'])
 def create_reservation():
     data = request.get_json()
