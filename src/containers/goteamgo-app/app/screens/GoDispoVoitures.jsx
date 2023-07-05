@@ -18,7 +18,7 @@ export default function GoDispoVoitures({navigation, route}) {
   const [carShares, setCarShares] = useState([]);
   const [selectedDirection, setSelectedDirection] = useState('Aller');
 
-  const IP = "192.168.1.120";
+  const IP = "localhost";
 
   useEffect(() => {
     fetch(`http://${IP}:5000/list_car_share/${eventId}`)

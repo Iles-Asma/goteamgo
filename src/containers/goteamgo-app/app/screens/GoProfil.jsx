@@ -29,7 +29,7 @@ export default function GoProfil({navigation}) {
   useEffect(() => {
     // Récupérer le token stocké localement
 
-    const IP = "192.168.1.120"
+    const IP = "localhost"
 
     const fetchUserInfo = async () => {
       const token = await AsyncStorage.getItem('userToken');

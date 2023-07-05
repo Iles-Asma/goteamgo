@@ -14,7 +14,7 @@ const GoDetailVoiture = ({ navigation, route }) => {
     const [hasReserved, setHasReserved] = useState(false);
     const [seatsAvailable, setSeatsAvailable] = useState(0);
 
-    const IP = "192.168.1.120";
+    const IP = "localhost";
 
     const fetchCarDetails = async () => {
         try {
