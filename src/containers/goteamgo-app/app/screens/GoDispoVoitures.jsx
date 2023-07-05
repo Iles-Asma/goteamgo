@@ -7,62 +7,74 @@ import { FlatList } from 'react-native-gesture-handler';
 import GoViewVoiture from '../components/GoViewVoiture';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function GoDispoVoitures({navigation, route}) {
+export default function GoDispoVoitures({ navigation, route }) {
 
   const { eventId, token } = route.params;
 
-    useEffect(() => {
-      console.log(token);
-    }, []);
-  
   const [carShares, setCarShares] = useState([]);
   const [selectedDirection, setSelectedDirection] = useState('Aller');
 
   const IP = "localhost";
 
   useEffect(() => {
-    fetch(`http://${IP}:5000/list_car_share/${eventId}`)
-      .then(response => response.json())
-      .then(data => {
-        setCarShares(data);
-      })
-      .catch(error => console.error('Erreur lors de la récupération des car shares:', error));
-}, []);
+      const unsubscribe = navigation.addListener('focus', () => {
+          fetch(`http://${IP}:5000/list_car_share/${eventId}`)
+              .then(response => response.json())
+              .then(data => {
+                  setCarShares(data);
+              })
+              .catch(error => console.error('Erreur lors de la récupération des car shares:', error));
+      });
+
+      return unsubscribe;
+  }, [navigation]);
 
   const handleDirectionChange = (newDirection) => {
-    setSelectedDirection(newDirection);
+      setSelectedDirection(newDirection);
   };
 
   const filteredCarShares = carShares.filter(carShare => {
-    return carShare.direction === selectedDirection;
+      return carShare.direction === selectedDirection;
+  }).sort((a, b) => {
+      const seatsA = selectedDirection === 'Retour' ? a.seats_available_retour : a.seats_available_aller;
+      const seatsB = selectedDirection === 'Retour' ? b.seats_available_retour : b.seats_available_aller;
+      return seatsB - seatsA;
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
-            <Icon name="chevron-back" size={40} style={{ position: 'absolute', color: '#79BFFF' }} />
-        </TouchableOpacity>
-        <Text style={styles.titre}>Voitures disponibles</Text>
+      <SafeAreaView style={styles.container}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
+              <Icon name="chevron-back" size={40} style={{ position: 'absolute', color: '#79BFFF' }} />
+          </TouchableOpacity>
+          <Text style={styles.titre}>Voitures disponibles</Text>
 
-        <GoMenuTroisTabs
-          style={styles.GoMenuTroisTabs}
-          selectedSection={selectedDirection}
-          onSectionChange={handleDirectionChange}
-        />
+          <GoMenuTroisTabs
+              style={styles.GoMenuTroisTabs}
+              selectedSection={selectedDirection}
+              onSectionChange={handleDirectionChange}
+          />
 
-<FlatList
-    data={filteredCarShares}
-    renderItem={({ item }) => (
-        <GoViewVoiture
-            onPress={() => navigation.navigate('GoDetailVoiture', { token: token, carId: item.id, userName: item.user_name})}
-            nomTxt={item.user_name}
-            placeTxt={`${selectedDirection === 'Retour' ? item.seats_available_retour : item.seats_available_aller} places`}
-        />
-    )}
-    keyExtractor={item => item.id.toString()}
-/>
+          <FlatList
+              data={filteredCarShares}
+              renderItem={({ item }) => {
+                  const seatsAvailable = selectedDirection === 'Retour' ? item.seats_available_retour : item.seats_available_aller;
+                  const isSeatsAvailableZero = seatsAvailable === 0;
+                  const textToShow = isSeatsAvailableZero ? "Plus disponible" : `${seatsAvailable} places`;
 
-    </SafeAreaView>
+                  return (
+                      <GoViewVoiture
+                          onPress={() => navigation.navigate('GoDetailVoiture', { token: token, carId: item.id, userName: item.user_name })}
+                          nomTxt={item.user_name}
+                          placeTxt={textToShow}
+                          placeTxtColor={isSeatsAvailableZero ? 'red' : '#63CA23'}
+                          pointColor={isSeatsAvailableZero ? 'red' : '#63CA23'}
+                      />
+                  );
+              }}
+              keyExtractor={item => item.id.toString()}
+          />
+
+      </SafeAreaView>
   )
 }
 

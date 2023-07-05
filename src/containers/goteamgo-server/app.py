@@ -140,13 +140,22 @@ def delete_reservation(reservation_id):
         print("Réservation trouvée: ", reservation)  # Log pour vérifier si la réservation est trouvée
 
         try:
-            # Recherche de la voiture associée à la réservation
-            car = Car.query.get(reservation.car_id)
-            
-            # Réincrémenter le nombre de places disponibles de la voiture
-            if car:
-                car.seats_available += 1
-                db.session.add(car)
+            # Récupérer l'objet CarShare correspondant et réincrémenter les places disponibles
+            car_share = CarShare.query.get(reservation.car_share_id)
+            if car_share:
+                if car_share.direction == "Aller":
+                    car_share.seats_available_aller += reservation.seats_reserved_aller
+                elif car_share.direction == "Retour":
+                    car_share.seats_available_retour += reservation.seats_reserved_retour
+                elif car_share.direction == "Aller-retour":
+                    car_share.seats_available_aller += reservation.seats_reserved_aller
+                    car_share.seats_available_retour += reservation.seats_reserved_retour
+                else:
+                    db.session.rollback()
+                    return jsonify({'message': 'Invalid direction'}), 400
+            else:
+                db.session.rollback()
+                return jsonify({'message': 'CarShare not found'}), 404
 
             # Suppression de la réservation
             db.session.delete(reservation)
@@ -158,6 +167,7 @@ def delete_reservation(reservation_id):
             return jsonify({'message': 'Une erreur est survenue lors de la suppression de la réservation', 'error': str(e)}), 500
     else:
         return jsonify({'message': 'Réservation non trouvée'}), 404
+
 
 
     
@@ -343,6 +353,45 @@ def join_organization():
     return jsonify({'message': 'Organization code updated successfully', 'organization_code': user.organization_code}), 200
 
 
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    # Récupérer le token à partir de l'en-tête d'autorisation
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or not auth_header.startswith('Bearer '):
+        return jsonify({'message': 'Token is missing or invalid'}), 401
+    token = auth_header.split(' ')[1]
+
+    # Vérifier si le token est valide
+    try:
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        user_id = data['user_id']
+    except:
+        return jsonify({'message': 'Token is invalid'}), 401
+
+    # Récupérer l'utilisateur à partir de la base de données en utilisant l'ID utilisateur du token
+    user = User.query.filter_by(id=user_id).first()
+
+    # Vérifier si l'utilisateur existe
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    # Récupérer les données de la requête
+    data = request.get_json()
+    new_nom = data.get('nom')
+    new_prenom = data.get('prenom')
+    new_email = data.get('email')
+
+    # Mettre à jour les informations de l'utilisateur dans la base de données
+    user.nom = new_nom
+    user.prenom = new_prenom
+    user.email = new_email
+    db.session.commit()
+
+    # Retourner une réponse indiquant que la mise à jour a réussi
+    return jsonify({'message': 'Profile updated successfully'}), 200
+
+
+
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -406,44 +455,43 @@ def login():
         return jsonify({'message': 'Email ou mot de passe incorrect'}), 401
     
 
-# @app.route('/update_password', methods=['POST'])
-# def update_password():
-#     # Obtenez le token à partir de l'en-tête d'autorisation
-#     token = request.headers.get('Authorization')
+@app.route('/update_password', methods=['POST'])
+def update_password():
+    # Récupérer le token à partir de l'en-tête d'autorisation
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or not auth_header.startswith('Bearer '):
+        return jsonify({'message': 'Token is missing or invalid'}), 401
+    token = auth_header.split(' ')[1]
 
-#     # Vérifiez si le token est présent
-#     if not token:
-#         return jsonify({'message': 'Token is missing'}), 401
+    # Vérifier si le token est valide
+    try:
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        user_id = data['user_id']
+    except:
+        return jsonify({'message': 'Token is invalid'}), 401
 
-#     try:
-#         # Décoder le token
-#         data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-#         user_id = data['user_id']
-#     except:
-#         return jsonify({'message': 'Token is invalid'}), 401
+    # Récupérez l'utilisateur de la base de données en utilisant l'ID utilisateur du token
+    user = User.query.filter_by(id=user_id).first()
 
-#     # Récupérez l'utilisateur de la base de données en utilisant l'ID utilisateur du token
-#     user = User.query.filter_by(id=user_id).first()
+    # Vérifiez si l'utilisateur existe
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
 
-#     # Vérifiez si l'utilisateur existe
-#     if not user:
-#         return jsonify({'message': 'User not found'}), 404
+    # Récupérez les données de la requête
+    data = request.get_json()
+    new_password = data.get('new_password')
 
-#     # Récupérez les données de la requête
-#     data = request.get_json()
-#     new_password = data.get('new_password')
+    # (Optionnel) Vous pouvez également vérifier le mot de passe actuel ici
 
-#     # (Optionnel) Vous pouvez également vérifier le mot de passe actuel ici
+    # Hacher le nouveau mot de passe
+    password_hash = generate_password_hash(new_password, method='sha256')
 
-#     # Hacher le nouveau mot de passe
-#     password_hash = generate_password_hash(new_password, method='sha256')
+    # Mettre à jour le mot de passe haché dans la base de données
+    user.password_hash = password_hash
+    db.session.commit()
 
-#     # Mettre à jour le mot de passe haché dans la base de données
-#     user.password_hash = password_hash
-#     db.session.commit()
-
-#     # Renvoyez une réponse indiquant que la mise à jour a réussi
-#     return jsonify({'message': 'Password updated successfully'}), 200
+    # Renvoyez une réponse indiquant que la mise à jour a réussi
+    return jsonify({'message': 'Password updated successfully'}), 200
 
 
 if __name__ == "__main__":

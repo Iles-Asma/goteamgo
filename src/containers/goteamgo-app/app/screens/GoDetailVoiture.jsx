@@ -161,12 +161,12 @@ const GoDetailVoiture = ({ navigation, route }) => {
 
 return (
     <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
-            <Icon name="chevron-back" size={40} style={{ position: 'absolute', color: '#79BFFF' }} />
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20, zIndex: 1 }}>
+            <Icon name="chevron-back" size={40} style={{ position: 'absolute', color: '#79BFFF'}} />
         </TouchableOpacity>
         <View style={styles.content}>
             <Text style={styles.title}>Détail</Text>
-
+    
             <View style={styles.driverContainer}>
                 <MaterialCommunityIcons name="car" color="#ffffff" size={30} />
                 <Text style={styles.driverName}>{userName}</Text>
