@@ -4,6 +4,7 @@ import GoTextInput from '../components/GoTextInput';
 import GoButton from '../components/GoButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GOTEAMGO } from "../themes/Gotheme"
 
 export default function GoEditPassword({ navigation }) {
   const [password, setPassword] = useState('');
@@ -14,19 +15,19 @@ export default function GoEditPassword({ navigation }) {
       Alert.alert('Erreur', 'Les mots de passe ne correspondent pas');
     } else {
 
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
-        if (!passwordRegex.test(password)) {
-          Alert.alert(
-            'Erreur',
-            'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.'
-          );
-          return;
-        }
-        
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/;
+      if (!passwordRegex.test(password)) {
+        Alert.alert(
+          'Erreur',
+          'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.'
+        );
+        return;
+      }
+
       try {
         const token = await AsyncStorage.getItem('userToken');
         const IP = "192.168.1.120";
-  
+
         const response = await fetch(`http://${IP}:5000/update_password`, {
           method: 'POST',
           headers: {
@@ -35,9 +36,9 @@ export default function GoEditPassword({ navigation }) {
           },
           body: JSON.stringify({ new_password: password })
         });
-  
+
         const result = await response.json();
-  
+
         if (response.status === 200) {
           Alert.alert('Succès', result.message);
           navigation.navigate('GoProfil')
@@ -96,6 +97,6 @@ const styles = StyleSheet.create({
     left: 20,
   },
   backIcon: {
-    color: '#79BFFF',
+    color: GOTEAMGO.primary,
   },
 });

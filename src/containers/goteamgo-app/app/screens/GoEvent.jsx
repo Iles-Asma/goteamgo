@@ -1,14 +1,16 @@
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, Platform } from 'react-native';
-import React, { useState, useCallback  } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import GoButtonEvent from '../components/GoButtonEvent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GOTEAMGO } from "../themes/Gotheme"
+
 
 const GoEvent = (props) => {
-  const IP = 'localhost';
+  const IP = '172.20.10.2';
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
@@ -78,7 +80,7 @@ const GoEvent = (props) => {
         {filteredEvents.map((event) => (
           <TouchableOpacity
             key={event.id}
-            onPress={() => navigation.navigate('GoChoixAction', { eventId: event.id, token: token})}
+            onPress={() => navigation.navigate('GoChoixAction', { eventId: event.id, token: token })}
           >
             <View style={styles.boxContainer}>
               <View style={styles.headerContainer}>
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     padding: 10,
     alignItems: 'center',
-    backgroundColor: '#79BFFF',
+    backgroundColor: GOTEAMGO.primary,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 52,
     borderWidth: 2,
-    color: "#79BFFF",
-    borderColor: '#79BFFF',
+    color: GOTEAMGO.primary,
+    borderColor: GOTEAMGO.primary,
   },
 });

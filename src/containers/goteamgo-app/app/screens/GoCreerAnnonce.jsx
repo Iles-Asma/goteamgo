@@ -6,10 +6,11 @@ import GoStepper from '../components/GoStepper';
 import GoButton from '../components/GoButton';
 import QuantityInput from '../components/QuantityButton';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { GOTEAMGO } from "../themes/Gotheme"
 
 export default function GoCreerAnnonce({ navigation, route }) {
   const { eventId, token } = route.params;
-  const IP = "localhost";
+  const IP = "172.20.10.2";
 
   const [stepperValueAller, setStepperValueAller] = useState(0);
   const [stepperValueRetour, setStepperValueRetour] = useState(0);
@@ -43,7 +44,7 @@ export default function GoCreerAnnonce({ navigation, route }) {
         seats_available_aller: (selectedSection === 'Aller' || selectedSection === 'Aller-retour') ? stepperValueAller : null,
         seats_available_retour: (selectedSection === 'Retour' || selectedSection === 'Aller-retour') ? stepperValueRetour : null,
       };
-  
+
 
       const response = await fetch(`http://${IP}:5000/create_carshare`, {
         method: 'POST',
@@ -56,7 +57,7 @@ export default function GoCreerAnnonce({ navigation, route }) {
 
       const data = await response.json();
       console.log(data);
-      navigation.navigate('GoThanksShareCar', { eventId: eventId, token: token});
+      navigation.navigate('GoThanksShareCar', { eventId: eventId, token: token });
 
     } catch (error) {
       console.error('Erreur lors de la création de l\'annonce:', error);
@@ -65,9 +66,9 @@ export default function GoCreerAnnonce({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-              <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
-          <Icon name="chevron-back" size={40} style={{position: 'absolute', color: '#79BFFF' }}/>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
+        <Icon name="chevron-back" size={40} style={{ position: 'absolute', color: GOTEAMGO.primary }} />
+      </TouchableOpacity>
       <Text style={styles.title}>Créer une annonce</Text>
 
       <GoMenuTroisTabs
@@ -95,15 +96,15 @@ export default function GoCreerAnnonce({ navigation, route }) {
       )}
 
       {selectedSection === 'Aller-retour' && (
-  <View style={styles.sectionContainer}>
-    <View style={styles.subSection}>
-      <Text style={styles.subSectionTitle}></Text>
-      <View style={styles.stepperInput}>
-        <GoStepper onChange={handleStepperChangeAllerRetour} />
-      </View>
-    </View>
-  </View>
-)}
+        <View style={styles.sectionContainer}>
+          <View style={styles.subSection}>
+            <Text style={styles.subSectionTitle}></Text>
+            <View style={styles.stepperInput}>
+              <GoStepper onChange={handleStepperChangeAllerRetour} />
+            </View>
+          </View>
+        </View>
+      )}
 
       <View style={styles.btnStyle}>
         <GoButton btnTxt="Ajouter l'annonce" onPress={handleCreateAd} />
