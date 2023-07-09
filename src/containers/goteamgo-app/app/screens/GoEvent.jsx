@@ -7,10 +7,11 @@ import { useNavigation } from '@react-navigation/native';
 import GoButtonEvent from '../components/GoButtonEvent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GOTEAMGO } from "../themes/Gotheme"
+import { IP_ENV } from "@env";
 
 
 const GoEvent = (props) => {
-  const IP = '172.20.10.2';
+  //const IP = '192.168.1.120';
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [open, setOpen] = useState(false);
@@ -23,7 +24,7 @@ const GoEvent = (props) => {
   const fetchEvents = useCallback(async () => {
     console.log("Fetching events..."); // Pour vérifier si la fonction est appelée
     try {
-      const response = await fetch(`http://${IP}:5000/get_events`);
+      const response = await fetch(`http://${IP_ENV}:5000/get_events`);
       const get_token = await AsyncStorage.getItem('userToken');
       setToken(get_token);
       const data = await response.json();
@@ -90,6 +91,7 @@ const GoEvent = (props) => {
                 <Text>{event.nom}</Text>
                 <Text>{event.lieu}</Text>
                 <Text>{event.date}</Text>
+                <Text>{event.heure}</Text>
               </View>
             </View>
           </TouchableOpacity>

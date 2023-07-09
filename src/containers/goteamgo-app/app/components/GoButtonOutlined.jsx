@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
+import { GOTEAMGO } from "../themes/Gotheme"
 
 export default function GoButtonOutlined(props) {
     return (
@@ -17,14 +18,14 @@ const styles = StyleSheet.create({
         width: 350,
         height: 61,
         borderWidth: 3,
-        borderColor: "#79BFFF",
+        borderColor: GOTEAMGO.primary,
     },
     txtBtn: {
         textAlignVertical: "center",
         textAlign: "center",
 
         textAlign: 'center',
-        color: "#79BFFF",
+        color: GOTEAMGO.primary,
     },
     btnContainer: {
         flex: 1,

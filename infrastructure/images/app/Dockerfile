@@ -7,11 +7,13 @@ WORKDIR /usr/src/app
 # Copy app's package.json and package-lock.json to the container
 # COPY /src/containers/goteamgo-app/package*.json ./
 COPY /src/containers/goteamgo-app /usr/src/app
+COPY /infrastructure/images/app/.env /usr/src/app
 
 # Install global dependencies
 RUN npm install -g expo-cli
 RUN npm install -g @npmcli/move-file
 RUN npm install expo
+RUN npm install react-native-dotenv
 
 # Install app dependencies
 # RUN yarn install

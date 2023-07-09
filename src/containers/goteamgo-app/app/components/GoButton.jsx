@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
+import { GOTEAMGO } from "../themes/Gotheme"
 
 export default function GoButton(props) {
 	return (
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		width: 350,
 		height: 61,
-		backgroundColor: "#79BFFF",
+		backgroundColor: GOTEAMGO.primary,
 	},
 	btnTxt: {
 		textAlignVertical: "center",

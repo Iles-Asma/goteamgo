@@ -13,10 +13,11 @@ import GoButton from '../components/GoButton';
 import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
 import Logo from "../../assets/svg/Logo";
+import { IP_ENV } from "@env";
 
 export default function GoSignup({ navigation }) {
 
-    const IP = "172.20.10.2";
+    // const IP = "192.168.1.120";
 
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
@@ -49,7 +50,7 @@ export default function GoSignup({ navigation }) {
         // }
 
         try {
-            const response = await fetch(`http://${IP}:5000/signup`, {
+            const response = await fetch(`http://${IP_ENV}:5000/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

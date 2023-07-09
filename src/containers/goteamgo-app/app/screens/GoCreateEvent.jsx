@@ -4,25 +4,27 @@ import GoButton from '../components/GoButton'
 import GoTextInput from "../components/GoTextInput";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GOTEAMGO } from "../themes/Gotheme"
+import { IP_ENV } from "@env";
 
 export default function GoCreateEvent({ navigation }) {
 
-  const IP = "172.20.10.2"
+  // const IP = "192.168.1.120"
 
   const [nom, setNom] = useState('');
   const [categorie, setCategorie] = useState('');
   const [lieu, setLieu] = useState('');
   const [date, setDate] = useState('');
+  const [heure, setHeure] = useState('');
 
   const handleCreate = async () => {
 
     try {
-      const response = await fetch(`http://${IP}:5000/create_event`, {
+      const response = await fetch(`http://${IP_ENV}:5000/create_event`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nom, categorie, lieu, date })
+        body: JSON.stringify({ nom, categorie, lieu, date, heure })
       });
 
       const data = await response.json();
@@ -66,6 +68,12 @@ export default function GoCreateEvent({ navigation }) {
           value={date}
           placeholder="Date"
           onChangeText={setDate}
+        />
+
+        <GoTextInput
+          value={heure}
+          placeholder="Heure"
+          onChangeText={setHeure}
         />
 
         <View style={styles.btnEspace}>

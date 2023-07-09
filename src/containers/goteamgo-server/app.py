@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'q#!0i^ik4dl2ipx5b(7=+^+l=#2krpfd^0x!5w*r83)f9428+('
 
-IP = "172.20.10.2"
+IP = "192.168.1.120"
 
 CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS", "DELETE"]}})
 
@@ -311,7 +311,8 @@ def get_events():
             'nom': event.nom,
             'categorie': event.categorie,
             'lieu': event.lieu,
-            'date': event.date
+            'date': event.date,
+            'heure': event.heure
         }
         events_data.append(event_data)
 
@@ -424,6 +425,7 @@ def create_event():
         categorie=data['categorie'],
         lieu=data['lieu'],
         date=data['date'],
+        heure=data['heure']
     )
     
     # Insérer le nouvel utilisateur dans la base de données

@@ -7,6 +7,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import GoViewVoiture from '../components/GoViewVoiture';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GOTEAMGO } from "../themes/Gotheme"
+import { IP_ENV } from "@env";
 
 export default function GoDispoVoitures({ navigation, route }) {
 
@@ -15,11 +16,11 @@ export default function GoDispoVoitures({ navigation, route }) {
     const [carShares, setCarShares] = useState([]);
     const [selectedDirection, setSelectedDirection] = useState('Aller');
 
-    const IP = "172.20.10.2";
+    //const IP = "192.168.1.120";
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            fetch(`http://${IP}:5000/list_car_share/${eventId}`)
+            fetch(`http://${IP_ENV}:5000/list_car_share/${eventId}`)
                 .then(response => response.json())
                 .then(data => {
                     setCarShares(data);

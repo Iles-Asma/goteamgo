@@ -1,5 +1,5 @@
 export const GOTEAMGO = {
-    primary: '#00D1FF',
+    primary: '#00AFF5',
 
 
 };

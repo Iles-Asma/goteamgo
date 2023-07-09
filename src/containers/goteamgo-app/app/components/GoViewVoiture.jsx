@@ -2,13 +2,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { GOTEAMGO } from "../themes/Gotheme"
 
 export default function GoViewVoiture(props) {
     return (
       <TouchableOpacity style={styles.touchable} onPress={props.onPress}>
               <View style={styles.btnContainer}>
                   <View style={styles.icone}>
-                      <MaterialCommunityIcons name="car-side" color="#79BFFF" size={50}/>
+                      <MaterialCommunityIcons name="car-side" color={GOTEAMGO.primary} size={50}/>
                   </View>
                   <View style={styles.textes}>
                       <Text style={[styles.nomTxt, { color: props.nomTxtColor || "#000000" }]}>{props.nomTxt}</Text>

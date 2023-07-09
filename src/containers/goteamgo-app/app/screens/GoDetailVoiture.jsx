@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, StatusBar, Plat
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GOTEAMGO } from "../themes/Gotheme"
+import { IP_ENV } from "@env";
 
 const GoDetailVoiture = ({ navigation, route }) => {
     const { eventId, token, carId, userName } = route.params;
@@ -15,11 +16,10 @@ const GoDetailVoiture = ({ navigation, route }) => {
     const [hasReserved, setHasReserved] = useState(false);
     const [seatsAvailable, setSeatsAvailable] = useState(0);
 
-    const IP = "172.20.10.2";
-
+    // const IP = "192.168.1.120";
     const fetchCarDetails = async () => {
         try {
-            const response = await fetch(`http://${IP}:5000/seats_available/${carId}`, {
+            const response = await fetch(`http://${IP_ENV}:5000/seats_available/${carId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
@@ -36,7 +36,7 @@ const GoDetailVoiture = ({ navigation, route }) => {
 
     const fetchUserInfo = async () => {
         try {
-            const response = await fetch(`http://${IP}:5000/user_info`, {
+            const response = await fetch(`http://${IP_ENV}:5000/user_info`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -56,7 +56,7 @@ const GoDetailVoiture = ({ navigation, route }) => {
 
     const fetchExistingReservations = async () => {
         try {
-            const response = await fetch(`http://${IP}:5000/get_reservations/${carId}`, {
+            const response = await fetch(`http://${IP_ENV}:5000/get_reservations/${carId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -86,7 +86,7 @@ const GoDetailVoiture = ({ navigation, route }) => {
 
     const handleDeleteReservation = async (reservationId) => {
         try {
-            const response = await fetch(`http://${IP}:5000/delete_reservation/${reservationId}`, {
+            const response = await fetch(`http://${IP_ENV}:5000/delete_reservation/${reservationId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -125,7 +125,7 @@ const GoDetailVoiture = ({ navigation, route }) => {
                 return;
             }
 
-            const response = await fetch(`http://${IP}:5000/create_reservation`, {
+            const response = await fetch(`http://${IP_ENV}:5000/create_reservation`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

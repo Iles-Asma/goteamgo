@@ -7,10 +7,11 @@ import GoButton from '../components/GoButton';
 import QuantityInput from '../components/QuantityButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GOTEAMGO } from "../themes/Gotheme"
+import { IP_ENV } from "@env";
 
 export default function GoCreerAnnonce({ navigation, route }) {
   const { eventId, token } = route.params;
-  const IP = "172.20.10.2";
+  // const IP = "192.168.1.120";
 
   const [stepperValueAller, setStepperValueAller] = useState(0);
   const [stepperValueRetour, setStepperValueRetour] = useState(0);
@@ -46,7 +47,7 @@ export default function GoCreerAnnonce({ navigation, route }) {
       };
 
 
-      const response = await fetch(`http://${IP}:5000/create_carshare`, {
+      const response = await fetch(`http://${IP_ENV}:5000/create_carshare`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -97,12 +98,10 @@ export default function GoCreerAnnonce({ navigation, route }) {
 
       {selectedSection === 'Aller-retour' && (
         <View style={styles.sectionContainer}>
-          <View style={styles.subSection}>
-            <Text style={styles.subSectionTitle}></Text>
+            <Text style={styles.sectionTitle}></Text>
             <View style={styles.stepperInput}>
               <GoStepper onChange={handleStepperChangeAllerRetour} />
             </View>
-          </View>
         </View>
       )}
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { GOTEAMGO } from "../themes/Gotheme"
 
 function GoMenuTroisTabs({ style, selectedSection, onSectionChange }) {
   const handleSectionPress = (sectionName) => {
@@ -74,13 +75,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 6,
     borderWidth: 1,
-    borderColor: '#79BFFF',
+    borderColor: GOTEAMGO.primary,
     borderBottomLeftRadius: 5,
     borderTopLeftRadius: 5,
   },
   text1: {
     fontSize: 15,
-    color: '#79BFFF',
+    color: GOTEAMGO.primary,
   },
   segmentTextWrapper2: {
     flex: 1,
@@ -88,13 +89,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 6,
     borderWidth: 1,
-    borderColor: '#79BFFF',
+    borderColor: GOTEAMGO.primary,
     borderRightWidth: 0,
     borderLeftWidth: 0,
   },
   text2: {
     fontSize: 15,
-    color: '#79BFFF',
+    color: GOTEAMGO.primary,
   },
   segmentTextWrapper3: {
     flex: 1,
@@ -102,16 +103,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 6,
     borderWidth: 1,
-    borderColor: '#79BFFF',
+    borderColor: GOTEAMGO.primary,
     borderBottomRightRadius: 5,
     borderTopRightRadius: 5,
   },
   text3: {
     fontSize: 15,
-    color: '#79BFFF',
+    color: GOTEAMGO.primary,
   },
   selectedSegment: {
-    backgroundColor: '#79BFFF',
+    backgroundColor: GOTEAMGO.primary,
   },
   selectedText: {
     color: '#FFFFFF',

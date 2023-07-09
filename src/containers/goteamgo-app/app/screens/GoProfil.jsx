@@ -5,10 +5,11 @@ import GoButton from '../components/GoButton';
 import GoButtonOffline from '../components/GoButtonOffline';
 import GoButtonEdit from '../components/GoButtonEdit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IP_ENV } from "@env";
 
 export default function GoProfil({navigation}) {
 
-  const IP = "192.168.1.120";
+  //const IP = '192.168.1.120';
 
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
@@ -36,7 +37,7 @@ export default function GoProfil({navigation}) {
     console.log(token)
 
     // Effectuer la requête HTTP pour récupérer les infos de l'utilisateur
-    fetch(`http://${IP}:5000/user_info`, {
+    fetch(`http://${IP_ENV}:5000/user_info`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -62,7 +63,7 @@ const joinOrganization = async () => {
   try {
       const token = await AsyncStorage.getItem('userToken');
       // Ici, remplacez l'URL et les paramètres en fonction de votre API pour rejoindre une organisation.
-      const response = await fetch(`http://${IP}:5000/join_organization`, {
+      const response = await fetch(`http://${IP_ENV}:5000/join_organization`, {
           method: 'POST',
           headers: {
               'Authorization': `Bearer ${token}`,

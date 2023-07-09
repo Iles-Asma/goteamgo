@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text} from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -15,6 +16,7 @@ import GoRedirectionSignup from '../screens/GoRedirectSignup';
 import GoThanksShareCar from '../screens/GoThanksShareCar'
 import GoDetailVoiture from '../screens/GoDetailVoiture';
 import GoEditPassword from '../screens/GoEditPassword';
+import { GOTEAMGO } from "../themes/Gotheme"
 
 const RootStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -37,28 +39,37 @@ function HomeStackNavigator() {
 
 function BottomTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen
-            name="HomeStack"
-            component={HomeStackNavigator}
-            options={{
-                tabBarLabel: 'Événements',
-                tabBarIcon: ({ color, size }) => (
-                    <Icon name="calendar" color={color} size={size} />
-                ),
-            }}
-        />
-        <Tab.Screen
-            name="GoProfil"
-            component={GoProfil}
-            options={{
-                tabBarLabel: 'Profil',
-                tabBarIcon: ({ color, size }) => (
-                    <Icon name="person" color={color} size={size} />
-                ),
-            }}
-        />
-    </Tab.Navigator>
+<Tab.Navigator 
+    screenOptions={{ 
+        headerShown: false,
+        tabBarActiveTintColor: GOTEAMGO.primary, // Couleur du label et de l'icône de l'onglet actif
+        tabBarInactiveTintColor: 'gray', // Couleur du label et de l'icône des onglets inactifs
+    }}
+>
+    <Tab.Screen
+        name="HomeStack"
+        component={HomeStackNavigator}
+        options={{
+            tabBarLabel: 'Événements',
+            tabBarIcon: ({ color, size }) => (
+                <Icon name="calendar" color={color} size={size} />
+            ),
+        }}
+    />
+    <Tab.Screen
+        name="GoProfil"
+        component={GoProfil}
+        options={{
+            tabBarLabel: 'Profil',
+            tabBarIcon: ({ color, size }) => (
+                <Icon name="person" color={color} size={size} />
+            ),
+        }}
+    />
+</Tab.Navigator>
+
+
+
   );
 }
 

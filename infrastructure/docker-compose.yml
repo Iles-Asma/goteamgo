@@ -13,6 +13,8 @@ services:
             - "19004:19004"
             - "19005:19005"
             - "19006:19006"
+        env_file:
+            - images/app/.env
 
     #   volumes:
     #     - ../src/containers/goteamgo-app:/usr/src/app

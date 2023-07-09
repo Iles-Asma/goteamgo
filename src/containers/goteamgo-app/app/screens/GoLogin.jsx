@@ -14,13 +14,15 @@ import GoTextInput from "../components/GoTextInput";
 import GoButtonOutlined from "../components/GoButtonOutlined";
 import Logo from "../../assets/svg/Logo";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IP_ENV } from "@env";
 
 export default function GoLogin({ navigation }) {
 
-    const IP = "172.20.10.2";
+    // const IP = "192.168.1.120";
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
 
     // const isEmailValid = (email) => {
     //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,7 +40,7 @@ export default function GoLogin({ navigation }) {
         console.log('Mot de passe:', password);
 
         try {
-            const response = await fetch(`http://${IP}:5000/login`, {
+            const response = await fetch(`http://${IP_ENV}:5000/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,8 +63,10 @@ export default function GoLogin({ navigation }) {
             Alert.alert("Erreur", "Une erreur s'est produite lors de la tentative de connexion.");
         }
     };
+    
 
     return (
+        
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
 

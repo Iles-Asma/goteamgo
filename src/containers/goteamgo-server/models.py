@@ -23,6 +23,7 @@ class Event(db.Model):
     categorie = db.Column(db.String(100))
     lieu = db.Column(db.String(100))
     date = db.Column(db.String(100))
+    heure = db.Column(db.String(100))
 
 
 class Organization(db.Model):

@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { GOTEAMGO } from "../themes/Gotheme"
 
 const QuantityInput = (props) => {
   const [quantity, setQuantity] = useState(1);
@@ -44,9 +45,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   button: {
-    width: 40,
-    height: 40,
-    backgroundColor: '#79BFFF',
+    width: 65,
+    height: 45,
+    backgroundColor: GOTEAMGO.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -64,8 +65,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    width: 50,
-    height: 40,
+    width: 90,
+    height: 45,
     textAlign: 'center',
     backgroundColor: '#F2F2F2',
     fontSize: 15,
