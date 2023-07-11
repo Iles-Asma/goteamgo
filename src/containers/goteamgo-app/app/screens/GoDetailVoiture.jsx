@@ -66,8 +66,6 @@ const GoDetailVoiture = ({ navigation, route }) => {
             if (response.ok) {
                 if (Array.isArray(data.reservations)) {
                     setReservations(data.reservations);
-                    setHeure(data.heure_depart);
-                    setLieu(data.lieu);
                 } else {
                     console.error('Unexpected response format:', data);
                 }
@@ -173,11 +171,11 @@ const GoDetailVoiture = ({ navigation, route }) => {
                 <View style={{ marginBottom: 20 }}>
                     <View style={styles.driverInfos}>
                         <Icon name="location" size={25} />
-                        <Text style={{ marginLeft: 5 }}>Départ : {adresse}</Text>
+                        <Text style={{ marginLeft: 5 }}>Départ : {data.lieu}</Text>
                     </View>
                     <View style={styles.driverInfos}>
                         <Icon name="time" size={25}/>
-                        <Text style={{ marginLeft: 5, }}>Heure de départ : {heure}</Text>
+                        <Text style={{ marginLeft: 5, }}>Heure de départ : {data.heure_depart}</Text>
                     </View>
                 </View>
 
