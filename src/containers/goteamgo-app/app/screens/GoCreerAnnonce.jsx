@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, Platform, StyleSheet, StatusBar, TouchableOpacity, } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import GoMenuTroisTabs from '../components/GoMenuTroisTabs';
 import EntypoIcon from "react-native-vector-icons/Entypo";
@@ -6,6 +6,7 @@ import GoStepper from '../components/GoStepper';
 import GoButton from '../components/GoButton';
 import QuantityInput from '../components/QuantityButton';
 import Icon from 'react-native-vector-icons/Ionicons';
+import GoTextInput from "../components/GoTextInput";
 import { GOTEAMGO } from "../themes/Gotheme"
 import { IP_ENV } from "@env";
 
@@ -16,6 +17,9 @@ export default function GoCreerAnnonce({ navigation, route }) {
   const [stepperValueAller, setStepperValueAller] = useState(0);
   const [stepperValueRetour, setStepperValueRetour] = useState(0);
   const [selectedSection, setSelectedSection] = useState("Aller");
+  
+  const [lieu, setLieu] = useState('');
+  const [heure, setHeure] = useState('');
 
   const handleStepperChangeAller = (value) => {
     setStepperValueAller(value);
@@ -105,6 +109,20 @@ export default function GoCreerAnnonce({ navigation, route }) {
         </View>
       )}
 
+      <View style={styles.sectionInfos}>
+        <GoTextInput
+            placeholder="Lieu de départ"
+            onChangeText={setLieu}
+            value={lieu}
+        />
+
+        <GoTextInput
+            placeholder="Heure de départ"
+            onChangeText={setHeure}
+            value={heure}
+        />
+      </View>
+
       <View style={styles.btnStyle}>
         <GoButton btnTxt="Ajouter l'annonce" onPress={handleCreateAd} />
       </View>
@@ -126,7 +144,7 @@ const styles = StyleSheet.create({
   btnStyle: {
     flex: 2,
     flexDirection: "column",
-    marginTop: 40,
+    marginTop: 15,
     alignItems: "center",
   },
 
@@ -149,6 +167,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 70
+  },
+
+  sectionInfos: {
+    marginTop: 30
   },
 
   sectionTitle: {
