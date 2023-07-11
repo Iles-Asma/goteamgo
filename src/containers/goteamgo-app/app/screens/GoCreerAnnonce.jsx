@@ -48,6 +48,8 @@ export default function GoCreerAnnonce({ navigation, route }) {
         direction: selectedSection,
         seats_available_aller: (selectedSection === 'Aller' || selectedSection === 'Aller-retour') ? stepperValueAller : null,
         seats_available_retour: (selectedSection === 'Retour' || selectedSection === 'Aller-retour') ? stepperValueRetour : null,
+        lieu: lieu,
+        heure_depart: heure
       };
 
 

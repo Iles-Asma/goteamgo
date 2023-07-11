@@ -43,6 +43,8 @@ class CarShare(db.Model):
     direction = db.Column(db.String(50))
     seats_available_aller = db.Column(db.Integer)
     seats_available_retour = db.Column(db.Integer)
+    lieu = db.Column(db.String(100))
+    heure_depart = db.Column(db.String(100))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relations

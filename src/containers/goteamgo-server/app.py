@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'q#!0i^ik4dl2ipx5b(7=+^+l=#2krpfd^0x!5w*r83)f9428+('
 
-IP = "192.168.1.120"
+IP = "localhost"
 
 CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS", "DELETE"]}})
 
@@ -178,6 +178,8 @@ def create_reservation():
     car_share_id = data.get('car_share_id')
     seats_reserved_aller = data.get('seats_reserved_aller')
     seats_reserved_retour = data.get('seats_reserved_retour')
+    lieu = data.get('lieu')
+    heure_depart = data.get('heure_depart')
     
     # Créer une nouvelle réservation
     new_reservation = Reservation(
@@ -185,6 +187,8 @@ def create_reservation():
         car_share_id=car_share_id,
         seats_reserved_aller=seats_reserved_aller,
         seats_reserved_retour=seats_reserved_retour,
+        lieu=lieu,
+        heure_depart=heure_depart
     )
     
     # Ajouter la réservation à la base de données

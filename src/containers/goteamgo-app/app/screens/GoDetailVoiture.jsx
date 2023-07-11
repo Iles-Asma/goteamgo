@@ -66,6 +66,8 @@ const GoDetailVoiture = ({ navigation, route }) => {
             if (response.ok) {
                 if (Array.isArray(data.reservations)) {
                     setReservations(data.reservations);
+                    setHeure(data.heure_depart);
+                    setLieu(data.lieu);
                 } else {
                     console.error('Unexpected response format:', data);
                 }
