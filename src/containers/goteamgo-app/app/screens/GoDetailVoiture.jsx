@@ -6,7 +6,7 @@ import { GOTEAMGO } from "../themes/Gotheme"
 import { IP_ENV } from "@env";
 
 const GoDetailVoiture = ({ navigation, route }) => {
-    const { eventId, token, carId, userName } = route.params;
+    const { eventId, token, carId, userName, heure, adresse} = route.params;
 
     const [carDetails, setCarDetails] = useState(null);
     const [ID, setID] = useState(null);
@@ -168,6 +168,17 @@ const GoDetailVoiture = ({ navigation, route }) => {
             <View style={styles.content}>
                 <Text style={styles.title}>Détail</Text>
 
+                <View style={{ marginBottom: 20 }}>
+                    <View style={styles.driverInfos}>
+                        <Icon name="location" size={25} />
+                        <Text style={{ marginLeft: 5 }}>Départ : {adresse}</Text>
+                    </View>
+                    <View style={styles.driverInfos}>
+                        <Icon name="time" size={25}/>
+                        <Text style={{ marginLeft: 5, }}>Heure de départ : {heure}</Text>
+                    </View>
+                </View>
+
                 <View style={styles.driverContainer}>
                     <MaterialCommunityIcons name="car" color="#ffffff" size={30} />
                     <Text style={styles.driverName}>{userName}</Text>
@@ -231,8 +242,15 @@ const styles = StyleSheet.create({
     driverName: {
         paddingLeft: 20,
         fontSize: 17,
-        color: "#ffffff"
+        color: "#ffffff",
     },
+
+    driverInfos : {
+        flexDirection: 'row', 
+        alignItems: 'center',
+        marginBottom: 10
+    },
+
     reservationsContainer: {
         width: '90%',
         marginTop: 5,

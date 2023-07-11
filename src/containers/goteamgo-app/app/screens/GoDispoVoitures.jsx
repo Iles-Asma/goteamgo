@@ -61,7 +61,7 @@ export default function GoDispoVoitures({ navigation, route }) {
                 renderItem={({ item }) => {
                     const seatsAvailable = selectedDirection === 'Retour' ? item.seats_available_retour : item.seats_available_aller;
                     const isSeatsAvailableZero = seatsAvailable === 0;
-                    const textToShow = isSeatsAvailableZero ? "Plus disponible" : `${seatsAvailable} places`;
+                    const textToShow = isSeatsAvailableZero ? "Plus disponible" : `${seatsAvailable} place(s)`;
 
                     return (
                         <GoViewVoiture
