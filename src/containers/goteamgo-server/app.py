@@ -56,7 +56,7 @@ def create_carshare():
         direction=data['direction'],
         seats_available_aller=data['seats_available_aller'],
         seats_available_retour=data['seats_available_retour'],
-        lieu = data.get('lieu')
+        lieu = data.get('lieu'),
         heure_depart = data.get('heure_depart')
     )
 
