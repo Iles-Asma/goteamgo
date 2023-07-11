@@ -27,8 +27,11 @@ const GoDetailVoiture = ({ navigation, route }) => {
             });
             const data = await response.json();
             if (response.ok) {
+                console.log(data)
                 setCarDetails(data);
                 setSeatsAvailable(data.seats_available);
+                setHeureDepart(data.heure_depart);
+                setLieu(data.lieu);
                 return data; // Return data for further processing
             }
         } catch (error) {
@@ -56,6 +59,7 @@ const GoDetailVoiture = ({ navigation, route }) => {
             console.error('Error fetching user info:', error);
         }
     };
+    
 
     const fetchExistingReservations = async () => {
         try {
@@ -69,8 +73,6 @@ const GoDetailVoiture = ({ navigation, route }) => {
             if (response.ok) {
                 if (Array.isArray(data.reservations)) {
                     setReservations(data.reservations);
-                    setHeureDepart(data.heure_depart);
-                    setLieu(data.lieu);
                 } else {
                     console.error('Unexpected response format:', data);
                 }
@@ -173,15 +175,15 @@ const GoDetailVoiture = ({ navigation, route }) => {
             <View style={styles.content}>
                 <Text style={styles.title}>Détail</Text>
 
-                <View style={{ marginBottom: 20 }}>
-                    <View style={styles.driverInfos}>
-                        <Icon name="location" size={25} />
-                        <Text style={{ marginLeft: 5 }}>Départ : {lieu}</Text>
-                    </View>
-                    <View style={styles.driverInfos}>
-                        <Icon name="time" size={25}/>
-                        <Text style={{ marginLeft: 5, }}>Heure de départ : {heure_depart}</Text>
-                    </View>
+                <View style={{width: '100%', paddingHorizontal: 20, marginLeft: 15, marginBottom: 10}}>
+                <View style={styles.driverInfos}>
+                    <Icon name="location" size={25} />
+                    <Text style={{ marginLeft: 5 }}>Départ : {lieu}</Text>
+                </View>
+                <View style={styles.driverInfos}>
+                    <Icon name="time" size={25}/>
+                    <Text style={{ marginLeft: 5, }}>Heure de départ : {heure_depart}</Text>
+                </View>
                 </View>
 
                 <View style={styles.driverContainer}>

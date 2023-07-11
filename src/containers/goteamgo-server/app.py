@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, Response, json, make_response
-from models import db, User, Event, Organization, CarShare, Reservation
+from models import db, User, Event, Organization, CarShare, Reservation, UserOrganization
 from flask_cors import CORS
 from werkzeug.security import check_password_hash, generate_password_hash # Pour vérifier le mot de passe
 import jwt # Pour générer un token JWT
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'q#!0i^ik4dl2ipx5b(7=+^+l=#2krpfd^0x!5w*r83)f9428+('
 
-IP = "localhost"
+IP = "192.168.1.120"
 
 CORS(app, resources={r"/*": {"origins": "http://"+IP+":19006", "methods": ["GET", "POST", "OPTIONS", "DELETE"]}})
 
@@ -81,6 +81,8 @@ def list_car_share(event_id):
             "user_name": f"{user.nom} {user.prenom}",
             "event_id": car_share.event_id,
             "direction": car_share.direction,
+            "heure_depart": car_share.heure_depart,
+            "lieu": car_share.lieu,
             "seats_available_aller": car_share.seats_available_aller,
             "seats_available_retour": car_share.seats_available_retour,
             "created_at": car_share.created_at.strftime("%Y-%m-%d %H:%M:%S")
@@ -100,11 +102,11 @@ def get_carshare_seats_available(carshare_id):
         # Vérifier si c'est un trajet aller-retour, aller simple ou retour simple et renvoyer les sièges disponibles
         if carshare.direction == 'Aller-retour':
             # Peut renvoyer soit seats_available_aller ou seats_available_retour car ils sont identiques pour Aller-retour
-            return jsonify({'seats_available': carshare.seats_available_aller, 'owner_id': owner_id}), 200
+            return jsonify({'seats_available': carshare.seats_available_aller, 'owner_id': owner_id, 'heure_depart': carshare.heure_depart, 'lieu': carshare.lieu}), 200
         elif carshare.direction == 'Aller':
-            return jsonify({'seats_available': carshare.seats_available_aller, 'owner_id': owner_id}), 200
+            return jsonify({'seats_available': carshare.seats_available_aller, 'owner_id': owner_id, 'heure_depart': carshare.heure_depart, 'lieu': carshare.lieu}), 200
         elif carshare.direction == 'Retour':
-            return jsonify({'seats_available': carshare.seats_available_retour, 'owner_id': owner_id}), 200
+            return jsonify({'seats_available': carshare.seats_available_retour, 'owner_id': owner_id, 'heure_depart': carshare.heure_depart, 'lieu': carshare.lieu}), 200
         else:
             return jsonify({'message': 'Direction invalide'}), 400
     else:
@@ -187,8 +189,6 @@ def create_reservation():
         car_share_id=car_share_id,
         seats_reserved_aller=seats_reserved_aller,
         seats_reserved_retour=seats_reserved_retour,
-        lieu=lieu,
-        heure_depart=heure_depart
     )
     
     # Ajouter la réservation à la base de données
@@ -243,9 +243,6 @@ def create_reservation():
 
 
 
-
-
-
 @app.route('/user_info', methods=['GET'])
 def user_info():
     # Obtenez le token à partir de l'en-tête d'autorisation
@@ -272,30 +269,17 @@ def user_info():
     if not user:
         return jsonify({'message': 'User not found'}), 404
 
-    # Récupérez l'organisation associée, si elle existe
-    organization = None
-    if user.organization_code:
-        organization = Organization.query.filter_by(code=user.organization_code).first()
+    # Récupérez les organisations associées à l'utilisateur
+    organizations = user.organizations
+    # Convertissez les organisations en dictionnaires pour pouvoir les sérialiser en JSON
+    organizations_dict = [organization.to_dict() for organization in organizations]
 
-    # Renvoyez les informations de l'utilisateur sous forme de réponse JSON
-    # Remarque: Ne renvoyez pas le mot de passe haché (ou toute forme de mot de passe)
-
-    # Ajoutez les informations d'organisation à la réponse, si elles existent
-    if organization:
-        response = {
-            'nom_organization': organization.nom,
-            'user_id': user.id,
-            'nom': user.nom,
-            'prenom': user.prenom,
-            'email': user.email,
-            'organization_code': user.organization_code
-        }
-    else:
-        response = {
+    response = {
         'nom': user.nom,
         'user_id': user.id,
         'prenom': user.prenom,
         'email': user.email,
+        'organisations': organizations_dict  # Inclure les organisations dans la réponse
     }
 
     return jsonify(response), 200
@@ -342,21 +326,71 @@ def join_organization():
     user = User.query.filter_by(id=user_id).first()
     if not user:
         return jsonify({'message': 'User not found'}), 404
-    
-    # Récupérer le code d'organization de la requête
+  
     data = request.json
     organization_code = data.get('codeOrganisation')
-
-    print(organization_code)
     
-    # Mettre à jour l'organization_code de l'utilisateur
-    user.organization_code = organization_code
+    # Récupérez l'utilisateur et l'organisation à partir des données de la requête
+    user = User.query.filter_by(id=user_id).first()
+    organization = Organization.query.filter_by(code=organization_code).first()
+
+    # Vérifiez si l'utilisateur et l'organisation existent
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+    if not organization:
+        return jsonify({'message': 'Organization not found'}), 404
+
+    # Vérifiez si l'utilisateur est déjà associé à l'organisation
+    user_organization = UserOrganization.query.filter_by(user_id=user.id, organization_id=organization.id).first()
+    if user_organization:
+        return jsonify({'message': 'User already belongs to this organization'}), 400
+
+    # Créez une nouvelle association entre l'utilisateur et l'organisation
+    user_organization = UserOrganization(user_id=user.id, organization_id=organization.id, joined_at=datetime.datetime.now())
+
+    # Ajoutez l'association à la session et validez la transaction
+    db.session.add(user_organization)
     db.session.commit()
-    db.session.refresh(user)
     
     # Retourner une réponse de succès
-    return jsonify({'message': 'Organization code updated successfully', 'organization_code': user.organization_code}), 200
+    return jsonify({'message': 'User joined the organization successfully', 'organization_code': organization.code}), 200
 
+@app.route('/delete_organization', methods=['POST'])
+def delete_organization():
+    # Récupérer le token de l'en-tête d'autorisation
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or not auth_header.startswith('Bearer '):
+        return jsonify({'message': 'Token is missing or invalid'}), 401
+    token = auth_header.split(' ')[1]
+
+    # Vérifier si le token est valide
+    try:
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        user_id = data['user_id']
+    except:
+        return jsonify({'message': 'Token is invalid'}), 401
+
+    # Récupérer l'utilisateur par user_id
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    data = request.json
+    organization_id = data.get('organization_id')
+
+    # Vérifier si l'utilisateur appartient à l'organisation
+    user_organization = UserOrganization.query.filter_by(user_id=user.id, organization_id=organization_id).first()
+    if not user_organization:
+        return jsonify({'message': 'User does not belong to this organization'}), 400
+
+    try:
+        # Supprimer l'association entre l'utilisateur et l'organisation
+        db.session.delete(user_organization)
+        db.session.commit()
+        return jsonify({'message': 'Organization deleted successfully'}), 200
+    except:
+        return jsonify({'message': 'Failed to delete organization'}), 500
+        
 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():

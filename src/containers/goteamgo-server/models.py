@@ -14,6 +14,10 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     organization_code = db.Column(db.String(100), nullable=True)
 
+    organizations = db.relationship('Organization', secondary='user_organizations',
+                                    backref=db.backref('users', lazy=True))
+
+
 
 class Event(db.Model):
     __tablename__ = 'events'
@@ -33,6 +37,12 @@ class Organization(db.Model):
     nom = db.Column(db.String(100))
     code = db.Column(db.String(100), unique=True)
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nom': self.nom,
+            'code': self.code,
+        }
 
 class CarShare(db.Model):
     __tablename__ = 'car_shares'
@@ -65,3 +75,14 @@ class Reservation(db.Model):
     # Relations
     user = db.relationship('User', backref=db.backref('reservations', lazy=True))
     car_share = db.relationship('CarShare', backref=db.backref('reservations', lazy=True))
+
+class UserOrganization(db.Model):
+    __tablename__ = 'user_organizations'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    organization_id = db.Column(db.Integer, db.ForeignKey('organizations.id'), primary_key=True)
+    joined_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relations
+    user = db.relationship('User', backref=db.backref('user_organizations', lazy=True))
+    organization = db.relationship('Organization', backref=db.backref('user_organizations', lazy=True))
