@@ -15,6 +15,9 @@ const GoDetailVoiture = ({ navigation, route }) => {
     const [prenom, setPrenom] = useState("");
     const [hasReserved, setHasReserved] = useState(false);
     const [seatsAvailable, setSeatsAvailable] = useState(0);
+    const [heure_depart, setHeureDepart] = useState("");
+    const [lieu, setLieu] = useState("")
+
 
     // const IP = "192.168.1.120";
     const fetchCarDetails = async () => {
@@ -66,6 +69,8 @@ const GoDetailVoiture = ({ navigation, route }) => {
             if (response.ok) {
                 if (Array.isArray(data.reservations)) {
                     setReservations(data.reservations);
+                    setHeureDepart(data.heure_depart);
+                    setLieu(data.lieu);
                 } else {
                     console.error('Unexpected response format:', data);
                 }
@@ -171,11 +176,11 @@ const GoDetailVoiture = ({ navigation, route }) => {
                 <View style={{ marginBottom: 20 }}>
                     <View style={styles.driverInfos}>
                         <Icon name="location" size={25} />
-                        <Text style={{ marginLeft: 5 }}>Départ : {data.lieu}</Text>
+                        <Text style={{ marginLeft: 5 }}>Départ : {lieu}</Text>
                     </View>
                     <View style={styles.driverInfos}>
                         <Icon name="time" size={25}/>
-                        <Text style={{ marginLeft: 5, }}>Heure de départ : {data.heure_depart}</Text>
+                        <Text style={{ marginLeft: 5, }}>Heure de départ : {heure_depart}</Text>
                     </View>
                 </View>
 
