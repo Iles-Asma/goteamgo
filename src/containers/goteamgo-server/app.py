@@ -55,7 +55,9 @@ def create_carshare():
         event_id=data['event_id'],
         direction=data['direction'],
         seats_available_aller=data['seats_available_aller'],
-        seats_available_retour=data['seats_available_retour']
+        seats_available_retour=data['seats_available_retour'],
+        lieu = data.get('lieu')
+        heure_depart = data.get('heure_depart')
     )
 
     # Ajout de l'annonce à la base de données
@@ -178,8 +180,6 @@ def create_reservation():
     car_share_id = data.get('car_share_id')
     seats_reserved_aller = data.get('seats_reserved_aller')
     seats_reserved_retour = data.get('seats_reserved_retour')
-    lieu = data.get('lieu')
-    heure_depart = data.get('heure_depart')
     
     # Créer une nouvelle réservation
     new_reservation = Reservation(
