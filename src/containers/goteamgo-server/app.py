@@ -307,6 +307,12 @@ def get_events():
     # Retourner les données des événements sous forme de réponse JSON
     return jsonify(events_data), 200
 
+@app.route('/get_organization_events/<int:organization_id>', methods=['GET'])
+def get_organization_events(organization_id):
+    events = Event.query.filter_by(organization_id=organization_id).all()
+    return jsonify([e.to_dict() for e in events]), 200
+
+
 @app.route('/join_organization', methods=['POST'])
 def join_organization():
     # Récupérer le token de l'en-tête d'autorisation
@@ -390,7 +396,7 @@ def delete_organization():
         return jsonify({'message': 'Organization deleted successfully'}), 200
     except:
         return jsonify({'message': 'Failed to delete organization'}), 500
-        
+
 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():

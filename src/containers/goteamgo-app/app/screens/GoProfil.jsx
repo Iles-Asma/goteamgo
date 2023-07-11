@@ -4,9 +4,6 @@ import GoTextInput from '../components/GoTextInput'
 import GoButton from '../components/GoButton';
 import GoButtonOffline from '../components/GoButtonOffline';
 import GoButtonEdit from '../components/GoButtonEdit';
-import GoProfilFooter from '../components/GoProfilFooter';
-import GoProfilHeader from '../components/GoProfilHeader';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IP_ENV } from "@env";
 import { Ionicons } from '@expo/vector-icons';
