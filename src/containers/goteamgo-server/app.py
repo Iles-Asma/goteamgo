@@ -6,7 +6,7 @@ import jwt # Pour générer un token JWT
 import datetime # Pour définir l'expiration du token
 from flask_migrate import Migrate
 
-IP = "localhost"
+IP = "192.168.1.120"
 
 app = Flask(__name__)
 

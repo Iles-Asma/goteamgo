@@ -25,10 +25,10 @@ RUN pip install Flask-Migrate
 COPY /src/containers/goteamgo-server .
 
 # Copy wait-for-postgres script
-COPY /src/containers/goteamgo-server/wait-for-postgres.sh /app/wait-for-postgres.sh
+COPY /src/containers/goteamgo-server/postgres.sh .
 
 # Make the script executable
-RUN chmod +x /app/wait-for-postgres.sh
+RUN chmod +x /app/postgres.sh
 
 #RUN /app/run_sonarqube_analysis.sh
 
@@ -36,4 +36,5 @@ RUN chmod +x /app/wait-for-postgres.sh
 EXPOSE 5000
 
 # Run the application
-CMD ["/app/wait-for-postgres.sh", "goteamgo-db", "flask", "run"]
+CMD ["/app/postgres.sh", "goteamgo-db", "flask", "run"]
+#CMD ["flask", "run"]
