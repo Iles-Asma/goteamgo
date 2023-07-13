@@ -17,7 +17,7 @@ export default function GoThanksShareCar({ navigation, route }) {
         <Text style={styles.titre}>Félicitations !</Text>
         <Text style={styles.paragraphe}>Merci d'avoir partagé votre voiture ! Vous avez rendu le trajet de quelqu'un plus agréable.</Text>
         <View style={styles.btnEspace}>
-        <GoButton onPress={() => navigation.reset({index: 0, routes: [{ name: 'GoDispoVoitures', params: { eventId: eventId, token: token }}],})} btnTxt="Liste des véhicules"/>
+        <GoButton onPress={() => navigation.navigate('GoDispoVoitures', { eventId: eventId, token: token})} btnTxt="Liste des véhicules" />
         </View>
 
     </SafeAreaView>

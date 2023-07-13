@@ -45,7 +45,7 @@ export default function GoDispoVoitures({ navigation, route }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.navigate('GoEvent')} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 50, position: 'absolute', left: 20 }}>
                 <Icon name="chevron-back" size={40} style={{ position: 'absolute', color: GOTEAMGO.primary }} />
             </TouchableOpacity>
             <Text style={styles.titre}>Voitures disponibles</Text>
