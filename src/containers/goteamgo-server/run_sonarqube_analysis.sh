@@ -1,5 +1,5 @@
 sonar-scanner \
-  -Dsonar.projectKey=GOTEAMGO \
+  -Dsonar.projectKey=GOTEAMGO2 \
   -Dsonar.sources=. \
   -Dsonar.host.url=http://sonarqube:9000 \
-  -Dsonar.token=sqp_3b62bacfc8d18d522b989b696bfceba40fe4c209
+  -Dsonar.login=sqp_d9dcdc6e1e06599a21c2141264d8d1b6573a997f

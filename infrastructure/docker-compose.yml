@@ -46,6 +46,7 @@ services:
             - ../data/db/pgdata:/var/lib/postgresql/data
         # env_file:
         #   - images/db/.env
+        
 
     # sonarqube:
     #   image: sonarqube
@@ -53,15 +54,15 @@ services:
     #     - "9000:9000"
     #   environment:
     #     - sonar.jdbc.url=jdbc:postgresql://goteamgo-db:5432/sonar
-    #     - sonar.jdbc.username=sonar
-    #     - sonar.jdbc.password=sonar
+    #     - sonar.jdbc.username=admin
+    #     - sonar.jdbc.password=goteamgo
     #   volumes:
     #     - sonarqube_data:/opt/sonarqube/data
     #     - sonarqube_extensions:/opt/sonarqube/extensions
     #     - sonarqube_logs:/opt/sonarqube/logs
 # volumes:
-#   # sonarqube_data:
-#   # sonarqube_extensions:
-#   # sonarqube_logs:
+#   sonarqube_data:
+#   sonarqube_extensions:
+#   sonarqube_logs:
 #   node_modules:
 
